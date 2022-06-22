@@ -1,0 +1,2 @@
+include ':renetik-android-preset'
+project(':renetik-android-preset').projectDir = file("library")
