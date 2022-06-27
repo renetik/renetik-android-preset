@@ -1,21 +1,22 @@
-[![](https://jitpack.io/v/renetik/renetik-android-core.svg)](https://jitpack.io/#renetik/renetik-android-core)
-# Renetik Android Core Library
+# Renetik Android Preset
 Framework to enjoy, improve and speed up your application development while writing readable code.
-This library although used daily is not polished for other people to dive in easily anymore. 
-It is used as base library for music production and performance app Renetik Instrument.  
-www.renetik.com
+Used as library for music production and performance app Renetik Instruments www.renetik.com as well as other projects.
 
 ```gradle
 allprojects {
     repositories {
-        ...
-        maven { url 'https://jitpack.io' }
+        // For master-SNAPSHOT
+        maven { url 'https://github.com/renetik/maven-snapshot/raw/master/repository' }
+        // For release builds
+        maven { url 'https://github.com/renetik/maven/raw/master/repository' }
     }
 }
 ```
 Step 2. Add the dependency
 ```gradle
 dependencies {
-    implementation 'com.github.renetik.renetik-android-core:1.9.1'
+    implementation 'com.renetik.library:renetik-android-preset:$latest-renetik-android-release'
 }
 ```
+
+## [Html Documentation](https://renetik.github.io/renetik-android-preset/)
