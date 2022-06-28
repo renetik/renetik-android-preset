@@ -1,7 +1,7 @@
 package renetik.android.preset
 
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.second
