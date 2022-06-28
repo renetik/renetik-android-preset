@@ -1,4 +1,4 @@
-[comment]: <> (Header)
+# Module renetik-android-preset
 [![Android CI](https://github.com/renetik/renetik-android-preset/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-preset/actions/workflows/android.yml)
 
 # Renetik Android Preset
