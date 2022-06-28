@@ -1,5 +1,5 @@
-# Module renetik-android-preset
-[![Android CI](https://github.com/renetik/renetik-android-preset/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-preset/actions/workflows/android.yml)
+<span hidden>Header</span>
+[![Android CI](https://github.com/renetik/renetik-android-preset/workflows/Android%20CI/badge.svg)](https://github.com/renetik/renetik-android-preset/actions/workflows/android.yml)
 
 # Renetik Android Preset
 
