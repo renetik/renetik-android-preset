@@ -3,8 +3,8 @@ package renetik.android.preset
 import renetik.android.core.java.util.currentTime
 
 interface CSPresetItemList<PresetItem : CSPresetItem> {
-    val defaultList: List<PresetItem>
-    val userList: List<PresetItem>
+    val defaultItems: List<PresetItem>
+    val userItems: List<PresetItem>
     fun add(item: PresetItem)
     fun remove(item: PresetItem)
     fun createPresetItem(title: String, isDefault: Boolean,

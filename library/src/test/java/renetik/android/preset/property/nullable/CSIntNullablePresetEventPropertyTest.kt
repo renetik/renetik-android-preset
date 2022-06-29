@@ -40,14 +40,14 @@ class CSPresetTestPresetItem(override val id: String) : renetik.android.preset.C
 }
 
 class CSPresetTestPresetItemList : renetik.android.preset.CSPresetItemList<CSPresetTestPresetItem> {
-	override val defaultList = mutableListOf<CSPresetTestPresetItem>()
-	override val userList = mutableListOf<CSPresetTestPresetItem>()
+	override val defaultItems = mutableListOf<CSPresetTestPresetItem>()
+	override val userItems = mutableListOf<CSPresetTestPresetItem>()
 	override fun add(item: CSPresetTestPresetItem) {
-		defaultList.add(item)
+		defaultItems.add(item)
 	}
 
 	override fun remove(item: CSPresetTestPresetItem) {
-		defaultList.remove(item)
+		defaultItems.remove(item)
 	}
 
 	override fun createPresetItem(title: String, isDefault: Boolean, id: String) =
