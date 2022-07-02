@@ -3,7 +3,6 @@ package renetik.android.preset
 import renetik.android.core.kotlin.toId
 import renetik.android.core.lang.property.isFalse
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.listen
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.event.property.CSEventProperty
 import renetik.android.event.register
@@ -60,4 +59,6 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         set(value) = value(value)
 
     override fun toString() = "${super.toString()} key:$key value:$value"
+
+    override fun apply() = apply { eventChange.fire(_value) }
 }

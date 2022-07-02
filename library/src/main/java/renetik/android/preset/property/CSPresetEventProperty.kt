@@ -7,6 +7,6 @@ interface CSPresetEventProperty<T> : CSEventProperty<T>, CSPresetKeyData {
     val parent: CSEventOwnerHasDestroy
     val isFollowPreset: CSEventProperty<Boolean>
     val isModified: Boolean
-    fun apply(): CSEventProperty<T>
+    override fun apply(): CSEventProperty<T>
 }
 
