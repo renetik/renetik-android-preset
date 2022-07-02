@@ -7,7 +7,7 @@ import renetik.android.preset.property.nullable.CSIntNullablePresetEventProperty
 import renetik.android.preset.property.nullable.CSListItemNullablePresetEventProperty
 import renetik.android.preset.property.nullable.CSStringNullablePresetEventProperty
 import renetik.android.preset.property.value.*
-import renetik.android.store.json.CSStoreJsonObject
+import renetik.android.store.type.CSJsonObjectStore
 import kotlin.reflect.KClass
 
 fun CSPreset<*, *>.property(
@@ -83,14 +83,14 @@ fun <T : CSHasId> CSPreset<*, *>.property(
     onChange: ((value: List<T>) -> Unit)? = null
 ) = property(parent, key, values.asList(), default, onChange)
 
-fun <T : CSStoreJsonObject> CSPreset<*, *>.property(
+fun <T : CSJsonObjectStore> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, listType: KClass<T>,
     default: List<T> = emptyList(),
     onApply: ((value: List<T>) -> Unit)? = null
 ) = add(CSJsonListValuePresetEventProperty(parent, this,
     key, listType, default, onApply))
 
-fun <T : CSStoreJsonObject> CSPreset<*, *>.property(
+fun <T : CSJsonObjectStore> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, type: KClass<T>,
     onApply: ((value: T) -> Unit)? = null
 ) = add(CSJsonTypeValuePresetEventProperty(parent, this, key, type, onApply))

@@ -1,20 +1,16 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.property.isFalse
-import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.fire
-import renetik.android.event.listen
 import renetik.android.event.register
 import renetik.android.event.registration.pause
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
-import renetik.android.store.json.CSStoreJsonObject
+import renetik.android.store.type.CSJsonObjectStore
 import renetik.android.store.reload
-import renetik.android.store.load
 
 class CSPresetStore(
     override val preset: CSPreset<*, *>,
-    val parentStore: CSStore) : CSStoreJsonObject(), CSPresetKeyData {
+    val parentStore: CSStore) : CSJsonObjectStore(), CSPresetKeyData {
 
     override val key = "${preset.id} store"
     override fun saveTo(store: CSStore) = store.set(key, data)

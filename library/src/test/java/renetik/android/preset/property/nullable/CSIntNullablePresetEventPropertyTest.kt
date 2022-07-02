@@ -6,11 +6,11 @@ import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.preset.CSPreset
 import renetik.android.preset.propertyNullInt
 import renetik.android.store.CSStore
-import renetik.android.store.json.CSStoreJsonObject
+import renetik.android.store.type.CSJsonObjectStore
 
 class CSIntNullablePresetEventPropertyTest {
 
-	private val store = CSStoreJsonObject()
+	private val store = CSJsonObjectStore()
 	private val parent = CSPresetTestParentClass(store)
 
 	@Test
@@ -34,7 +34,7 @@ class CSIntNullablePresetEventPropertyTest {
 }
 
 class CSPresetTestPresetItem(override val id: String) : renetik.android.preset.CSPresetItem {
-	override val store = CSStoreJsonObject()
+	override val store = CSJsonObjectStore()
 	override fun save(properties: Iterable<renetik.android.preset.property.CSPresetKeyData>) =
 		properties.forEach { it.saveTo(store) }
 }

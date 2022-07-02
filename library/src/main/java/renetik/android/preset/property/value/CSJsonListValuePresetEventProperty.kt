@@ -1,12 +1,12 @@
 package renetik.android.preset.property.value
 
 import renetik.android.event.owner.CSEventOwnerHasDestroy
-import renetik.android.store.json.CSStoreJsonObject
+import renetik.android.store.type.CSJsonObjectStore
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 import kotlin.reflect.KClass
 
-class CSJsonListValuePresetEventProperty<T : CSStoreJsonObject>(
+class CSJsonListValuePresetEventProperty<T : CSJsonObjectStore>(
     parent: CSEventOwnerHasDestroy,
     preset: CSPreset<*, *>,
     key: String,

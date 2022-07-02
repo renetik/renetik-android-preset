@@ -8,7 +8,7 @@ import renetik.android.core.kotlin.collections.second
 import renetik.android.core.kotlin.collections.third
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.store.CSStore
-import renetik.android.store.json.CSStoreJsonObject
+import renetik.android.store.type.CSJsonObjectStore
 
 const val ClearPresetItemId = "clear parent preset item id"
 const val ParentPresetItemId1 = "prent preset item id 1"
@@ -27,7 +27,7 @@ const val ChildPropertyNewValue3 = "child property new value 4"
 
 class CSPresetTest {
 
-	private val store = CSStoreJsonObject()
+	private val store = CSJsonObjectStore()
 	private val parent = CSPresetTestParentClass(store)
 
 	@Test
@@ -187,7 +187,7 @@ private class CSPresetTestChildClass(
 }
 
 class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
-	override val store = CSStoreJsonObject()
+	override val store = CSJsonObjectStore()
 	override fun save(properties: Iterable<renetik.android.preset.property.CSPresetKeyData>) =
 		properties.forEach { it.saveTo(store) }
 
