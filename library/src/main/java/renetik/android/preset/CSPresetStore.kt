@@ -9,7 +9,8 @@ import renetik.android.event.registration.pause
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.json.CSStoreJsonObject
-import renetik.android.store.json.reload
+import renetik.android.store.reload
+import renetik.android.store.load
 
 class CSPresetStore(
     override val preset: CSPreset<*, *>,
@@ -28,7 +29,7 @@ class CSPresetStore(
     private fun onParentStoreChanged(data: Map<String, *>) {
         if (this.data == data) return
         parentStoreEventChanged.pause().use {
-            if (data.isEmpty()) super.reload(preset.item.value.store)
+            if (data.isEmpty()) reload(preset.item.value.store)
             else reload(data)
         }
     }
@@ -43,15 +44,15 @@ class CSPresetStore(
             saveTo(parentStore)
         }
     }
-
-    val eventReload = event()
-    val eventAfterReload = event()
-
-    override fun reload(store: CSStore) {
-        eventReload.fire()
-        super.reload(store)
-        eventAfterReload.fire()
-    }
+//
+//    val eventReload = event()
+//    val eventAfterReload = event()
+//
+//    override fun reload(store: CSStore) {
+//        eventReload.fire()
+//        super.reload(store)
+//        eventAfterReload.fire()
+//    }
 
     override fun equals(other: Any?) =
         (other as? CSPresetStore)?.let { it.key == key && super.equals(other) }
@@ -63,5 +64,5 @@ class CSPresetStore(
         return result
     }
 
-    fun clone() = CSPresetStore(preset, parentStore).also { it.load(this) }
+//    fun clone() = CSPresetStore(preset, parentStore).also { it.load(this) }
 }
