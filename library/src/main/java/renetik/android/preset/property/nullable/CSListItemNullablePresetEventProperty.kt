@@ -4,8 +4,8 @@ import renetik.android.event.owner.CSEventOwnerHasDestroy
 import renetik.android.event.property.CSListValuesEventProperty
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
-import renetik.android.store.getValue
 import renetik.android.core.kotlin.toId
+import renetik.android.json.obj.getValue
 
 class CSListItemNullablePresetEventProperty<T>(
     parent: CSEventOwnerHasDestroy,
