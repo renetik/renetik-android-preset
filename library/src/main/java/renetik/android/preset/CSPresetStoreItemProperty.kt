@@ -59,6 +59,5 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         set(value) = value(value)
 
     override fun toString() = "${super.toString()} key:$key value:$value"
-
-    override fun apply() = apply { eventChange.fire(_value) }
+    override fun invokeChange() = eventChange.fire(_value)
 }
