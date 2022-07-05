@@ -3,6 +3,8 @@ package renetik.android.preset
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.second
 import renetik.android.core.kotlin.collections.third
@@ -24,7 +26,7 @@ const val ChildPropertyNewValue1 = "child property new value 2"
 const val ChildPropertyNewValue2 = "child property new value 3"
 const val ChildPropertyNewValue3 = "child property new value 4"
 
-
+@RunWith(RobolectricTestRunner::class)
 class CSPresetTest {
 
 	private val store = CSJsonObjectStore()

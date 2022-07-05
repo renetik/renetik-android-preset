@@ -2,12 +2,15 @@ package renetik.android.preset.property.nullable
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.preset.CSPreset
 import renetik.android.preset.propertyNullInt
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore
 
+@RunWith(RobolectricTestRunner::class)
 class CSIntNullablePresetEventPropertyTest {
 
 	private val store = CSJsonObjectStore()
