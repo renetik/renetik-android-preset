@@ -5,8 +5,8 @@ import renetik.android.event.register
 import renetik.android.event.registration.pause
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
+import renetik.android.store.extensions.reload
 import renetik.android.store.type.CSJsonObjectStore
-import renetik.android.store.reload
 
 class CSPresetStore(
     override val preset: CSPreset<*, *>,

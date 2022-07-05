@@ -10,7 +10,7 @@ import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.event.property.CSEventPropertyFunctions.property
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
-import renetik.android.store.reload
+import renetik.android.store.extensions.reload
 
 class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
     parent: CSEventOwnerHasDestroy,
