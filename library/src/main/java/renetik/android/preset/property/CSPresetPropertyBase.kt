@@ -5,7 +5,7 @@ import renetik.android.event.registration.pause
 import renetik.android.event.property.CSEventProperty
 import renetik.android.event.property.CSEventPropertyBase
 import renetik.android.event.property.CSEventPropertyFunctions.property
-import renetik.android.event.register
+import renetik.android.event.owner.register
 import renetik.android.core.lang.property.isFalse
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore

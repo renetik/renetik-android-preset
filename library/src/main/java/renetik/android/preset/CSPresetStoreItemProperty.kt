@@ -5,7 +5,7 @@ import renetik.android.core.lang.property.isFalse
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.event.property.CSEventProperty
-import renetik.android.event.register
+import renetik.android.event.owner.register
 import renetik.android.event.registration.pause
 import renetik.android.json.obj.getValue
 import renetik.android.preset.property.CSPresetKeyData

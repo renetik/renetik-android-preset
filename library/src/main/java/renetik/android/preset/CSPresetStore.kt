@@ -1,7 +1,7 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.property.isFalse
-import renetik.android.event.register
+import renetik.android.event.owner.register
 import renetik.android.event.registration.pause
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
