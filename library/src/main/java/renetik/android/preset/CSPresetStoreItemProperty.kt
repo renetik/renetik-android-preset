@@ -1,11 +1,11 @@
 package renetik.android.preset
 
 import renetik.android.core.kotlin.toId
-import renetik.android.core.lang.property.isFalse
+import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.owner.CSEventOwnerHasDestroyBase
-import renetik.android.event.property.CSEventProperty
-import renetik.android.event.owner.register
+import renetik.android.event.registrations.CSHasRegistrationsHasDestroyBase
+import renetik.android.event.property.CSProperty
+import renetik.android.event.registrations.register
 import renetik.android.event.registration.pause
 import renetik.android.json.obj.getValue
 import renetik.android.preset.property.CSPresetKeyData
@@ -16,7 +16,7 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
     override val preset: CSPreset<PresetItem, PresetList>,
     val parentStore: CSStore,
     val getDefault: () -> PresetItem
-) : CSEventOwnerHasDestroyBase(preset), CSEventProperty<PresetItem>, CSPresetKeyData {
+) : CSHasRegistrationsHasDestroyBase(preset), CSProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
     override fun saveTo(store: CSStore) = store.set(key, value.toId())
@@ -59,5 +59,5 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         set(value) = value(value)
 
     override fun toString() = "${super.toString()} key:$key value:$value"
-    override fun invokeChange() = eventChange.fire(_value)
+    override fun fireChange() = eventChange.fire(_value)
 }

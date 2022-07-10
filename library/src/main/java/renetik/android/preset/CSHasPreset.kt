@@ -1,8 +1,8 @@
 package renetik.android.preset
 
-import renetik.android.event.owner.CSEventOwnerHasDestroy
+import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
 
-interface CSHasPreset : CSEventOwnerHasDestroy {
+interface CSHasPreset : CSHasRegistrationsHasDestroy {
 	val preset: Preset
 	val presetId: String
 }

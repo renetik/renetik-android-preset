@@ -1,11 +1,11 @@
 package renetik.android.preset.property.value
 
-import renetik.android.event.owner.CSEventOwnerHasDestroy
+import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 
 class CSIntListValuePresetProperty(
-    parent: CSEventOwnerHasDestroy,
+    parent: CSHasRegistrationsHasDestroy,
     preset: CSPreset<*, *>, key: String,
     override val default: List<Int>,
     onChange: ((value: List<Int>) -> Unit)? = null)

@@ -1,11 +1,11 @@
 package renetik.android.preset.property.nullable
 
-import renetik.android.event.owner.CSEventOwnerHasDestroy
+import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 
 class CSFloatNullablePresetProperty(
-    parent: CSEventOwnerHasDestroy,
+    parent: CSHasRegistrationsHasDestroy,
     preset: CSPreset<*, *>,
     key: String,
     override val default: Float?,

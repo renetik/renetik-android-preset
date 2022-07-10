@@ -1,13 +1,13 @@
 package renetik.android.preset.property.value
 
-import renetik.android.event.owner.CSEventOwnerHasDestroy
+import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
 import renetik.android.core.lang.CSHasId
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 import renetik.android.core.kotlin.toId
 
 class CSListValuePresetProperty<T : CSHasId>(
-    parent: CSEventOwnerHasDestroy,
+    parent: CSHasRegistrationsHasDestroy,
     preset: CSPreset<*, *>, key: String, val values: Iterable<T>,
     override val default: List<T>, onChange: ((value: List<T>) -> Unit)?)
     : CSValuePresetProperty<List<T>>(parent, preset, key, onChange) {

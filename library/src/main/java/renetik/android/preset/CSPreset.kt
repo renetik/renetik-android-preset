@@ -5,28 +5,28 @@ import renetik.android.core.lang.CSHasId
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listenOnce
-import renetik.android.event.owner.CSEventOwnerHasDestroy
-import renetik.android.event.owner.CSEventOwnerHasDestroyBase
-import renetik.android.event.property.CSEventPropertyFunctions.property
+import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
+import renetik.android.event.registrations.CSHasRegistrationsHasDestroyBase
+import renetik.android.event.property.CSPropertyFunctions.property
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.reload
 
 class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
-    parent: CSEventOwnerHasDestroy,
+    parent: CSHasRegistrationsHasDestroy,
     parentStore: CSStore,
     key: String,
     val list: PresetList,
     getDefault: (() -> PresetItem)? = null)
-    : CSEventOwnerHasDestroyBase(parent), CSHasId {
+    : CSHasRegistrationsHasDestroyBase(parent), CSHasId {
 
-    constructor (parent: CSEventOwnerHasDestroy, store: CSStore,
+    constructor (parent: CSHasRegistrationsHasDestroy, store: CSStore,
                  key: String, list: PresetList, defaultItemId: String)
             : this(parent, store, key, list, getDefault = {
         list.defaultItems.let { list -> list.find { it.id == defaultItemId } ?: list[0] }
     })
 
-    constructor(parent: CSEventOwnerHasDestroy, preset: CSPreset<*, *>,
+    constructor(parent: CSHasRegistrationsHasDestroy, preset: CSPreset<*, *>,
                 key: String, list: PresetList,
                 getDefault: (() -> PresetItem)? = null)
             : this(parent, preset.store, key, list, getDefault) {

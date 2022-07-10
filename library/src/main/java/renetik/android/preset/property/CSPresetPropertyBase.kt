@@ -1,21 +1,21 @@
 package renetik.android.preset.property
 
-import renetik.android.event.owner.CSEventOwnerHasDestroy
+import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
 import renetik.android.event.registration.pause
-import renetik.android.event.property.CSEventProperty
-import renetik.android.event.property.CSEventPropertyBase
-import renetik.android.event.property.CSEventPropertyFunctions.property
-import renetik.android.event.owner.register
-import renetik.android.core.lang.property.isFalse
+import renetik.android.event.property.CSProperty
+import renetik.android.event.property.CSPropertyBase
+import renetik.android.event.property.CSPropertyFunctions.property
+import renetik.android.event.registrations.register
+import renetik.android.core.lang.variable.isFalse
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 
 abstract class CSPresetPropertyBase<T>(
-    override val parent: CSEventOwnerHasDestroy,
+    override val parent: CSHasRegistrationsHasDestroy,
     final override val preset: CSPreset<*, *>,
     override val key: String,
     onChange: ((value: T) -> Unit)? = null
-) : CSEventPropertyBase<T>(parent, onChange), CSPresetProperty<T> {
+) : CSPropertyBase<T>(parent, onChange), CSPresetProperty<T> {
 
     protected abstract val default: T
     protected abstract var _value: T
@@ -25,7 +25,7 @@ abstract class CSPresetPropertyBase<T>(
     protected abstract fun loadFrom(store: CSStore): T
 
     override fun saveTo(store: CSStore) = set(store, value)
-    override val isFollowPreset: CSEventProperty<Boolean> = property(true)
+    override val isFollowPreset: CSProperty<Boolean> = property(true)
     override val isModified: Boolean get() = value != loadFrom(preset.item.value.store)
 
     private val storeChanged = register(store.eventChanged.listen { onStoreChange() })
