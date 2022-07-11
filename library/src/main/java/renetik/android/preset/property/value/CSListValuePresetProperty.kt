@@ -1,6 +1,6 @@
 package renetik.android.preset.property.value
 
-import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestroy
 import renetik.android.core.lang.CSHasId
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore

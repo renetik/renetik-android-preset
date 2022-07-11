@@ -1,11 +1,11 @@
 package renetik.android.preset.property
 
-import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestroy
 import renetik.android.event.registration.pause
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSPropertyBase
-import renetik.android.event.property.CSPropertyFunctions.property
-import renetik.android.event.registrations.register
+import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.register
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore

@@ -5,9 +5,9 @@ import renetik.android.core.lang.CSHasId
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listenOnce
-import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
-import renetik.android.event.registrations.CSHasRegistrationsHasDestroyBase
-import renetik.android.event.property.CSPropertyFunctions.property
+import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSModel
+import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.reload
@@ -18,7 +18,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     key: String,
     val list: PresetList,
     getDefault: (() -> PresetItem)? = null)
-    : CSHasRegistrationsHasDestroyBase(parent), CSHasId {
+    : CSModel(parent), CSHasId {
 
     constructor (parent: CSHasRegistrationsHasDestroy, store: CSStore,
                  key: String, list: PresetList, defaultItemId: String)

@@ -4,7 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import renetik.android.event.registrations.CSHasRegistrationsHasDestroyBase
+import renetik.android.event.common.CSModel
 import renetik.android.preset.CSPreset
 import renetik.android.preset.propertyNullInt
 import renetik.android.store.CSStore
@@ -59,7 +59,7 @@ class CSPresetTestPresetItemList : renetik.android.preset.CSPresetItemList<CSPre
 	override fun reload() = Unit
 }
 
-class CSPresetTestParentClass(store: CSStore) : CSHasRegistrationsHasDestroyBase() {
+class CSPresetTestParentClass(store: CSStore) : CSModel() {
 	private val presetList = CSPresetTestPresetItemList()
 
 	init {

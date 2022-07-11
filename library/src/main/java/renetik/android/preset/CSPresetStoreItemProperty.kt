@@ -3,9 +3,9 @@ package renetik.android.preset
 import renetik.android.core.kotlin.toId
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.registrations.CSHasRegistrationsHasDestroyBase
+import renetik.android.event.common.CSModel
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registrations.register
+import renetik.android.event.registration.register
 import renetik.android.event.registration.pause
 import renetik.android.json.obj.getValue
 import renetik.android.preset.property.CSPresetKeyData
@@ -16,7 +16,7 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
     override val preset: CSPreset<PresetItem, PresetList>,
     val parentStore: CSStore,
     val getDefault: () -> PresetItem
-) : CSHasRegistrationsHasDestroyBase(preset), CSProperty<PresetItem>, CSPresetKeyData {
+) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
     override fun saveTo(store: CSStore) = store.set(key, value.toId())

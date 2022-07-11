@@ -1,7 +1,7 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.CSHasId
-import renetik.android.event.registrations.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestroy
 import renetik.android.preset.property.nullable.CSFloatNullablePresetProperty
 import renetik.android.preset.property.nullable.CSIntNullablePresetProperty
 import renetik.android.preset.property.nullable.CSListItemNullablePresetProperty

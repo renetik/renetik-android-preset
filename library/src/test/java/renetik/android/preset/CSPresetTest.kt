@@ -8,7 +8,7 @@ import org.robolectric.RobolectricTestRunner
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.second
 import renetik.android.core.kotlin.collections.third
-import renetik.android.event.registrations.CSHasRegistrationsHasDestroyBase
+import renetik.android.event.common.CSModel
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore
 
@@ -147,7 +147,7 @@ class CSPresetTest {
 	}
 }
 
-private class CSPresetTestParentClass(store: CSStore) : CSHasRegistrationsHasDestroyBase() {
+private class CSPresetTestParentClass(store: CSStore) : CSModel() {
 	private val presetList = CSPresetTestPresetItemList()
 
 	init {
@@ -166,7 +166,7 @@ private class CSPresetTestParentClass(store: CSStore) : CSHasRegistrationsHasDes
 private class CSPresetTestChildClass(
 	parent: CSPresetTestParentClass,
 	preset: CSPreset<*, *>,
-	key: String) : CSHasRegistrationsHasDestroyBase(parent) {
+	key: String) : CSModel(parent) {
 
 	private val presetList = CSPresetTestPresetItemList()
 
