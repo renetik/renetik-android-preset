@@ -1,8 +1,8 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.variable.isFalse
-import renetik.android.event.registration.register
 import renetik.android.event.registration.pause
+import renetik.android.event.registration.register
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.reload
@@ -10,7 +10,8 @@ import renetik.android.store.type.CSJsonObjectStore
 
 class CSPresetStore(
     override val preset: CSPreset<*, *>,
-    val parentStore: CSStore) : CSJsonObjectStore(), CSPresetKeyData {
+    private val parentStore: CSStore)
+    : CSJsonObjectStore(), CSPresetKeyData {
 
     override val key = "${preset.id} store"
     override fun saveTo(store: CSStore) = store.set(key, data)
@@ -34,31 +35,13 @@ class CSPresetStore(
         parentStore.getMap(key)?.let { data -> load(data) }
     }
 
-    override fun onChanged() {
-        parentStoreEventChanged.pause().use {
-            super.onChanged()
-            saveTo(parentStore)
-        }
-    }
-//
-//    val eventReload = event()
-//    val eventAfterReload = event()
-//
-//    override fun reload(store: CSStore) {
-//        eventReload.fire()
-//        super.reload(store)
-//        eventAfterReload.fire()
-//    }
-
-    override fun equals(other: Any?) =
-        (other as? CSPresetStore)?.let { it.key == key && super.equals(other) }
-            ?: super.equals(other)
-
-    override fun hashCode(): Int {
-        var result = key.hashCode()
-        result = 31 * result + super.hashCode()
-        return result
+    override fun onChanged() = parentStoreEventChanged.pause().use {
+        super.onChanged()
+        saveTo(parentStore)
     }
 
-//    fun clone() = CSPresetStore(preset, parentStore).also { it.load(this) }
+    override fun equals(other: Any?) = (other as? CSPresetStore)
+        ?.let { it.key == key && super.equals(other) } ?: super.equals(other)
+
+    override fun hashCode() = 31 * key.hashCode() + super.hashCode()
 }

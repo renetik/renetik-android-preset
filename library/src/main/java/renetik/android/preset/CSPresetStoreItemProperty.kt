@@ -14,7 +14,7 @@ import renetik.android.store.CSStore
 class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         PresetList : CSPresetItemList<PresetItem>>(
     override val preset: CSPreset<PresetItem, PresetList>,
-    val parentStore: CSStore,
+    private val parentStore: CSStore,
     val getDefault: () -> PresetItem
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
 

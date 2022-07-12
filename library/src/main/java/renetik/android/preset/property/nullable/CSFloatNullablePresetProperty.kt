@@ -13,7 +13,5 @@ class CSFloatNullablePresetProperty(
     : CSNullablePresetProperty<Float>(parent, preset, key, onChange) {
     override var _value = load()
     override fun get(store: CSStore): Float? = store.getFloat(key)
-    override fun set(store: CSStore, value: Float?) {
-        store.set(key, value)
-    }
+    override fun set(store: CSStore, value: Float?) = store.set(key, value)
 }
