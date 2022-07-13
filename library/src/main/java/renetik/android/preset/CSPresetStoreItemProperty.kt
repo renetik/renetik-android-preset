@@ -25,27 +25,27 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
 
     private val eventChange = event<PresetItem>()
 
-    private val parentStoreChanged =
-        register(parentStore.eventChanged.listen { onParentStoreChange() })
+    private val parentStoreLoadedRegistration =
+        register(parentStore.eventLoaded.listen { onParentStoreLoaded() })
 
-    private fun onParentStoreChange() {
+    private fun onParentStoreLoaded() {
         if (preset.isFollowStore.isFalse)
-            parentStoreChangedIsFollowStoreFalseSaveToParentStore()
+            parentStoreLoadedIsFollowStoreFalseSaveToParentStore()
         else {
             val newValue = loadValue()
             if (_value == newValue) return
             _value = newValue
-            parentStoreChanged.pause().use { eventChange.fire(newValue) }
+            parentStoreLoadedRegistration.pause().use { eventChange.fire(newValue) }
         }
     }
 
-    private fun parentStoreChangedIsFollowStoreFalseSaveToParentStore() =
+    private fun parentStoreLoadedIsFollowStoreFalseSaveToParentStore() =
         parentStore.eventChanged.pause().use { saveTo(parentStore) }
 
     override fun value(newValue: PresetItem, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-        parentStoreChanged.pause().use {
+        parentStoreLoadedRegistration.pause().use {
             if (fire) eventChange.fire(newValue)
             preset.reload(newValue)
             saveTo(parentStore)

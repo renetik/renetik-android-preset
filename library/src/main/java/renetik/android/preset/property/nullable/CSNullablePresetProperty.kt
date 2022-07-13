@@ -19,6 +19,6 @@ abstract class CSNullablePresetProperty<T>(
 
     override fun load(): T? =
         if (store.has(key)) get(store) else default?.also { value ->
-            store.eventChanged.pause().use { set(store, value) }
+            store.eventChanged.pause().use { set(store, value) }  /// TODO Why ?
         }
 }

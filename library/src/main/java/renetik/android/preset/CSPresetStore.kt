@@ -1,7 +1,6 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.variable.isFalse
-import renetik.android.event.registration.pause
 import renetik.android.event.registration.register
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
@@ -18,24 +17,27 @@ class CSPresetStore(
     override val eventDestroy get() = preset.eventDestroy
     override fun onDestroy() = preset.onDestroy()
 
-    private val parentStoreEventChanged = preset.register(parentStore.eventChanged.listen {
-        if (preset.isFollowStore.isFalse) saveTo(parentStore)
-        else onParentStoreChanged(it.getMap(key) ?: emptyMap<String, Any>())
-    })
+    private val parentStoreLoadedRegistration =
+        preset.register(parentStore.eventLoaded.listen {
+            if (preset.isFollowStore.isFalse) saveTo(parentStore)
+            else onParentStoreLoaded(it.getMap(key) ?: emptyMap<String, Any>())
+        })
 
-    private fun onParentStoreChanged(data: Map<String, *>) {
+    private fun onParentStoreLoaded(data: Map<String, *>) {
         if (this.data == data) return
-        parentStoreEventChanged.pause().use {
+//        parentStoreLoadedRegistration.pause().use {
             if (data.isEmpty()) reload(preset.item.value.store)
             else reload(data)
-        }
+//        }
     }
 
     init {
         parentStore.getMap(key)?.let { data -> load(data) }
     }
 
-    override fun onChanged() = parentStoreEventChanged.pause().use {
+    override fun onChanged()
+//     =    parentStoreLoadedRegistration.pause().use
+    {
         super.onChanged()
         saveTo(parentStore)
     }
