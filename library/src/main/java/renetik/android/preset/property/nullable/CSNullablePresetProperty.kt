@@ -1,6 +1,8 @@
 package renetik.android.preset.property.nullable
 
 import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.paused
+import renetik.android.event.registration.paused
 import renetik.android.preset.CSPreset
 import renetik.android.preset.property.CSPresetPropertyBase
 import renetik.android.preset.property.CSPresetKeyData
@@ -19,6 +21,6 @@ abstract class CSNullablePresetProperty<T>(
 
     override fun load(): T? =
         if (store.has(key)) get(store) else default?.also { value ->
-            store.eventChanged.pause().use { set(store, value) }  /// TODO Why ?
+            store.eventChanged.paused { set(store, value) }  /// TODO Why ?
         }
 }

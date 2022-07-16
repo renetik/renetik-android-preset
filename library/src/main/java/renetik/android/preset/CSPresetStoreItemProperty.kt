@@ -4,9 +4,10 @@ import renetik.android.core.kotlin.toId
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
+import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.register
-import renetik.android.event.registration.pause
+import renetik.android.event.registration.paused
 import renetik.android.json.obj.getValue
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
@@ -35,17 +36,17 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
             val newValue = loadValue()
             if (_value == newValue) return
             _value = newValue
-            parentStoreLoadedRegistration.pause().use { eventChange.fire(newValue) }
+            parentStoreLoadedRegistration.paused { eventChange.fire(newValue) }
         }
     }
 
     private fun parentStoreLoadedIsFollowStoreFalseSaveToParentStore() =
-        parentStore.eventChanged.pause().use { saveTo(parentStore) }
+        parentStore.eventChanged.paused { saveTo(parentStore) }
 
     override fun value(newValue: PresetItem, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-        parentStoreLoadedRegistration.pause().use {
+        parentStoreLoadedRegistration.paused {
             if (fire) eventChange.fire(newValue)
             preset.reload(newValue)
             saveTo(parentStore)

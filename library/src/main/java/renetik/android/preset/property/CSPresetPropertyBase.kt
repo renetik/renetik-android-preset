@@ -2,9 +2,11 @@ package renetik.android.preset.property
 
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
+import renetik.android.event.registration.paused
 import renetik.android.event.registration.register
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
@@ -37,22 +39,22 @@ abstract class CSPresetPropertyBase<T>(
             val newValue = load()
             if (_value == newValue) return
             _value = newValue
-//            storeLoadedRegistration.pause().use {
+            storeLoadedRegistration.paused {
                 onValueChanged(newValue)
-//            }
+            }
         }
     }
 
     private fun presetStoreLoadedIsFollowStoreFalseSaveToParentStore() =
-        store.eventChanged.pause().use { saveTo(store) } /// TODO Why ?
+        store.eventChanged.paused { saveTo(store) } /// TODO Why ?
 
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-//        storeLoadedRegistration.pause().use {
+        storeLoadedRegistration.paused {
             onValueChanged(newValue, fire)
             saveTo(store)
-//        }
+        }
     }
 
     override var value: T
