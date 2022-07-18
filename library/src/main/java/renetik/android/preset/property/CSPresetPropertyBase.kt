@@ -6,7 +6,6 @@ import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
-import renetik.android.event.registration.paused
 import renetik.android.event.registration.register
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
@@ -39,9 +38,9 @@ abstract class CSPresetPropertyBase<T>(
             val newValue = load()
             if (_value == newValue) return
             _value = newValue
-            storeLoadedRegistration.paused {
-                onValueChanged(newValue)
-            }
+//            storeLoadedRegistration.paused {
+            onValueChanged(newValue)
+//            }
         }
     }
 
@@ -51,10 +50,10 @@ abstract class CSPresetPropertyBase<T>(
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-        storeLoadedRegistration.paused {
-            onValueChanged(newValue, fire)
-            saveTo(store)
-        }
+//        storeLoadedRegistration.paused {
+        onValueChanged(newValue, fire)
+        saveTo(store)
+//        }
     }
 
     override var value: T

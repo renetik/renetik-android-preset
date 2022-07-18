@@ -36,7 +36,9 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
             val newValue = loadValue()
             if (_value == newValue) return
             _value = newValue
-            parentStoreLoadedRegistration.paused { eventChange.fire(newValue) }
+//            parentStoreLoadedRegistration.paused {
+                eventChange.fire(newValue)
+//            }
         }
     }
 
@@ -46,11 +48,11 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
     override fun value(newValue: PresetItem, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-        parentStoreLoadedRegistration.paused {
+//        parentStoreLoadedRegistration.paused {
             if (fire) eventChange.fire(newValue)
             preset.reload(newValue)
             saveTo(parentStore)
-        }
+//        }
     }
 
     override fun onChange(function: (PresetItem) -> Unit) = eventChange.listen(function)
