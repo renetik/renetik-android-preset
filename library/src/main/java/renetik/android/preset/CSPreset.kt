@@ -3,10 +3,10 @@ package renetik.android.preset
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.fire
-import renetik.android.event.listenOnce
 import renetik.android.event.common.CSHasRegistrationsHasDestroy
 import renetik.android.event.common.CSModel
+import renetik.android.event.fire
+import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
@@ -17,7 +17,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     parentStore: CSStore,
     key: String,
     val list: PresetList,
-    getDefault: (() -> PresetItem)? = null)
+    val getDefault: (() -> PresetItem)? = null)
     : CSModel(parent), CSHasId {
 
     constructor (parent: CSHasRegistrationsHasDestroy, store: CSStore,
