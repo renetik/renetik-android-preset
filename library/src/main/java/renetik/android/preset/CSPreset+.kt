@@ -6,6 +6,6 @@ import renetik.android.event.registration.register
 
 typealias Preset = CSPreset<*, out CSPresetItemList<*>>
 
-fun Preset.followStoreIf(property: CSProperty<Boolean>) {
-	register(isFollowStore.connect(property))
+fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) = apply {
+    register(isFollowStore.connect(property))
 }

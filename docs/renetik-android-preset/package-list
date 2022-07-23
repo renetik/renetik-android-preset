@@ -106,7 +106,7 @@ $dokka.location:renetik.android.preset.property/CSPresetPropertyBase/value/#/Poi
 $dokka.location:renetik.android.preset.property/CSPresetPropertyBase/value/#TypeParam(bounds=[kotlin.Any?])#kotlin.Boolean/PointingToDeclaration/renetik-android-preset/renetik.android.preset.property/-c-s-preset-property-base/value.html
 $dokka.location:renetik.android.preset////PointingToDeclaration/renetik-android-preset/renetik.android.preset/index.html
 $dokka.location:renetik.android.preset//count/renetik.android.preset.CSPresetItemList[*]#/PointingToDeclaration/renetik-android-preset/renetik.android.preset/count.html
-$dokka.location:renetik.android.preset//followStoreIf/renetik.android.preset.CSPreset[*,renetik.android.preset.CSPresetItemList[*]]#renetik.android.event.property.CSProperty[kotlin.Boolean]/PointingToDeclaration/renetik-android-preset/renetik.android.preset/follow-store-if.html
+$dokka.location:renetik.android.preset//followStoreIf/TypeParam(bounds=[renetik.android.preset.CSPreset[*,renetik.android.preset.CSPresetItemList[*]]])#renetik.android.event.property.CSProperty[kotlin.Boolean]/PointingToDeclaration/renetik-android-preset/renetik.android.preset/follow-store-if.html
 $dokka.location:renetik.android.preset//items/renetik.android.preset.CSPresetItemList[TypeParam(bounds=[renetik.android.preset.CSPresetItem])]#/PointingToDeclaration/renetik-android-preset/renetik.android.preset/items.html
 $dokka.location:renetik.android.preset/CSHasPreset.Companion///PointingToDeclaration/renetik-android-preset/renetik.android.preset/-c-s-has-preset/-companion/index.html
 $dokka.location:renetik.android.preset/CSHasPreset///PointingToDeclaration/renetik-android-preset/renetik.android.preset/-c-s-has-preset/index.html
