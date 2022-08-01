@@ -38,9 +38,7 @@ abstract class CSPresetPropertyBase<T>(
             val newValue = load()
             if (_value == newValue) return
             _value = newValue
-//            storeLoadedRegistration.paused {
             onValueChanged(newValue)
-//            }
         }
     }
 
@@ -50,10 +48,8 @@ abstract class CSPresetPropertyBase<T>(
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-//        storeLoadedRegistration.paused {
         onValueChanged(newValue, fire)
         saveTo(store)
-//        }
     }
 
     override var value: T
