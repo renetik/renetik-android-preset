@@ -32,6 +32,11 @@ fun Preset.property(
     default: Double, onChange: ArgFunc<Double>? = null
 ) = add(CSDoubleValuePresetProperty(parent, this, key, default, onChange))
 
+fun Preset.property(
+    parent: CSHasRegistrationsHasDestroy, key: String,
+    default: List<Int>, onChange: ArgFunc<List<Int>>? = null
+) = add(CSIntListValuePresetProperty(parent, this, key, default, onChange))
+
 fun <T> Preset.property(
     parent: CSHasRegistrationsHasDestroy, key: String, values: List<T>,
     default: T, onChange: ArgFunc<T>? = null
