@@ -2,7 +2,6 @@ package renetik.android.preset.extensions
 
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.common.CSHasRegistrationsHasDestroy
-import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset
 import renetik.android.preset.property.CSPresetProperty
 import renetik.android.preset.property.value.CSJsonListValuePresetProperty
@@ -18,10 +17,8 @@ fun <T : CSJsonObjectStore> Preset.property(
     add(CSJsonListValuePresetProperty(parent, this, key, listType, default, onChange))
 
 inline fun <reified T : CSJsonObjectStore> Preset.property(
-    parent: CSHasRegistrationsHasDestroy, key: String,
-    default: List<T> = emptyList(),
-    noinline onChange: ArgFunc<List<T>>? = null)
-        : CSPresetProperty<List<T>> =
+    parent: CSHasRegistrationsHasDestroy, key: String, default: List<T> = emptyList(),
+    noinline onChange: ArgFunc<List<T>>? = null): CSPresetProperty<List<T>> =
     property(parent, key, T::class, default, onChange)
 
 @JvmName("propertyMutableList")

@@ -8,13 +8,10 @@ import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 
 open class CSListItemValuePresetProperty<T>(
-    parent: CSHasRegistrationsHasDestroy,
-    preset: CSPreset<*, *>,
-    key: String,
-    val getValues: () -> Collection<T>,
-    val getDefault: () -> T,
-    onChange: ((value: T) -> Unit)? = null,
-) : CSValuePresetProperty<T>(parent, preset, key, onChange), CSListValuesProperty<T> {
+    parent: CSHasRegistrationsHasDestroy, preset: CSPreset<*, *>,
+    key: String, val getValues: () -> Collection<T>, val getDefault: () -> T,
+    onChange: ((value: T) -> Unit)? = null)
+    : CSValuePresetProperty<T>(parent, preset, key, onChange), CSListValuesProperty<T> {
 
     constructor(
         parent: CSHasRegistrationsHasDestroy,
