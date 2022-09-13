@@ -16,5 +16,5 @@ class CSJsonListValuePresetProperty<T : CSJsonObjectStore>(
     : CSValuePresetProperty<List<T>>(parent,preset, key, onChange) {
     override var _value = load()
     override fun get(store: CSStore) = store.getJsonObjectList(key, type) ?: default
-    override fun set(store: CSStore, value: List<T>) = store.set(key, value)
+    override fun set(store: CSStore, value: List<T>) = store.setJsonObjectList(key, value)
 }
