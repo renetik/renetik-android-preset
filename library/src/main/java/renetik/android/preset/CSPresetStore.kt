@@ -17,27 +17,21 @@ class CSPresetStore(
     override val eventDestroy get() = preset.eventDestroy
     override fun onDestroy() = preset.onDestroy()
 
-    private val parentStoreLoadedRegistration =
+    init {
+        parentStore.getMap(key)?.let { data -> load(data) }
         preset.register(parentStore.eventLoaded.listen {
             if (preset.isFollowStore.isFalse) saveTo(parentStore)
             else onParentStoreLoaded(it.getMap(key) ?: emptyMap<String, Any>())
         })
+    }
 
     private fun onParentStoreLoaded(data: Map<String, *>) {
         if (this.data == data) return
-//        parentStoreLoadedRegistration.pause().use {
-            if (data.isEmpty()) reload(preset.item.value.store)
-            else reload(data)
-//        }
+        if (data.isEmpty()) reload(preset.item.value.store)
+        else reload(data)
     }
 
-    init {
-        parentStore.getMap(key)?.let { data -> load(data) }
-    }
-
-    override fun onChanged()
-//     =    parentStoreLoadedRegistration.pause().use
-    {
+    override fun onChanged() {
         super.onChanged()
         saveTo(parentStore)
     }
