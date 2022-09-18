@@ -6,6 +6,7 @@ import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.register
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
@@ -57,4 +58,21 @@ abstract class CSPresetPropertyBase<T>(
         set(value) = value(value)
 
     override fun toString() = "${super.toString()} key:$key value:$value"
+
+    override fun onChange(function: (T) -> Unit): CSRegistration {
+        var isChanged = false
+        var isPresetReload = false
+        val registration = eventChange.listen {
+            isChanged = true
+            if (!isPresetReload) function(it)
+        }
+        val presetEventReloadRegistration = preset.eventReload.listen { isPresetReload = true }
+        val presetEventAfterReloadRegistration = preset.eventAfterReload.listen {
+            if (isChanged) function(value)
+            isPresetReload = false
+            isChanged = false
+        }
+        return CSRegistration(registration, presetEventReloadRegistration,
+            presetEventAfterReloadRegistration)
+    }
 }
