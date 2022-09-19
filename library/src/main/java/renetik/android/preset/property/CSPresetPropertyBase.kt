@@ -29,8 +29,22 @@ abstract class CSPresetPropertyBase<T>(
     override val isFollowPreset: CSProperty<Boolean> = property(true)
     override val isModified: Boolean get() = value != loadFrom(preset.item.value.store)
 
-    private val storeLoadedRegistration =
+    override fun value(newValue: T, fire: Boolean) {
+        if (_value == newValue) return
+        _value = newValue
+        onValueChanged(newValue, fire)
+        saveTo(store)
+    }
+
+    override var value: T
+        get() = _value
+        set(value) = value(value)
+
+    override fun toString() = "${super.toString()} key:$key value:$value"
+
+    init {
         register(store.eventLoaded.listen { onStoreLoaded() })
+    }
 
     private fun onStoreLoaded() {
         if (isFollowPreset.isFalse)
@@ -46,33 +60,22 @@ abstract class CSPresetPropertyBase<T>(
     private fun presetStoreLoadedIsFollowStoreFalseSaveToParentStore() =
         store.eventChanged.paused { saveTo(store) } /// TODO Why ?
 
-    override fun value(newValue: T, fire: Boolean) {
-        if (_value == newValue) return
-        _value = newValue
-        onValueChanged(newValue, fire)
-        saveTo(store)
-    }
 
-    override var value: T
-        get() = _value
-        set(value) = value(value)
+    private var isChangedWhilePresetReload = false
 
-    override fun toString() = "${super.toString()} key:$key value:$value"
+    private var isPresetReload = false
 
-    override fun onChange(function: (T) -> Unit): CSRegistration {
-        var isChanged = false
-        var isPresetReload = false
-        val registration = eventChange.listen {
-            isChanged = true
-            if (!isPresetReload) function(it)
-        }
-        val presetEventReloadRegistration = preset.eventReload.listen { isPresetReload = true }
-        val presetEventAfterReloadRegistration = preset.eventAfterReload.listen {
-            if (isChanged) function(value)
-            isPresetReload = false
-            isChanged = false
-        }
-        return CSRegistration(registration, presetEventReloadRegistration,
-            presetEventAfterReloadRegistration)
+    private val presetEventReloadRegistration =
+        register(preset.eventReload.listen { isPresetReload = true })
+
+    private val presetEventAfterReloadRegistration = register(preset.eventAfterReload.listen {
+        if (isChangedWhilePresetReload) super.onValueChanged(value, fire = true)
+        isPresetReload = false
+        isChangedWhilePresetReload = false
+    })
+
+    override fun onValueChanged(newValue: T, fire: Boolean) {
+        if (!isPresetReload) super.onValueChanged(newValue, fire)
+        else isChangedWhilePresetReload = true
     }
 }
