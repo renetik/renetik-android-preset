@@ -59,9 +59,8 @@ abstract class CSPresetPropertyBase<T>(
     private fun presetStoreLoadedIsFollowStoreFalseSaveToParentStore() =
         store.eventChanged.paused { saveTo(store) } // TODO! Why ?
 
-    private var isChangedWhilePresetReload = false
-
     private var isPresetReload = false
+    private var isChangedWhilePresetReload = false
 
     private val presetEventReloadRegistration =
         register(preset.eventReload.listen { isPresetReload = true })
@@ -71,11 +70,6 @@ abstract class CSPresetPropertyBase<T>(
         isPresetReload = false
         isChangedWhilePresetReload = false
     })
-
-//    override fun onValueChanged(newValue: T, fire: Boolean) {
-//        if (!isPresetReload) super.onValueChanged(newValue, fire)
-//        else isChangedWhilePresetReload = true
-//    }
 
     override fun fireChange() {
         if (!isPresetReload) super.fireChange()
