@@ -6,7 +6,6 @@ import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
-import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.register
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
@@ -60,7 +59,6 @@ abstract class CSPresetPropertyBase<T>(
     private fun presetStoreLoadedIsFollowStoreFalseSaveToParentStore() =
         store.eventChanged.paused { saveTo(store) } // TODO! Why ?
 
-
     private var isChangedWhilePresetReload = false
 
     private var isPresetReload = false
@@ -69,13 +67,19 @@ abstract class CSPresetPropertyBase<T>(
         register(preset.eventReload.listen { isPresetReload = true })
 
     private val presetEventAfterReloadRegistration = register(preset.eventAfterReload.listen {
-        if (isChangedWhilePresetReload) super.onValueChanged(value, fire = true) // TODO!
+        if (isChangedWhilePresetReload) super.fireChange()
         isPresetReload = false
         isChangedWhilePresetReload = false
     })
 
-    override fun onValueChanged(newValue: T, fire: Boolean) {
-        if (!isPresetReload) super.onValueChanged(newValue, fire)
+//    override fun onValueChanged(newValue: T, fire: Boolean) {
+//        if (!isPresetReload) super.onValueChanged(newValue, fire)
+//        else isChangedWhilePresetReload = true
+//    }
+
+    override fun fireChange() {
+        if (!isPresetReload) super.fireChange()
         else isChangedWhilePresetReload = true
+
     }
 }
