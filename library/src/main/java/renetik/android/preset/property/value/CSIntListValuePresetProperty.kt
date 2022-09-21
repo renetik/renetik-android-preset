@@ -17,5 +17,5 @@ class CSIntListValuePresetProperty(
         ?.map { it.toInt() } ?: default
 
     override fun set(store: CSStore, value: List<Int>) =
-        store.set(key, value.joinToString(",") { it.toString() })
+        store.set(key, value.joinToString(","))
 }
