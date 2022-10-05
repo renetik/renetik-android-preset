@@ -11,7 +11,6 @@ class CSBooleanValuePresetProperty(
     override val default: Boolean,
     onChange: ((value: Boolean) -> Unit)?)
     : CSValuePresetProperty<Boolean>(parent,preset, key, onChange) {
-    override var _value = load()
     override fun get(store: CSStore) = store.getBoolean(key)
     override fun set(store: CSStore, value: Boolean) = store.set(key, value)
 }

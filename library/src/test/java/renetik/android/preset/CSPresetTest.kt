@@ -130,5 +130,6 @@ class CSPresetTest {
         assertEquals(ChildPropertyNewValue1, parent.childs.second()
             .childPreset1Props.at(1)!!.value)
     }
+
 }
 

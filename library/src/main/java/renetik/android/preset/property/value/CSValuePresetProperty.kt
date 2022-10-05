@@ -2,7 +2,6 @@ package renetik.android.preset.property.value
 
 import renetik.android.event.common.CSHasRegistrationsHasDestroy
 import renetik.android.event.paused
-import renetik.android.event.registration.paused
 import renetik.android.preset.CSPreset
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.preset.property.CSPresetPropertyBase
@@ -15,10 +14,8 @@ abstract class CSValuePresetProperty<T>(
     override val key: String,
     onChange: ((value: T) -> Unit)? = null
 ) : CSPresetPropertyBase<T>(parent, preset, key, onChange), CSPresetKeyData {
-
-    override fun loadFrom(store: CSStore): T = get(store) ?: default
-
-    final override fun load(): T = get(store) ?: default.also { value ->
+    override fun loadFrom(store: CSStore): T = getFiltered(store) ?: default
+    final override fun load(): T = getFiltered(store) ?: default.also { value ->
         store.eventChanged.paused { set(store, value) }
     }
 }

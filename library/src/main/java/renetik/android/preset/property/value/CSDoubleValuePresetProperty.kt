@@ -11,7 +11,6 @@ class CSDoubleValuePresetProperty(
     override val default: Double,
     onChange: ((value: Double) -> Unit)?)
     : CSValuePresetProperty<Double>(parent,preset, key, onChange) {
-    override var _value = load()
     override fun get(store: CSStore) = store.getDouble(key)
     override fun set(store: CSStore, value: Double) = store.set(key, value)
 }

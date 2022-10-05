@@ -1,5 +1,6 @@
 package renetik.android.preset.property
 
+import renetik.android.core.lang.lazyVar
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.common.CSHasRegistrationsHasDestroy
 import renetik.android.event.paused
@@ -18,25 +19,30 @@ abstract class CSPresetPropertyBase<T>(
 ) : CSPropertyBase<T>(parent, onChange), CSPresetProperty<T> {
 
     protected abstract val default: T
-    protected abstract var _value: T
+    var internalValue by lazyVar { load() }
+
+    //    protected abstract var internalValue: T
     protected abstract fun get(store: CSStore): T?
     protected abstract fun set(store: CSStore, value: T)
     protected abstract fun load(): T
     protected abstract fun loadFrom(store: CSStore): T
+
+    override var filter: ((T?) -> T?)? = null
+    fun getFiltered(store: CSStore): T? = get(store).let { filter?.invoke(it) ?: it }
 
     override fun saveTo(store: CSStore) = set(store, value)
     override val isFollowPreset: CSProperty<Boolean> = property(true)
     override val isModified: Boolean get() = value != loadFrom(preset.item.value.store)
 
     override fun value(newValue: T, fire: Boolean) {
-        if (_value == newValue) return
-        _value = newValue
+        if (internalValue == newValue) return
+        internalValue = newValue
         onValueChanged(newValue, fire)
         saveTo(store)
     }
 
     override var value: T
-        get() = _value
+        get() = internalValue
         set(value) = value(value)
 
     override fun toString() = "${super.toString()} key:$key value:$value"
@@ -50,8 +56,8 @@ abstract class CSPresetPropertyBase<T>(
             presetStoreLoadedIsFollowStoreFalseSaveToParentStore()
         else {
             val newValue = load()
-            if (_value == newValue) return
-            _value = newValue
+            if (internalValue == newValue) return
+            internalValue = newValue
             onValueChanged(newValue)
         }
     }

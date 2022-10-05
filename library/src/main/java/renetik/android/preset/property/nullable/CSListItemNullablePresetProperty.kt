@@ -26,7 +26,6 @@ class CSListItemNullablePresetProperty<T>(
 
     override val values: List<T> get() = getValues()
     override val default: T get() = getDefault()
-    override var _value = load()
     override fun get(store: CSStore) = store.getValue(key, values)
     override fun set(store: CSStore, value: T?) {
         store.set(key, value.toId())

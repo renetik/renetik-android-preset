@@ -11,7 +11,6 @@ class CSFloatValuePresetProperty(
     override val default: Float,
     onChange: ((value: Float) -> Unit)?)
     : CSValuePresetProperty<Float>(parent,preset, key, onChange) {
-    override var _value = load()
     override fun get(store: CSStore) = store.getFloat(key)
     override fun set(store: CSStore, value: Float) = store.set(key, value)
 }

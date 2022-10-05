@@ -8,5 +8,6 @@ interface CSPresetProperty<T> : CSProperty<T>, CSPresetKeyData {
     val parent: CSHasRegistrationsHasDestroy
     val isFollowPreset: CSProperty<Boolean>
     val isModified: Boolean
+    var filter: ((T?) -> T?)?
 }
 

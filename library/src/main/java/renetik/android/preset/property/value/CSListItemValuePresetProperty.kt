@@ -22,7 +22,6 @@ open class CSListItemValuePresetProperty<T>(
 
     override val values: List<T> get() = getValues().toList()
     override val default: T get() = getDefault()
-    override var _value: T = load()
     override fun get(store: CSStore): T? = store.getValue(key, values)
     override fun set(store: CSStore, value: T) = store.set(key, value.toId())
 }

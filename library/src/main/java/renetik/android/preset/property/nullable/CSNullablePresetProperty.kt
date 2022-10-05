@@ -17,10 +17,10 @@ abstract class CSNullablePresetProperty<T>(
     : CSPresetPropertyBase<T?>(parent, preset, key, onChange), CSPresetKeyData {
 
     override fun loadFrom(store: CSStore): T? =
-        if (store.has(key)) get(store) else default
+        if (store.has(key)) getFiltered(store) else default
 
     override fun load(): T? =
-        if (store.has(key)) get(store) else default?.also { value ->
+        if (store.has(key)) getFiltered(store) else default?.also { value ->
             store.eventChanged.paused { set(store, value) }  /// TODO Why ?
         }
 }
