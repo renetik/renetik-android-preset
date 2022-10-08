@@ -17,30 +17,30 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     parentStore: CSStore,
     key: String,
     val list: PresetList,
-    val getDefault: (() -> PresetItem)? = null)
+    default: (() -> PresetItem)? = null)
     : CSModel(parent), CSHasId {
 
     constructor (parent: CSHasRegistrationsHasDestroy, store: CSStore,
                  key: String, list: PresetList, defaultItemId: String)
-            : this(parent, store, key, list, getDefault = {
+            : this(parent, store, key, list, default = {
         list.defaultItems.let { list -> list.find { it.id == defaultItemId } ?: list[0] }
     })
 
     constructor(parent: CSHasRegistrationsHasDestroy, preset: CSPreset<*, *>,
                 key: String, list: PresetList,
-                getDefault: (() -> PresetItem)? = null)
-            : this(parent, preset.store, key, list, getDefault) {
+                default: (() -> PresetItem)? = null)
+            : this(parent, preset.store, key, list, default) {
         preset.add(item)
         preset.add(store)
     }
 
     constructor(parent: CSHasPreset, key: String, list: PresetList,
-                getDefault: (() -> PresetItem)? = null) : this(parent,
-        parent.preset, key = "${parent.presetId} $key", list, getDefault)
+                default: (() -> PresetItem)? = null) : this(parent,
+        parent.preset, key = "${parent.presetId} $key", list, default)
 
     override val id = "$key preset"
     val isFollowStore = property(true)
-    val item = CSPresetStoreItemProperty(this, parentStore, getDefault ?: { list.items[0] })
+    val item = CSPresetStoreItemProperty(this, parentStore, default ?: { list.items[0] })
     val store = CSPresetStore(this, parentStore)
     val eventReload = event()
     val eventAfterReload = event()
@@ -75,4 +75,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
         item.value.save(dataList)
 
     override fun toString() = "$id ${super.toString()}"
+
+    inline fun onBeforeChange(crossinline function: () -> Unit) = eventReload.listen { function() }
+    inline fun onChange(crossinline function: () -> Unit) = eventAfterReload.listen { function() }
 }
