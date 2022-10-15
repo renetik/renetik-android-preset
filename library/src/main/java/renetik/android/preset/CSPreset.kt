@@ -61,7 +61,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     fun <T : CSPresetKeyData> add(property: T): T {
         if (dataList.contains(property)) unexpected()
         dataList.add(property)
-        property.eventDestroy.listenOnce { dataList.remove(property) }
+        property.eventDestruct.listenOnce { dataList.remove(property) }
         return property
     }
 

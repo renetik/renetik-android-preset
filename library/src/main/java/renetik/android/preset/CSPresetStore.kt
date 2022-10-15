@@ -15,9 +15,9 @@ class CSPresetStore(
     override val key = "${preset.id} store"
     override fun saveTo(store: CSStore) = store.set(key, data)
 
-    override val isDestroyed: Boolean get() = preset.isDestroyed
-    override val eventDestroy get() = preset.eventDestroy
-    override fun onDestroy() = preset.onDestroy()
+    override val isDestructed: Boolean get() = preset.isDestructed
+    override val eventDestruct get() = preset.eventDestruct
+    override fun onDestruct() = preset.onDestruct()
 
     init {
         parentStore.getMap(key)?.let { data -> load(data) }
