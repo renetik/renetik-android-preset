@@ -17,8 +17,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     parentStore: CSStore,
     key: String,
     val list: PresetList,
-    default: (() -> PresetItem)? = null)
-    : CSModel(parent), CSHasId {
+    default: (() -> PresetItem)? = null) : CSModel(parent), CSHasId {
 
     constructor (parent: CSHasRegistrationsHasDestroy, store: CSStore,
                  key: String, list: PresetList, defaultItemId: String)
@@ -67,7 +66,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
 
     fun saveAsNew(item: PresetItem) {
         item.save(dataList)
-        list.add(item)
+//        list.add(item)
         this.item.value(item)
     }
 
