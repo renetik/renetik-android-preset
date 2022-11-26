@@ -18,7 +18,8 @@ class CSPresetSimpleTests {
     fun test1Max() {
         val parent: CSHasRegistrationsHasDestroy = CSModel()
         val presetList = CSPresetTestPresetItemList()
-        presetList.add(CSPresetTestPresetItem(ClearPresetItemId))
+
+        presetList.createItem(ClearPresetItemId, isDefault = true)
         val store = CSJsonObjectStore()
         store.reload("""{"preset1 preset store":{"key":10}}""")
         val preset1 = CSPreset(parent, store, "preset1", presetList)

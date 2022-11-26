@@ -11,7 +11,7 @@ class CSPresetTestChildClass(
     private val presetList = CSPresetTestPresetItemList()
 
     init {
-        presetList.add(CSPresetTestPresetItem(ClearChildPresetItemId))
+        presetList.createItem(ClearChildPresetItemId, isDefault = true)
     }
 
     val childPreset1 = CSPreset(this, preset, "$key childPreset1", presetList)

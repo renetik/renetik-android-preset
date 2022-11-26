@@ -5,17 +5,17 @@ import renetik.android.preset.extensions.property
 import renetik.android.store.CSStore
 
 class CSPresetTestParentClass(store: CSStore) : CSModel() {
-   private val presetList = CSPresetTestPresetItemList()
+    private val presetList = CSPresetTestPresetItemList()
 
-   init {
-       presetList.add(CSPresetTestPresetItem(ClearPresetItemId))
-   }
+    init {
+        presetList.createItem(ClearPresetItemId, isDefault = true)
+    }
 
-   val parentPreset = CSPreset(this, store, "parent", presetList)
+    val parentPreset = CSPreset(this, store, "parent", presetList)
 
-   val childs = List(4) {
-       CSPresetTestChildClass(this, parentPreset, "childs:$it")
-   }
+    val childs = List(4) {
+        CSPresetTestChildClass(this, parentPreset, "childs:$it")
+    }
 
-   val property = parentPreset.property(this, "property", ParentPropertyInitialValue)
+    val property = parentPreset.property(this, "property", ParentPropertyInitialValue)
 }
