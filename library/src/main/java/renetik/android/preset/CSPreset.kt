@@ -8,8 +8,10 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.fire
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
+import renetik.android.store.extensions.lateStringProperty
 import renetik.android.store.extensions.reload
 
 class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
@@ -21,14 +23,14 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
 
     constructor (parent: CSHasRegistrationsHasDestroy, store: CSStore,
                  key: String, list: PresetList, defaultItemId: String)
-            : this(parent, store, key, list, default = {
+        : this(parent, store, key, list, default = {
         list.defaultItems.let { list -> list.find { it.id == defaultItemId } ?: list[0] }
     })
 
     constructor(parent: CSHasRegistrationsHasDestroy, preset: CSPreset<*, *>,
                 key: String, list: PresetList,
                 default: (() -> PresetItem)? = null)
-            : this(parent, preset.store, key, list, default) {
+        : this(parent, preset.store, key, list, default) {
         preset.add(item)
         preset.add(store)
     }
@@ -39,8 +41,12 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
 
     override val id = "$key preset"
     val isFollowStore = property(true)
-    val item = CSPresetStoreItemProperty(this, parentStore, default ?: { list.items[0] })
+    val item: CSPresetStoreItemProperty<PresetItem, PresetList> =
+        CSPresetStoreItemProperty(this, parentStore, default ?: { list.items[0] })
+
     val store = CSPresetStore(this, parentStore)
+    val storePresetTitle: CSHasChangeValue<String> = store.lateStringProperty("preset title")
+
     val eventReload = event()
     val eventAfterReload = event()
     private val dataList = mutableListOf<CSPresetKeyData>()
