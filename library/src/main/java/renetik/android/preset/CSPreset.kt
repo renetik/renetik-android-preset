@@ -83,5 +83,6 @@ class CSPreset
     override fun toString() = "$id ${super.toString()}"
 
     inline fun onBeforeChange(crossinline function: () -> Unit) = eventReload.listen { function() }
+
     inline fun onChange(crossinline function: () -> Unit) = eventAfterReload.listen { function() }
 }
