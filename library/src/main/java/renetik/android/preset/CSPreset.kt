@@ -43,8 +43,8 @@ class CSPreset
 
     override val id = "$key preset"
     val isFollowStore = property(true)
-    val listItem: CSPresetStoreItemProperty<PresetListItem, PresetList> =
-        CSPresetStoreItemProperty(this, parentStore, default ?: { list.items[0] })
+    val listItem: CSPresetListItem<PresetListItem, PresetList> =
+        CSPresetListItem(this, parentStore, default ?: { list.items[0] })
 
     val store = CSPresetStore(this, parentStore)
     val title: CSHasChangeValue<String> = store.lateStringProperty("preset title")

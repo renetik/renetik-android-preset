@@ -11,7 +11,7 @@ import renetik.android.json.obj.getValue
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 
-class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
+class CSPresetListItem<PresetItem : CSPresetItem,
         PresetList : CSPresetItemList<PresetItem>>(
     override val preset: CSPreset<PresetItem, PresetList>,
     private val store: CSStore,
