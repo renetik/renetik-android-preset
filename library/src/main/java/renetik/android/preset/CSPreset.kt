@@ -14,12 +14,12 @@ import renetik.android.store.CSStore
 import renetik.android.store.extensions.lateStringProperty
 import renetik.android.store.extensions.reload
 
-class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
+class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetItemList<PresetListItem>>(
     parent: CSHasRegistrationsHasDestroy,
     parentStore: CSStore,
     key: String,
     val list: PresetList,
-    default: (() -> PresetItem)? = null) : CSModel(parent), CSHasId {
+    default: (() -> PresetListItem)? = null) : CSModel(parent), CSHasId {
 
     constructor (parent: CSHasRegistrationsHasDestroy, store: CSStore,
                  key: String, list: PresetList, defaultItemId: String)
@@ -29,19 +29,19 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
 
     constructor(parent: CSHasRegistrationsHasDestroy, preset: CSPreset<*, *>,
                 key: String, list: PresetList,
-                default: (() -> PresetItem)? = null)
+                default: (() -> PresetListItem)? = null)
         : this(parent, preset.store, key, list, default) {
-        preset.add(item)
+        preset.add(listItem)
         preset.add(store)
     }
 
     constructor(parent: CSHasPreset, key: String, list: PresetList,
-                default: (() -> PresetItem)? = null) : this(parent,
+                default: (() -> PresetListItem)? = null) : this(parent,
         parent.preset, key = "${parent.presetId} $key", list, default)
 
     override val id = "$key preset"
     val isFollowStore = property(true)
-    val item: CSPresetStoreItemProperty<PresetItem, PresetList> =
+    val listItem: CSPresetStoreItemProperty<PresetListItem, PresetList> =
         CSPresetStoreItemProperty(this, parentStore, default ?: { list.items[0] })
 
     val store = CSPresetStore(this, parentStore)
@@ -52,12 +52,12 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     private val dataList = mutableListOf<CSPresetKeyData>()
 
     init {
-        if (store.data.isEmpty()) reload(item.value)
+        if (store.data.isEmpty()) reload(listItem.value)
     }
 
-    fun reload() = reload(item.value)
+    fun reload() = reload(listItem.value)
 
-    fun reload(item: PresetItem) {
+    fun reload(item: PresetListItem) {
         eventReload.fire()
         store.reload(item.store)
         eventAfterReload.fire()
@@ -70,13 +70,13 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
         return property
     }
 
-    fun saveAsNew(item: PresetItem) {
+    fun saveAsNew(item: PresetListItem) {
         item.save(dataList)
-        this.item.value(item)
+        this.listItem.value(item)
     }
 
     fun saveAsCurrent() =
-        item.value.save(dataList)
+        listItem.value.save(dataList)
 
     override fun toString() = "$id ${super.toString()}"
 

@@ -29,7 +29,7 @@ class CSPresetStore(
 
     private fun onParentStoreLoaded(data: Map<String, *>) {
         if (this.data == data) return
-        if (data.isEmpty()) reload(preset.item.value.store)
+        if (data.isEmpty()) reload(preset.listItem.value.store)
         else reload(data)
     }
 

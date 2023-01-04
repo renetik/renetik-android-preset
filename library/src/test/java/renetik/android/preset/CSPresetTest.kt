@@ -19,14 +19,14 @@ class CSPresetTest {
 
     @Test
     fun test1() {
-        assertEquals(ClearPresetItemId, parent.parentPreset.item.value.id)
+        assertEquals(ClearPresetItemId, parent.parentPreset.listItem.value.id)
         assertEquals(ParentPropertyInitialValue, parent.property.value)
         parent.childs.forEach {
-            assertEquals(ClearChildPresetItemId, it.childPreset1.item.value.id)
+            assertEquals(ClearChildPresetItemId, it.childPreset1.listItem.value.id)
             it.childPreset1Props.forEach {
                 assertEquals(ChildPropertyInitialValue, it.value)
             }
-            assertEquals(ClearChildPresetItemId, it.childPreset2.item.value.id)
+            assertEquals(ClearChildPresetItemId, it.childPreset2.listItem.value.id)
             it.childPreset2Props.forEach {
                 assertEquals(ChildPropertyInitialValue, it.value)
             }
@@ -46,14 +46,14 @@ class CSPresetTest {
         val parentPropertyNewValue2 = ParentPropertyNewValue2
         parent.property.value = parentPropertyNewValue2
 
-        parent.parentPreset.item.value = parent.parentPreset.list.items.first()
+        parent.parentPreset.listItem.value = parent.parentPreset.list.items.first()
         assertEquals(ParentPropertyInitialValue, parent.property.value)
     }
 
     @Test
     fun test3() {
         assertEquals(ClearChildPresetItemId, parent.childs.first()
-            .childPreset1.item.value.id)
+            .childPreset1.listItem.value.id)
         assertEquals(ChildPropertyInitialValue, parent.childs.first()
             .childPreset1Props.first().value)
         parent.childs.first().childPreset1Props.first().value = ChildPropertyNewValue0
@@ -67,11 +67,11 @@ class CSPresetTest {
         assertEquals(ChildPropertyNewValue0, parent.childs.first()
             .childPreset1Props.first().value)
         assertEquals(ChildPresetItemId2, parent.childs.first()
-            .childPreset1.item.value.id)
+            .childPreset1.listItem.value.id)
 
         parent.parentPreset.reload()
         assertEquals(ClearChildPresetItemId, parent.childs.first()
-            .childPreset1.item.value.id)
+            .childPreset1.listItem.value.id)
         assertEquals(ChildPropertyInitialValue, parent.childs.first()
             .childPreset1Props.first().value)
     }
@@ -88,7 +88,7 @@ class CSPresetTest {
         assertEquals(ChildPropertyNewValue0, parent.childs.first()
             .childPreset1Props.first().value)
 
-        parent.parentPreset.item.value = parent.parentPreset.list.items.first()
+        parent.parentPreset.listItem.value = parent.parentPreset.list.items.first()
         assertEquals(ChildPropertyInitialValue, parent.childs.first()
             .childPreset1Props.first().value)
     }
@@ -106,15 +106,15 @@ class CSPresetTest {
         val item2 = parent.parentPreset.list.createItem(ParentPresetItemId2, isDefault = true)
         parent.parentPreset.saveAsNew(item2)
 
-        parent.parentPreset.item.value = parent.parentPreset.list.items.first()
+        parent.parentPreset.listItem.value = parent.parentPreset.list.items.first()
         assertEquals(ChildPropertyInitialValue, parent.childs.first()
             .childPreset1Props.first().value)
 
-        parent.parentPreset.item.value = parent.parentPreset.list.items.third()
+        parent.parentPreset.listItem.value = parent.parentPreset.list.items.third()
         assertEquals(ChildPropertyNewValue1, parent.childs.first()
             .childPreset1Props.first().value)
 
-        parent.parentPreset.item.value = parent.parentPreset.list.items.second()
+        parent.parentPreset.listItem.value = parent.parentPreset.list.items.second()
         assertEquals(ChildPropertyNewValue0, parent.childs.first()
             .childPreset1Props.first().value)
     }
@@ -131,11 +131,11 @@ class CSPresetTest {
         assertEquals(ChildPropertyNewValue1, parent.childs.second()
             .childPreset1Props.at(1)!!.value)
 
-        parent.parentPreset.item.value = parent.parentPreset.list.items.first()
+        parent.parentPreset.listItem.value = parent.parentPreset.list.items.first()
         assertEquals(ChildPropertyInitialValue, parent.childs.second()
             .childPreset1Props.at(1)!!.value)
 
-        parent.parentPreset.item.value = parent.parentPreset.list.items.second()
+        parent.parentPreset.listItem.value = parent.parentPreset.list.items.second()
         assertEquals(ChildPropertyNewValue2, parent.childs.first()
             .childPreset1Props.at(2)!!.value)
         assertEquals(ChildPropertyNewValue1, parent.childs.second()
