@@ -45,7 +45,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
         CSPresetStoreItemProperty(this, parentStore, default ?: { list.items[0] })
 
     val store = CSPresetStore(this, parentStore)
-    val storePresetTitle: CSHasChangeValue<String> = store.lateStringProperty("preset title")
+    val title: CSHasChangeValue<String> = store.lateStringProperty("preset title")
 
     val eventReload = event()
     val eventAfterReload = event()
