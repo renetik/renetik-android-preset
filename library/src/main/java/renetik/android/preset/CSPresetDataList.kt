@@ -2,7 +2,7 @@ package renetik.android.preset
 
 import java.lang.System.nanoTime
 
-interface CSPresetItemList<PresetItem : CSPresetItem> {
+interface CSPresetDataList<PresetItem : CSPresetItem> {
     companion object
 
     val defaultItems: List<PresetItem>

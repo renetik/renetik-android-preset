@@ -2,7 +2,7 @@ package renetik.android.preset.property.nullable
 
 import renetik.android.core.kotlin.collections.put
 
-class CSPresetTestPresetItemList : renetik.android.preset.CSPresetItemList<CSPresetTestPresetItem> {
+class CSPresetTestPresetItemList : renetik.android.preset.CSPresetDataList<CSPresetTestPresetItem> {
     override val defaultItems = mutableListOf<CSPresetTestPresetItem>()
     override val userItems = mutableListOf<CSPresetTestPresetItem>()
 

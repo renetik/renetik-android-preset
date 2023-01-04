@@ -12,16 +12,17 @@ import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 
 class CSPresetListItem<PresetItem : CSPresetItem,
-        PresetList : CSPresetItemList<PresetItem>>(
+    PresetList : CSPresetDataList<PresetItem>>(
     override val preset: CSPreset<PresetItem, PresetList>,
     private val store: CSStore,
-    val getDefault: () -> PresetItem
+    private val getDefault: (isSaved: Boolean) -> PresetItem
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
+    val isSaved get() = store.has(key)
     override fun saveTo(store: CSStore) = store.set(key, value.toId())
     private var loadedValue: PresetItem = loadValue()
-    private fun loadValue() = store.getValue(key, preset.list.items) ?: getDefault()
+    private fun loadValue() = store.getValue(key, preset.list.items) ?: getDefault(isSaved)
 
     private val eventChange = event<PresetItem>()
 
