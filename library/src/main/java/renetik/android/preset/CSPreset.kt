@@ -42,15 +42,16 @@ class CSPreset
         parent.preset, key = "${parent.presetId} $key", list, default)
 
     override val id = "$key preset"
+
     val isFollowStore = property(true)
-    val listItem: CSPresetListItem<PresetListItem, PresetList> =
-        CSPresetListItem(this, parentStore, default ?: { list.items[0] })
+    val eventReload = event()
+    val eventAfterReload = event()
+
+    val listItem = CSPresetListItem(this, parentStore, default ?: { list.items[0] })
 
     val store = CSPresetStore(this, parentStore)
     val title: CSHasChangeValue<String> = store.lateStringProperty("preset title")
 
-    val eventReload = event()
-    val eventAfterReload = event()
     private val dataList = mutableListOf<CSPresetKeyData>()
 
     init {
@@ -77,8 +78,7 @@ class CSPreset
         this.listItem.value(item)
     }
 
-    fun saveAsCurrent() =
-        listItem.value.save(dataList)
+    fun saveAsCurrent() = listItem.value.save(dataList)
 
     override fun toString() = "$id ${super.toString()}"
 
