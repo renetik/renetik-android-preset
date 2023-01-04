@@ -19,10 +19,14 @@ class CSPresetListItem<PresetItem : CSPresetItem,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
-    val isSaved get() = store.has(key)
+
     override fun saveTo(store: CSStore) = store.set(key, value.toId())
+    private fun save() = saveTo(store)
+    private val isSaved get() = store.has(key)
+
     private var loadedValue: PresetItem = loadValue()
-    private fun loadValue() = store.getValue(key, preset.list.items) ?: getDefault(isSaved)
+    private fun loadValue() = store.getValue(key, preset.list.items)
+        ?: getDefault(isSaved).also { save() }
 
     private val eventChange = event<PresetItem>()
 
@@ -42,14 +46,14 @@ class CSPresetListItem<PresetItem : CSPresetItem,
     }
 
     private fun parentStoreLoadedIsFollowStoreFalseSaveToParentStore() =
-        store.eventChanged.paused { saveTo(store) }
+        store.eventChanged.paused { save() }
 
     override fun value(newValue: PresetItem, fire: Boolean) {
         if (loadedValue == newValue) return
         loadedValue = newValue
         if (fire) eventChange.fire(newValue)
         preset.reload(newValue)
-        saveTo(store)
+        save()
     }
 
     override fun onChange(function: (PresetItem) -> Unit) = eventChange.listen(function)
