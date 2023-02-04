@@ -10,18 +10,38 @@ import renetik.android.event.registration.resume
 
 typealias Preset = CSPreset<*, out CSPresetDataList<*>>
 
-fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) = apply {
-    register(isFollowStore.connect(property))
-}
+fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) =
+    apply { register(isFollowStore.connect(property)) }
+
+fun <T : Preset> T.onChange(
+    before: Func,
+    onChange: Func
+): CSRegistration = CSRegistration(
+    onBeforeChange { before() },
+    onChange { onChange() }
+)
 
 fun <T : Preset> T.onChange(
     vararg registrations: CSRegistration,
-    function: Func
-): CSRegistration {
-    val onBeforeChange = onBeforeChange { registrations.pause() }
-    val onChange = onChange {
-        function()
+    onChange: Func
+): CSRegistration = CSRegistration(
+    onBeforeChange { registrations.pause() },
+    onChange {
+        onChange()
         registrations.resume()
     }
-    return CSRegistration(onBeforeChange, onChange)
-}
+)
+
+fun <T : Preset> T.onChange(
+    vararg registrations: CSRegistration,
+    before: Func,
+    onChange: Func
+): CSRegistration = CSRegistration(
+    onBeforeChange {
+        registrations.pause()
+        before()
+    }, onChange {
+        onChange()
+        registrations.resume()
+    }
+)
