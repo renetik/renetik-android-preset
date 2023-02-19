@@ -19,7 +19,7 @@ abstract class CSPresetPropertyBase<T>(
 ) : CSPropertyBase<T>(parent, onChange), CSPresetProperty<T> {
 
     protected abstract val default: T
-    var internalValue by lazyVar { load() }
+    private var _value by lazyVar { load() }
     protected abstract fun get(store: CSStore): T?
     protected abstract fun set(store: CSStore, value: T)
     protected abstract fun load(): T
@@ -33,14 +33,14 @@ abstract class CSPresetPropertyBase<T>(
     override val isModified: Boolean get() = value != loadFrom(preset.listItem.value.store)
 
     override fun value(newValue: T, fire: Boolean) {
-        if (internalValue == newValue) return
-        internalValue = newValue
+        if (_value == newValue) return
+        _value = newValue
         onValueChanged(newValue, fire)
         saveTo(store)
     }
 
     override var value: T
-        get() = internalValue
+        get() = _value
         set(value) = value(value)
 
     override fun toString() = "${super.toString()} key:$key value:$value"
@@ -54,8 +54,8 @@ abstract class CSPresetPropertyBase<T>(
             presetStoreLoadedIsFollowStoreFalseSaveToParentStore()
         else {
             val newValue = load()
-            if (internalValue == newValue) return
-            internalValue = newValue
+            if (_value == newValue) return
+            _value = newValue
             onValueChanged(newValue)
         }
     }
