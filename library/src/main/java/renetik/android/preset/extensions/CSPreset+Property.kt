@@ -49,10 +49,10 @@ fun <T> Preset.property(
         { values }, getDefault, onChange))
 
 fun <T> Preset.property(
-    parent: CSHasRegistrationsHasDestroy, key: String, getValues: () -> Collection<T>,
+    parent: CSHasRegistrationsHasDestroy, key: String, values: () -> Collection<T>,
     getDefault: () -> T, onChange: ArgFunc<T>? = null) =
     add(CSListItemValuePresetProperty(parent, this, key,
-        getValues, getDefault, onChange))
+        values, getDefault, onChange))
 
 fun <T> Preset.property(
     parent: CSHasRegistrationsHasDestroy, key: String, getValues: () -> List<T>,
