@@ -80,6 +80,7 @@ abstract class CSPresetPropertyBase<T>(
     override fun fireChange() {
         if (!isPresetReload) super.fireChange()
         else isChangedWhilePresetReload = true
-
     }
+
+    val isStored get() = get(store) != null
 }

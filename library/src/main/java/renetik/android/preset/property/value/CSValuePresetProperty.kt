@@ -19,7 +19,7 @@ abstract class CSValuePresetProperty<T>(
 
     override fun loadFrom(store: CSStore): T = getFiltered(store) ?: default
 
-    final override fun load(): T = getFiltered(store) ?: default.also { value ->
-        if (isOnLoadStoreDefaultValue) store.eventChanged.paused { set(store, value) }
-    }
+     override fun load(): T = getFiltered(store) ?: default.also { value ->
+         if (isOnLoadStoreDefaultValue) store.eventChanged.paused { set(store, value) }
+     }
 }
