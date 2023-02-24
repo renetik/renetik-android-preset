@@ -61,9 +61,7 @@ abstract class CSPresetPropertyBase<T>(
     }
 
     private fun presetStoreLoadedIsFollowStoreFalseSaveToParentStore() =
-        store.eventChanged.paused { // TODO! Why store.eventChanged.paused ?
-            saveTo(store)
-        }
+        store.eventChanged.paused { saveTo(store) }
 
     private var isPresetReload = false
     private var isChangedWhilePresetReload = false
