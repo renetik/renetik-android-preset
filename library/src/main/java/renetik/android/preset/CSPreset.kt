@@ -14,8 +14,9 @@ import renetik.android.store.CSStore
 import renetik.android.store.extensions.lateStringProperty
 import renetik.android.store.extensions.reload
 
-class CSPreset
-<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<PresetListItem>>(
+class CSPreset<
+    PresetListItem : CSPresetItem,
+    PresetList : CSPresetDataList<PresetListItem>>(
     parent: CSHasRegistrationsHasDestroy,
     parentStore: CSStore,
     key: String,
@@ -23,22 +24,26 @@ class CSPreset
     getDefault: ((isSaved: Boolean) -> PresetListItem)? = null
 ) : CSModel(parent), CSHasId {
 
-    constructor (parent: CSHasRegistrationsHasDestroy, store: CSStore,
-                 key: String, list: PresetList, defaultItemId: String)
-        : this(parent, store, key, list, getDefault = {
+    constructor (
+        parent: CSHasRegistrationsHasDestroy, store: CSStore,
+        key: String, list: PresetList, defaultItemId: String
+    ) : this(parent, store, key, list, getDefault = {
         list.defaultItems.let { list -> list.find { it.id == defaultItemId } ?: list[0] }
     })
 
-    constructor(parent: CSHasRegistrationsHasDestroy, preset: CSPreset<*, *>,
-                key: String, list: PresetList,
-                default: ((isSaved: Boolean) -> PresetListItem)? = null)
-        : this(parent, preset.store, key, list, default) {
+    constructor(
+        parent: CSHasRegistrationsHasDestroy, preset: CSPreset<*, *>,
+        key: String, list: PresetList,
+        default: ((isSaved: Boolean) -> PresetListItem)? = null
+    ) : this(parent, preset.store, key, list, default) {
         preset.add(listItem)
         preset.add(store)
     }
 
-    constructor(parent: CSHasPreset, key: String, list: PresetList,
-                default: ((isSaved: Boolean) -> PresetListItem)? = null)
+    constructor(
+        parent: CSHasPreset, key: String, list: PresetList,
+        default: ((isSaved: Boolean) -> PresetListItem)? = null
+    )
         : this(parent, parent.preset, key = "${parent.presetId} $key", list, default)
 
     override val id = "$key preset"
