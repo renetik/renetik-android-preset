@@ -43,8 +43,7 @@ class CSPreset<
     constructor(
         parent: CSHasPreset, key: String, list: PresetList,
         default: ((isSaved: Boolean) -> PresetListItem)? = null
-    )
-        : this(parent, parent.preset, key = "${parent.presetId} $key", list, default)
+    ) : this(parent, parent.preset, key = "${parent.presetId} $key", list, default)
 
     override val id = "$key preset"
 
