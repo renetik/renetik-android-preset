@@ -19,7 +19,7 @@ abstract class CSPresetPropertyBase<T>(
 ) : CSPropertyBase<T>(parent, onChange), CSPresetProperty<T> {
 
     protected abstract val default: T
-    private var _value by lazyVar { load() }
+    protected var _value by lazyVar { load() }
     protected abstract fun get(store: CSStore): T?
     protected abstract fun set(store: CSStore, value: T)
     protected abstract fun load(): T
