@@ -8,7 +8,6 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.fire
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
@@ -54,7 +53,7 @@ class CSPreset<
     val listItem = CSPresetListItem(this, parentStore, getDefault ?: { list.items[0] })
 
     val store = CSPresetStore(this, parentStore)
-    val title: CSHasChangeValue<String> = store.property(this, "preset title", default = "")
+    val title = store.property(this, "preset title", default = "")
 
     private val dataList = mutableListOf<CSPresetKeyData>()
 
