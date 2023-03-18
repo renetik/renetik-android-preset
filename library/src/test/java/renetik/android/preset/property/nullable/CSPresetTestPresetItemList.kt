@@ -10,7 +10,7 @@ class CSPresetTestPresetItemList : renetik.android.preset.CSPresetDataList<CSPre
         defaultItems.remove(item)
     }
 
-    override fun createItem(title: String, isDefault: Boolean, id: String): CSPresetTestPresetItem {
+    override fun createItem(id: String, title: String, isDefault: Boolean): CSPresetTestPresetItem {
         val items = if (isDefault) defaultItems else userItems
         return items.put(CSPresetTestPresetItem(items.size, title))
     }

@@ -9,8 +9,11 @@ interface CSPresetDataList<PresetItem : CSPresetItem> {
     val userItems: List<PresetItem>
     fun remove(item: PresetItem)
 
-    fun createItem(title: String, isDefault: Boolean,
-                   id: String = "${nanoTime()}"): PresetItem
+    fun createItem(
+        id: String = "${nanoTime()}",
+        title: String,
+        isDefault: Boolean
+    ): PresetItem
 
     fun reload()
 }
