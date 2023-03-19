@@ -8,7 +8,6 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.fire
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
@@ -21,29 +20,34 @@ class CSPreset<
     parentStore: CSStore,
     key: String,
     val list: PresetList,
-    getDefault: ((isSaved: Boolean) -> PresetListItem)? = null
+    notFoundPresetItem: PresetListItem,
+    getDefault: (() -> PresetListItem)? = null
 ) : CSModel(parent), CSHasId {
 
     constructor (
         parent: CSHasRegistrationsHasDestroy, store: CSStore,
-        key: String, list: PresetList, defaultItemId: String
-    ) : this(parent, store, key, list, getDefault = {
+        key: String, list: PresetList, notFoundPresetItem: PresetListItem, defaultItemId: String
+    ) : this(parent, store, key, list, notFoundPresetItem, getDefault = {
         list.defaultItems.let { list -> list.find { it.id == defaultItemId } ?: list[0] }
     })
 
     constructor(
         parent: CSHasRegistrationsHasDestroy, preset: CSPreset<*, *>,
         key: String, list: PresetList,
-        default: ((isSaved: Boolean) -> PresetListItem)? = null
-    ) : this(parent, preset.store, key, list, default) {
+        notFoundPresetItem: PresetListItem, default: (() -> PresetListItem)? = null
+    ) : this(parent, preset.store, key, list, notFoundPresetItem, default) {
         preset.add(listItem)
         preset.add(store)
     }
 
     constructor(
         parent: CSHasPreset, key: String, list: PresetList,
-        default: ((isSaved: Boolean) -> PresetListItem)? = null
-    ) : this(parent, parent.preset, key = "${parent.presetId} $key", list, default)
+        notFoundPresetItem: PresetListItem,
+        default: (() -> PresetListItem)? = null
+    ) : this(
+        parent, parent.preset, key = "${parent.presetId} $key",
+        list, notFoundPresetItem, default
+    )
 
     override val id = "$key preset"
 
@@ -51,9 +55,9 @@ class CSPreset<
     val eventReload = event()
     val eventAfterReload = event()
 
-    val listItem = CSPresetListItem(this, parentStore, getDefault ?: { list.items[0] })
+    val listItem = CSPresetListItem(this, parentStore,
+        notFoundPresetItem, getDefault ?: { list.items[0] })
     val store = CSPresetStore(this, parentStore)
-    val currentId: CSHasChangeValue<String> = parentStore.property(this, listItem.key, "")
     val title = store.property(this, "preset title", default = "")
 
     private val dataList = mutableListOf<CSPresetKeyData>()

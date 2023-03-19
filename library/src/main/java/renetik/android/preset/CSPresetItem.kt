@@ -7,7 +7,9 @@ import renetik.android.store.CSStore
 import renetik.android.store.property.CSStoreProperty
 
 interface CSPresetItem : CSHasId, CSHasIndex {
-    companion object
+    companion object {
+        val NotFoundPresetItemId = "NotFoundPresetItem"
+    }
 
     val store: CSStore
 
