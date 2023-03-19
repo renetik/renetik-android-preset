@@ -12,6 +12,8 @@ import renetik.android.event.registration.register
 import renetik.android.json.obj.getValue
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
+import renetik.android.store.extensions.nullStringProperty
+import renetik.android.store.property.CSStoreProperty
 
 class CSPresetListItem<PresetItem : CSPresetItem,
     PresetList : CSPresetDataList<PresetItem>>(
@@ -21,13 +23,20 @@ class CSPresetListItem<PresetItem : CSPresetItem,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
+    val currentId: CSStoreProperty<String?> = store.nullStringProperty(key)
 
-    override fun saveTo(store: CSStore) = store.set(key, value.toId())
+    //    override fun saveTo(store: CSStore) = store.set(key, value.toId())
+    override fun saveTo(store: CSStore) = currentId.value(value.toId())
+
     private fun save() = saveTo(store)
-    private val isSaved get() = store.has(key)
+
+//    private val isSaved get() = store.has(key)
+    private val isSaved get() = currentId.value != null
 
     private var loadedValue: PresetItem = loadValue()
-    private fun loadValue() = store.getValue(key, preset.list.items)
+//    private fun loadValue() = store.getValue(key, preset.list.items)
+//        ?: getDefault(isSaved).also { save() }
+    private fun loadValue() =  preset.list.items.find { it.toId() == currentId.value }
         ?: getDefault(isSaved).also { save() }
 
     private val eventChange = event<PresetItem>()
