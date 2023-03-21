@@ -12,5 +12,10 @@ class CSPresetTestPresetItem(
     override val title = store.property("title", "title")
     override fun save(properties: Iterable<CSPresetKeyData>) =
         properties.forEach { it.saveTo(store) }
+
     override fun toString() = "${super.toString()}, id:$id"
+
+    companion object {
+        val EmptyItem = CSPresetTestPresetItem(0, "")
+    }
 }

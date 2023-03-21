@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import renetik.android.event.common.CSHasRegistrationsHasDestroy
 import renetik.android.event.common.CSModel
+import renetik.android.preset.CSPresetTestPresetItem.Companion.EmptyItem
 import renetik.android.preset.extensions.property
 import renetik.android.preset.property.max
 import renetik.android.store.extensions.reload
@@ -22,7 +23,7 @@ class CSPresetSimpleTests {
         presetList.createItem(title = ClearPresetItemId, isDefault = true)
         val store = CSJsonObjectStore()
         store.reload("""{"preset1 preset store":{"key":10}}""")
-        val preset1 = CSPreset(parent, store, "preset1", presetList)
+        val preset1 = CSPreset(parent, store = store, "preset1", presetList, EmptyItem)
         val property = preset1.property(parent, "key", 5)
         assertEquals(10, property.value)
 
