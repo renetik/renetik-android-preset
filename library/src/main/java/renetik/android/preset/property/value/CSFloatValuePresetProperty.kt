@@ -1,11 +1,11 @@
 package renetik.android.preset.property.value
 
-import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 
 class CSFloatValuePresetProperty(
-    parent: CSHasRegistrationsHasDestroy,
+    parent: CSHasRegistrationsHasDestruct,
     preset: CSPreset<*, *>,
     key: String,
     override val default: Float,

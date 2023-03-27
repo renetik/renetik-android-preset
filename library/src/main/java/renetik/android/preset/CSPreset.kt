@@ -3,7 +3,7 @@ package renetik.android.preset
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSModel
 import renetik.android.event.fire
 import renetik.android.event.listenOnce
@@ -16,13 +16,13 @@ import renetik.android.store.extensions.reload
 class CSPreset<
     PresetListItem : CSPresetItem,
     PresetList : CSPresetDataList<PresetListItem>>(
-    parent: CSHasRegistrationsHasDestroy, parentStore: CSStore,
+    parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
     key: String, val list: PresetList,
     notFoundItem: PresetListItem, getDefault: (() -> PresetListItem)? = null
 ) : CSModel(parent), CSHasId {
 
     constructor (
-        parent: CSHasRegistrationsHasDestroy, store: CSStore,
+        parent: CSHasRegistrationsHasDestruct, store: CSStore,
         key: String, list: PresetList,
         notFoundItem: PresetListItem, defaultItemId: String? = null
     ) : this(parent, store, key, list, notFoundItem, getDefault = {
@@ -32,7 +32,7 @@ class CSPreset<
     })
 
     constructor(
-        parent: CSHasRegistrationsHasDestroy, preset: CSPreset<*, *>,
+        parent: CSHasRegistrationsHasDestruct, preset: CSPreset<*, *>,
         key: String, list: PresetList,
         notFoundItem: PresetListItem, default: (() -> PresetListItem)? = null
     ) : this(parent, preset.store, key, list, notFoundItem, default) {

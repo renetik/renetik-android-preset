@@ -1,12 +1,12 @@
 package renetik.android.preset.property.nullable
 
 import renetik.android.core.lang.ArgFunc
-import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.preset.Preset
 import renetik.android.store.CSStore
 
 class CSBooleanNullablePresetProperty(
-    parent: CSHasRegistrationsHasDestroy,
+    parent: CSHasRegistrationsHasDestruct,
     preset: Preset,
     key: String,
     override val default: Boolean?,

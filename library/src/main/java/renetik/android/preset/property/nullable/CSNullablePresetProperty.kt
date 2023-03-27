@@ -1,8 +1,7 @@
 package renetik.android.preset.property.nullable
 
-import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.paused
-import renetik.android.event.registration.paused
 import renetik.android.preset.CSPreset
 import renetik.android.preset.property.CSPresetPropertyBase
 import renetik.android.preset.property.CSPresetKeyData
@@ -10,7 +9,7 @@ import renetik.android.preset.property.store
 import renetik.android.store.CSStore
 
 abstract class CSNullablePresetProperty<T>(
-    parent: CSHasRegistrationsHasDestroy,
+    parent: CSHasRegistrationsHasDestruct,
     preset: CSPreset<*, *>,
     override val key: String,
     onChange: ((value: T?) -> Unit)?)

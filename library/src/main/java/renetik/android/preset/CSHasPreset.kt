@@ -1,8 +1,8 @@
 package renetik.android.preset
 
-import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 
-interface CSHasPreset : CSHasRegistrationsHasDestroy {
+interface CSHasPreset : CSHasRegistrationsHasDestruct {
     companion object
 
     val preset: Preset

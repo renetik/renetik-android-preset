@@ -2,14 +2,14 @@ package renetik.android.preset.property.value
 
 import renetik.android.core.kotlin.collections.reload
 import renetik.android.core.lang.ArgFunc
-import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore
 import kotlin.reflect.KClass
 
 class CSJsonMutableListValuePresetProperty<T : CSJsonObjectStore>(
-    parent: CSHasRegistrationsHasDestroy,
+    parent: CSHasRegistrationsHasDestruct,
     preset: CSPreset<*, *>,
     key: String,
     val type: KClass<T>,

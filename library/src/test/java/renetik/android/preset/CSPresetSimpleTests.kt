@@ -4,7 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSModel
 import renetik.android.preset.CSPresetTestPresetItem.Companion.EmptyItem
 import renetik.android.preset.extensions.property
@@ -17,7 +17,7 @@ import renetik.android.store.type.CSJsonObjectStore
 class CSPresetSimpleTests {
     @Test
     fun test1Max() {
-        val parent: CSHasRegistrationsHasDestroy = CSModel()
+        val parent: CSHasRegistrationsHasDestruct = CSModel()
         val presetList = CSPresetTestPresetItemList()
 
         presetList.createItem(title = ClearPresetItemId, isDefault = true)

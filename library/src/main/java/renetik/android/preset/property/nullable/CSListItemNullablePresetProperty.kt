@@ -1,6 +1,6 @@
 package renetik.android.preset.property.nullable
 
-import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.property.CSListValuesProperty
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
@@ -8,7 +8,7 @@ import renetik.android.core.kotlin.toId
 import renetik.android.json.obj.getValue
 
 class CSListItemNullablePresetProperty<T>(
-    parent: CSHasRegistrationsHasDestroy,
+    parent: CSHasRegistrationsHasDestruct,
     preset: CSPreset<*, *>,
     key: String,
     val getValues: () -> List<T>,
@@ -18,7 +18,7 @@ class CSListItemNullablePresetProperty<T>(
     CSListValuesProperty<T?> {
 
     constructor(
-        parent: CSHasRegistrationsHasDestroy,
+        parent: CSHasRegistrationsHasDestruct,
         preset: CSPreset<*, *>, key: String,
         values: List<T>, default: T, onChange: ((value: T?) -> Unit)? = null
     ) : this(parent, preset, key, getValues = { values },

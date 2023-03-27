@@ -1,14 +1,14 @@
 package renetik.android.preset.property.value
 
 import renetik.android.core.kotlin.reflect.createInstance
-import renetik.android.event.common.CSHasRegistrationsHasDestroy
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore
 import kotlin.reflect.KClass
 
 open class CSJsonValuePresetProperty<T : CSJsonObjectStore>(
-    parent: CSHasRegistrationsHasDestroy,
+    parent: CSHasRegistrationsHasDestruct,
     preset: CSPreset<*, *>, key: String,
     val type: KClass<T>,
     onChange: ((value: T) -> Unit)? = null)
