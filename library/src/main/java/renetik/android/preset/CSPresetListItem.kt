@@ -76,7 +76,6 @@ class CSPresetListItem<PresetItem : CSPresetItem,
 
     override fun value(newValue: PresetItem, fire: Boolean) {
         if (loadedValue == newValue) return
-        logDebug { message(newValue) }
         loadedValue = newValue
         if (fire) eventChange.fire(newValue)
         preset.reload(newValue)
