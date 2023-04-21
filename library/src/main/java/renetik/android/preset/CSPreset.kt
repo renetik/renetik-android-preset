@@ -5,7 +5,6 @@ import renetik.android.core.lang.CSHasId
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSModel
-import renetik.android.event.fire
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.preset.property.CSPresetKeyData
@@ -51,8 +50,8 @@ class CSPreset<
 
     override val id = "$key preset"
     val isFollowStore = property(true)
-    val eventReload = event()
-    val eventAfterReload = event()
+    val eventReload = event<PresetListItem>()
+    val eventAfterReload = event<PresetListItem>()
 
     val listItem = CSPresetListItem(this, parentStore,
         notFoundItem, getDefault ?: { list.items[0] })
@@ -68,9 +67,9 @@ class CSPreset<
     fun reload() = reload(listItem.value)
 
     fun reload(item: PresetListItem) {
-        eventReload.fire()
+        eventReload.fire(item)
         store.reload(item.store)
-        eventAfterReload.fire()
+        eventAfterReload.fire(item)
     }
 
     fun <T : CSPresetKeyData> add(property: T): T {
@@ -89,9 +88,7 @@ class CSPreset<
 
     override fun toString() = "$id ${super.toString()}"
 
-    inline fun onBeforeChange(crossinline function: () -> Unit) =
-        eventReload.listen { function() }
+    fun onBeforeChange(function: () -> Unit) = eventReload.listen { function() }
 
-    inline fun onChange(crossinline function: () -> Unit) =
-        eventAfterReload.listen { function() }
+    fun onChange(function: () -> Unit) = eventAfterReload.listen { function() }
 }
