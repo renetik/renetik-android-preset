@@ -12,7 +12,7 @@ class CSPresetTestPresetItemList :
     }
 
     override fun createItem(
-        id: String, title: String, isDefault: Boolean
+        title: String, isDefault: Boolean
     ): CSPresetTestPresetItem {
         val items = if (isDefault) defaultItems else userItems
         return items.put(CSPresetTestPresetItem(items.size, title))
