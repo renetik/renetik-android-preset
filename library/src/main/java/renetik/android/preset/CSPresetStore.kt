@@ -14,6 +14,7 @@ class CSPresetStore(
 
     override val key = "${preset.id} store"
 
+    @Deprecated("Remove if unused")
     var isSavedToParent = { true }
     override fun saveTo(store: CSStore) {
         if (isSavedToParent()) store.set(key, data)
