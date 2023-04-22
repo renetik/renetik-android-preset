@@ -1,5 +1,16 @@
 rootProject.ext.namespace = 'renetik.android.preset'
-apply from: '../library.gradle'
+if (rootProject.ext.is_renetik_library_module) apply from: '../library.gradle'
+else apply from: '../../library.gradle'
+android {
+    testOptions {
+        unitTests {
+            includeAndroidResources = true //https://robolectric.org/getting-started/
+        }
+    }
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
 dependencies {
     if (rootProject.ext.is_renetik_library_release) implementation "$renetik_android_core"
     else implementation project(':renetik-android-core')
@@ -12,4 +23,7 @@ dependencies {
 
     if (rootProject.ext.is_renetik_library_release) implementation "$renetik_android_store"
     else implementation project(':renetik-android-store')
+
+    androidTestImplementation "androidx.test:runner:1.5.2"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 }

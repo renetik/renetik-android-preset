@@ -1,9 +1,9 @@
 package renetik.android.preset
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSModel
 import renetik.android.preset.CSPresetTestPresetItem.Companion.EmptyItem
@@ -12,7 +12,7 @@ import renetik.android.preset.property.max
 import renetik.android.store.extensions.reload
 import renetik.android.store.type.CSJsonObjectStore
 
-@RunWith(RobolectricTestRunner::class)
+@RunWith(AndroidJUnit4::class)
 class CSPresetSimpleTests {
     @Test
     fun test1Max() {
