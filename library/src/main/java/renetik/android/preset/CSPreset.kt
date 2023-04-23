@@ -2,11 +2,14 @@ package renetik.android.preset
 
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSHasId
+import renetik.android.core.lang.void
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSModel
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.CSHasChange
+import renetik.android.event.registration.CSRegistration
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
@@ -18,7 +21,7 @@ class CSPreset<
     parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
     key: String, val list: PresetList,
     notFoundItem: PresetListItem, getDefault: (() -> PresetListItem)? = null
-) : CSModel(parent), CSHasId {
+) : CSModel(parent), CSHasId, CSHasChange<Unit> {
 
     constructor (
         parent: CSHasRegistrationsHasDestruct, store: CSStore,
@@ -90,5 +93,8 @@ class CSPreset<
 
     fun onBeforeChange(function: () -> Unit) = eventReload.listen { function() }
 
-    fun onChange(function: () -> Unit) = eventAfterReload.listen { function() }
+//    fun onChange(function: () -> Unit) = eventAfterReload.listen { function() }
+
+    override fun onChange(function: (Unit) -> void): CSRegistration =
+        eventAfterReload.listen { function(Unit) }
 }
