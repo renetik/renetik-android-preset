@@ -9,7 +9,6 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
-import renetik.android.event.registration.CSRegistration
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
@@ -93,8 +92,5 @@ class CSPreset<
 
     fun onBeforeChange(function: () -> Unit) = eventReload.listen { function() }
 
-//    fun onChange(function: () -> Unit) = eventAfterReload.listen { function() }
-
-    override fun onChange(function: (Unit) -> void): CSRegistration =
-        eventAfterReload.listen { function(Unit) }
+    override fun onChange(function: (Unit) -> void) = eventAfterReload.listen { function(Unit) }
 }
