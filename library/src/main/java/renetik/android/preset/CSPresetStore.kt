@@ -13,14 +13,8 @@ class CSPresetStore(
 ) : CSJsonObjectStore(), CSPresetKeyData {
 
     override val key = "${preset.id} store"
-
-    @Deprecated("Remove if unused")
-    var isSavedToParent = { true }
-    override fun saveTo(store: CSStore) {
-        if (isSavedToParent()) store.set(key, data)
-        else store.clear(key)
-    }
-
+    override fun saveTo(store: CSStore) = store.set(key, data)
+    var isSavedToPresetAsDefault = false
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.onDestruct()
