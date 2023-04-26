@@ -7,7 +7,6 @@ interface CSPresetProperty<T> : CSProperty<T>, CSPresetKeyData {
     companion object
     val parent: CSHasRegistrationsHasDestruct
     val isFollowPreset: CSProperty<Boolean>
-    val isModified: Boolean
     var filter: ((T?) -> T?)?
 }
 

@@ -30,7 +30,6 @@ abstract class CSPresetPropertyBase<T>(
 
     override fun saveTo(store: CSStore) = set(store, value)
     override val isFollowPreset: CSProperty<Boolean> = property(true)
-    override val isModified: Boolean get() = value != loadFrom(preset.listItem.value.store)
 
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
