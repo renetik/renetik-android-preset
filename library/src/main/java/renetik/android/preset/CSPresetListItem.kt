@@ -2,8 +2,6 @@ package renetik.android.preset
 
 import renetik.android.core.kotlin.toId
 import renetik.android.core.lang.variable.isFalse
-import renetik.android.core.logging.CSLog.logDebug
-import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
 import renetik.android.event.paused
@@ -14,12 +12,14 @@ import renetik.android.json.obj.getValue
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 
-class CSPresetListItem<PresetItem : CSPresetItem,
-    PresetList : CSPresetDataList<PresetItem>>(
+class CSPresetListItem<
+    PresetItem : CSPresetItem,
+    PresetList : CSPresetDataList<PresetItem>,
+    >(
     override val preset: CSPreset<PresetItem, PresetList>,
     private val store: CSStore,
     private val notFoundPresetItem: PresetItem,
-    private val getDefault: () -> PresetItem
+    private val getDefault: () -> PresetItem,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
@@ -28,6 +28,11 @@ class CSPresetListItem<PresetItem : CSPresetItem,
     override fun saveTo(store: CSStore) {
         store.set(key, value.toId())
         updateCurrentId()
+    }
+
+    fun saveId(value: String) {
+        store.set(key, value)
+        currentId.value = value
     }
 
     private fun save(value: PresetItem) {
@@ -44,7 +49,7 @@ class CSPresetListItem<PresetItem : CSPresetItem,
     private fun loadValue(): PresetItem {
         val value = store.getValue(key, preset.list.items)
             ?: getDefaultItem().also {
-                save(it)// this saving is suspicious because it saves event when not needed
+                save(it) // this saving is suspicious because it saves even when not needed
             }
         updateCurrentId()
         return value
