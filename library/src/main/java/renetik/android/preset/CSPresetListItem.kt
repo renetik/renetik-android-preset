@@ -30,11 +30,6 @@ class CSPresetListItem<
         updateCurrentId()
     }
 
-    fun saveId(value: String) {
-        store.set(key, value)
-        currentId.value = value
-    }
-
     private fun save(value: PresetItem) {
         store.set(key, value.toId())
         updateCurrentId()
