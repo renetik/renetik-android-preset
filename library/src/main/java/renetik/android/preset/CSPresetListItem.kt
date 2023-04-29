@@ -6,11 +6,12 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
 import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
-import renetik.android.event.property.CSProperty.Companion.lateProperty
 import renetik.android.event.registration.register
-import renetik.android.json.obj.getValue
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
+import renetik.android.store.extensions.property
+import renetik.android.store.property.CSStoreProperty
+import renetik.android.store.property.isSaved
 
 class CSPresetListItem<
     PresetItem : CSPresetItem,
@@ -21,42 +22,12 @@ class CSPresetListItem<
     private val notFoundPresetItem: PresetItem,
     private val defaultItemId: String? = null,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
-
     override val key = "${preset.id} current"
-    val currentId = lateProperty<String>() // TODO: desperate solution
-
-    override fun saveTo(store: CSStore) {
-        store.set(key, value.toId())
-        updateCurrentId()
-    }
-
-    private fun save(value: PresetItem) {
-        store.set(key, value.toId())
-        updateCurrentId()
-    }
-
+    override fun saveTo(store: CSStore) = store.set(key, value.toId())
+    val currentId: CSStoreProperty<String> = store.property(this, key, defaultItemId ?: "")
+    private fun save(value: PresetItem) = currentId.value(value.toId())
     private fun save() = save(value)
-
-    private val isSaved get() = store.has(key)
-
     private var loadedValue: PresetItem = loadValue()
-
-    private fun loadValue(): PresetItem {
-        val value = store.getValue(key, preset.list.items)
-            ?: getDefaultItem().also {
-                save(it) // this saving is suspicious because it saves even when not needed
-            }
-        updateCurrentId()
-        return value
-    }
-
-    private fun updateCurrentId() = currentId.value(store.get(key) ?: getDefaultItem().id)
-
-    private fun getDefaultItem() =
-        if (isSaved) notFoundPresetItem else preset.list.defaultItems.let { list ->
-            list.find { it.id == defaultItemId } ?: list[0]
-        }
-
     private val eventChange = event<PresetItem>()
 
     init {
@@ -73,6 +44,13 @@ class CSPresetListItem<
             eventChange.fire(newValue)
         }
     }
+
+    private fun loadValue(): PresetItem =
+        preset.list.items.find { it.toId() == currentId.value } ?: let {
+            if (currentId.isSaved) notFoundPresetItem
+            else preset.list.defaultItems.find { it.id == defaultItemId }
+                ?: preset.list.defaultItems[0]
+        }.also { save(it) }
 
     private fun parentStoreLoadedIsFollowStoreFalseSaveToParentStore() =
         store.eventChanged.paused { save() }
