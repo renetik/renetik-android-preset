@@ -23,11 +23,10 @@ class CSPresetListItem<
     private val defaultItemId: String? = null,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
     override val key = "${preset.id} current"
-    override fun saveTo(store: CSStore) = store.set(key, value.toId())
+    override fun saveTo(store: CSStore) = store.set(key, _value.toId())
     val currentId: CSStoreProperty<String> = store.property(this, key, defaultItemId ?: "")
     private fun save(value: PresetItem) = currentId.value(value.toId())
-    private fun save() = save(value)
-    private var loadedValue: PresetItem = loadValue()
+    private var _value: PresetItem = loadValue()
     private val eventChange = event<PresetItem>()
 
     init {
@@ -39,8 +38,8 @@ class CSPresetListItem<
             parentStoreLoadedIsFollowStoreFalseSaveToParentStore()
         else {
             val newValue = loadValue()
-            if (loadedValue == newValue) return
-            loadedValue = newValue
+            if (_value == newValue) return
+            _value = newValue
             eventChange.fire(newValue)
         }
     }
@@ -53,22 +52,22 @@ class CSPresetListItem<
         }.also { save(it) }
 
     private fun parentStoreLoadedIsFollowStoreFalseSaveToParentStore() =
-        store.eventChanged.paused { save() }
+        store.eventChanged.paused { save(_value) }
 
     override fun value(newValue: PresetItem, fire: Boolean) {
-        if (loadedValue == newValue) return
-        loadedValue = newValue
+        if (_value == newValue) return
+        _value = newValue
         if (fire) eventChange.fire(newValue)
+        save(_value)
         preset.reload(newValue)
-        save()
     }
 
     override fun onChange(function: (PresetItem) -> Unit) = eventChange.listen(function)
 
     override var value: PresetItem
-        get() = loadedValue
+        get() = _value
         set(value) = value(value)
 
-    override fun toString() = "${super.toString()} key:$key value:$value"
-    override fun fireChange() = eventChange.fire(loadedValue)
+    override fun toString() = "${super.toString()} key:$key value:$_value"
+    override fun fireChange() = eventChange.fire(_value)
 }
