@@ -35,8 +35,12 @@ class CSPreset<
     constructor(
         parent: CSHasRegistrationsHasDestruct, preset: CSPreset<*, *>,
         key: String, list: PresetList,
-        notFoundItem: PresetListItem, default: (() -> PresetListItem)? = null
-    ) : this(parent, preset.store, key, list, notFoundItem, default) {
+        notFoundItem: PresetListItem, defaultItemId: String? = null
+    ) : this(parent, preset.store, key, list, notFoundItem, getDefault = {
+        list.defaultItems.let { list ->
+            list.find { it.id == defaultItemId } ?: list[0]
+        }
+    }) {
         preset.add(listItem)
         preset.add(store)
     }
@@ -44,10 +48,10 @@ class CSPreset<
     constructor(
         parent: CSHasPreset, key: String, list: PresetList,
         notFoundItem: PresetListItem,
-        default: (() -> PresetListItem)? = null
+        defaultItemId: String? = null
     ) : this(
         parent, parent.preset, key = "${parent.presetId} $key",
-        list, notFoundItem, default
+        list, notFoundItem, defaultItemId
     )
 
     override val id = "$key preset"
