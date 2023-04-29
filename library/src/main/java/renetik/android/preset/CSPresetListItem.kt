@@ -19,7 +19,7 @@ class CSPresetListItem<
     override val preset: CSPreset<PresetItem, PresetList>,
     private val store: CSStore,
     private val notFoundPresetItem: PresetItem,
-    private val getDefault: () -> PresetItem,
+    private val defaultItemId: String? = null,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
@@ -52,7 +52,10 @@ class CSPresetListItem<
 
     private fun updateCurrentId() = currentId.value(store.get(key) ?: getDefaultItem().id)
 
-    private fun getDefaultItem() = if (isSaved) notFoundPresetItem else getDefault()
+    private fun getDefaultItem() =
+        if (isSaved) notFoundPresetItem else preset.list.defaultItems.let { list ->
+            list.find { it.id == defaultItemId } ?: list[0]
+        }
 
     private val eventChange = event<PresetItem>()
 

@@ -16,31 +16,19 @@ import renetik.android.store.extensions.reload
 
 class CSPreset<
     PresetListItem : CSPresetItem,
-    PresetList : CSPresetDataList<PresetListItem>>(
+    PresetList : CSPresetDataList<PresetListItem>,
+    >(
     parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
     key: String, val list: PresetList,
-    notFoundItem: PresetListItem, getDefault: (() -> PresetListItem)? = null
+    notFoundItem: PresetListItem,
+    defaultItemId: String? = null,
 ) : CSModel(parent), CSHasId, CSHasChange<Unit> {
-
-    constructor (
-        parent: CSHasRegistrationsHasDestruct, store: CSStore,
-        key: String, list: PresetList,
-        notFoundItem: PresetListItem, defaultItemId: String? = null
-    ) : this(parent, store, key, list, notFoundItem, getDefault = {
-        list.defaultItems.let { list ->
-            list.find { it.id == defaultItemId } ?: list[0]
-        }
-    })
 
     constructor(
         parent: CSHasRegistrationsHasDestruct, preset: CSPreset<*, *>,
         key: String, list: PresetList,
-        notFoundItem: PresetListItem, defaultItemId: String? = null
-    ) : this(parent, preset.store, key, list, notFoundItem, getDefault = {
-        list.defaultItems.let { list ->
-            list.find { it.id == defaultItemId } ?: list[0]
-        }
-    }) {
+        notFoundItem: PresetListItem, defaultItemId: String? = null,
+    ) : this(parent, preset.store, key, list, notFoundItem, defaultItemId) {
         preset.add(listItem)
         preset.add(store)
     }
@@ -48,7 +36,7 @@ class CSPreset<
     constructor(
         parent: CSHasPreset, key: String, list: PresetList,
         notFoundItem: PresetListItem,
-        defaultItemId: String? = null
+        defaultItemId: String? = null,
     ) : this(
         parent, parent.preset, key = "${parent.presetId} $key",
         list, notFoundItem, defaultItemId
@@ -59,8 +47,7 @@ class CSPreset<
     val eventReload = event<PresetListItem>()
     val eventAfterReload = event<PresetListItem>()
 
-    val listItem = CSPresetListItem(this, parentStore,
-        notFoundItem, getDefault ?: { list.items[0] })
+    val listItem = CSPresetListItem(this, parentStore, notFoundItem, defaultItemId)
     val store = CSPresetStore(this, parentStore)
     val title = store.property(this, "preset title", default = "")
 
