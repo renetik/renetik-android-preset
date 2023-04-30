@@ -12,14 +12,20 @@ abstract class CSValuePresetProperty<T>(
     parent: CSHasRegistrationsHasDestruct,
     preset: CSPreset<*, *>,
     override val key: String,
-    onChange: ((value: T) -> Unit)? = null
+    onChange: ((value: T) -> Unit)? = null,
 ) : CSPresetPropertyBase<T>(parent, preset, key, onChange), CSPresetKeyData {
 
     var isOnLoadStoreDefaultValue = true
 
     override fun loadFrom(store: CSStore): T = getFiltered(store) ?: default
 
-     override fun load(): T = getFiltered(store) ?: default.also { value ->
-         if (isOnLoadStoreDefaultValue) store.eventChanged.paused { set(store, value) }
-     }
+    override fun load(): T = getFiltered(store) ?: default.also {
+        if (isOnLoadStoreDefaultValue) storeDefault(it)
+    }
+
+    private fun storeDefault(value: T) {
+        if (!isStored) store.eventChanged.paused { set(store, value) }
+    }
+
+    fun storeDefaultNow() = apply { storeDefault(default) }
 }
