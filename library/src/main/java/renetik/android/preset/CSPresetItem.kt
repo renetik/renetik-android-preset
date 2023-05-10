@@ -6,7 +6,7 @@ import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.property.CSStoreProperty
 
-interface CSPresetItem : CSHasId, CSHasIndex {
+interface CSPresetItem : CSHasId {
     companion object {
         const val NotFoundPresetItemId = "NotFoundPresetItem"
     }
