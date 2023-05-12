@@ -13,6 +13,7 @@ import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
 import renetik.android.store.extensions.reload
+import kotlin.reflect.KClass
 
 class CSPreset<
     PresetListItem : CSPresetItem,
@@ -20,14 +21,14 @@ class CSPreset<
     >(
     parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
     key: String, val list: PresetList,
-    notFoundItem: PresetListItem,
+    notFoundItem: KClass<out PresetListItem>,
     defaultItemId: String? = null,
 ) : CSModel(parent), CSHasId, CSHasChange<Unit> {
 
     constructor(
         parent: CSHasRegistrationsHasDestruct, preset: CSPreset<*, *>,
         key: String, list: PresetList,
-        notFoundItem: PresetListItem, defaultItemId: String? = null,
+        notFoundItem: KClass<out PresetListItem>, defaultItemId: String? = null,
     ) : this(parent, preset.store, key, list, notFoundItem, defaultItemId) {
         preset.add(listItem)
         preset.add(store)
@@ -35,7 +36,7 @@ class CSPreset<
 
     constructor(
         parent: CSHasPreset, key: String, list: PresetList,
-        notFoundItem: PresetListItem,
+        notFoundItem: KClass<out PresetListItem>,
         defaultItemId: String? = null,
     ) : this(
         parent, parent.preset, key = "${parent.presetId} $key",
@@ -47,9 +48,11 @@ class CSPreset<
     val eventReload = event<PresetListItem>()
     val eventAfterReload = event<PresetListItem>()
 
-    val listItem = CSPresetListItem(this, parentStore, notFoundItem, defaultItemId)
     val store = CSPresetStore(this, parentStore)
+    val listItem = CSPresetListItem(this, parentStore, notFoundItem, defaultItemId)
+
     val title = store.property(this, "preset title", default = "")
+//    val item: PresetListItem = notFoundItem.createInstance(store)!! //TODO
 
     private val dataList = mutableListOf<CSPresetKeyData>()
 

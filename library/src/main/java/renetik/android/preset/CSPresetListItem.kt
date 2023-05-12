@@ -1,5 +1,7 @@
 package renetik.android.preset
 
+import renetik.android.core.java.lang.createInstance
+import renetik.android.core.kotlin.reflect.createInstance
 import renetik.android.core.kotlin.toId
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.CSEvent.Companion.event
@@ -12,6 +14,7 @@ import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
 import renetik.android.store.property.CSStoreProperty
 import renetik.android.store.property.isSaved
+import kotlin.reflect.KClass
 
 class CSPresetListItem<
     PresetItem : CSPresetItem,
@@ -19,7 +22,7 @@ class CSPresetListItem<
     >(
     override val preset: CSPreset<PresetItem, PresetList>,
     private val store: CSStore,
-    private val notFoundPresetItem: PresetItem,
+    private val notFoundPresetItem: KClass<out PresetItem>,
     private val defaultItemId: String? = null,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
     override val key = "${preset.id} current"
@@ -46,7 +49,7 @@ class CSPresetListItem<
 
     private fun loadValue(): PresetItem =
         preset.list.items.find { it.toId() == currentId.value } ?: let {
-            if (currentId.isSaved) notFoundPresetItem
+            if (currentId.isSaved) notFoundPresetItem.createInstance(preset.store)!!
             else preset.list.defaultItems.find { it.id == defaultItemId }
                 ?: preset.list.defaultItems[0]
         }.also { save(it) }
