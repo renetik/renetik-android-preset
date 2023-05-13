@@ -48,8 +48,9 @@ class CSPreset<
     val eventReload = event<PresetListItem>()
     val eventAfterReload = event<PresetListItem>()
 
-    val store = CSPresetStore(this, parentStore)
+    //listItem first, store second so they listen load in right order
     val listItem = CSPresetListItem(this, parentStore, notFoundItem, defaultItemId)
+    val store = CSPresetStore(this, parentStore)
 
     val title = store.property(this, "preset title", default = "")
 //    val item: PresetListItem = notFoundItem.createInstance(store)!! //TODO

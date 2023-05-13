@@ -1,8 +1,8 @@
 package renetik.android.preset
 
-import renetik.android.core.java.lang.createInstance
 import renetik.android.core.kotlin.reflect.createInstance
 import renetik.android.core.kotlin.toId
+import renetik.android.core.lang.lazy.lazyVar
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
@@ -29,7 +29,7 @@ class CSPresetListItem<
     override fun saveTo(store: CSStore) = store.set(key, _value.toId())
     val currentId: CSStoreProperty<String> = store.property(this, key, defaultItemId ?: "")
     private fun save(value: PresetItem) = currentId.value(value.toId())
-    private var _value: PresetItem = loadValue()
+    private var _value: PresetItem by lazyVar(::loadValue)
     private val eventChange = event<PresetItem>()
 
     init {

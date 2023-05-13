@@ -24,6 +24,7 @@ import renetik.android.preset.model.ParentPropertyNewValue1
 import renetik.android.preset.model.ParentPropertyNewValue2
 import renetik.android.store.type.CSJsonObjectStore
 
+@Deprecated("Replace all cases by simple tests")
 @RunWith(RobolectricTestRunner::class)
 class CSPresetTest {
 

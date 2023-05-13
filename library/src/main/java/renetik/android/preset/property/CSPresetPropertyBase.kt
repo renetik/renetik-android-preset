@@ -1,6 +1,6 @@
 package renetik.android.preset.property
 
-import renetik.android.core.lang.nullableLazyVar
+import renetik.android.core.lang.lazy.nullableLazyVar
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.paused
