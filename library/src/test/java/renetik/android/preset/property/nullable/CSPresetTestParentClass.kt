@@ -3,7 +3,7 @@ package renetik.android.preset.property.nullable
 import renetik.android.event.common.CSModel
 import renetik.android.preset.CSPreset
 import renetik.android.preset.CSPresetItem
-import renetik.android.preset.EmptyCSPresetTestItem
+import renetik.android.preset.model.CSPresetTestItemEmpty
 import renetik.android.preset.extensions.nullIntProperty
 import renetik.android.store.CSStore
 
@@ -16,7 +16,7 @@ class CSPresetTestParentClass(store: CSStore) : CSModel() {
 
     val parentPreset: CSPreset<CSPresetItem, CSPresetTestPresetItemList> = CSPreset(
         parent = this, parentStore = store, "parentClass parent",
-        presetList, notFoundItem = EmptyCSPresetTestItem::class,
+        presetList, notFoundItem = CSPresetTestItemEmpty::class,
     )
     val property1 = parentPreset.nullIntProperty(this, "property1", 1)
     val property2 = parentPreset.nullIntProperty(this, "property2", 2)

@@ -1,6 +1,9 @@
-package renetik.android.preset
+package renetik.android.preset.model
 
 import renetik.android.core.kotlin.collections.put
+import renetik.android.preset.CSPresetDataList
+import renetik.android.preset.CSPresetItem
+import renetik.android.preset.items
 
 class CSPresetTestPresetItemList :
     CSPresetDataList<CSPresetItem> {

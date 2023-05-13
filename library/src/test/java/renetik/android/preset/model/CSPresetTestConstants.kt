@@ -1,4 +1,4 @@
-package renetik.android.preset
+package renetik.android.preset.model
 
 const val ClearPresetItemId = "clear parent preset item id"
 const val ParentPresetItemId1 = "prent preset item id 1"

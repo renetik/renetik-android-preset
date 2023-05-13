@@ -1,8 +1,9 @@
-package renetik.android.preset
+package renetik.android.preset.model
 
+import renetik.android.preset.CSPresetItem
 import renetik.android.preset.CSPresetItem.Companion.NotFoundPresetItemId
 import renetik.android.store.CSStore
 
-class EmptyCSPresetTestItem(override val store: CSStore) : CSPresetItem {
+class CSPresetTestItemEmpty(override val store: CSStore) : CSPresetItem {
     override val id: String = NotFoundPresetItemId
 }

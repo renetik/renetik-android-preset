@@ -1,5 +1,6 @@
-package renetik.android.preset
+package renetik.android.preset.model
 
+import renetik.android.preset.CSPresetItem
 import renetik.android.store.type.CSJsonObjectStore
 
 class CSPresetTestItem(
