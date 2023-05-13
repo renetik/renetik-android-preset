@@ -3,19 +3,19 @@ package renetik.android.preset
 import renetik.android.core.kotlin.collections.put
 
 class CSPresetTestPresetItemList :
-    CSPresetDataList<CSPresetTestPresetItem> {
-    override val defaultItems = mutableListOf<CSPresetTestPresetItem>()
-    override val userItems = mutableListOf<CSPresetTestPresetItem>()
+    CSPresetDataList<CSPresetItem> {
+    override val defaultItems = mutableListOf<CSPresetItem>()
+    override val userItems = mutableListOf<CSPresetItem>()
 
-    override fun remove(item: CSPresetTestPresetItem) {
+    override fun remove(item: CSPresetItem) {
         items.remove(item)
     }
 
     override fun createItem(
         title: String, isDefault: Boolean
-    ): CSPresetTestPresetItem {
+    ): CSPresetItem {
         val items = if (isDefault) defaultItems else userItems
-        return items.put(CSPresetTestPresetItem(items.size, title))
+        return items.put(CSPresetTestItem(title))
     }
 
     override fun reload() = Unit

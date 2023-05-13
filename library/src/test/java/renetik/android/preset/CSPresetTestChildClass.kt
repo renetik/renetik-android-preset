@@ -1,7 +1,6 @@
 package renetik.android.preset
 
 import renetik.android.event.common.CSModel
-import renetik.android.preset.CSPresetTestPresetItem.Companion.EmptyItem
 import renetik.android.preset.extensions.property
 
 class CSPresetTestChildClass(
@@ -17,17 +16,16 @@ class CSPresetTestChildClass(
     }
 
     val childPreset1 = CSPreset(
-        this, preset, "$key childPreset1", presetList, EmptyItem
+        this, preset, "$key childPreset1", presetList, EmptyCSPresetTestItem::class
     )
     val childPreset1Props = List(4) {
         childPreset1.property(
-            this, "$key childPreset1Props:$it property",
-            ChildPropertyInitialValue
+            this, "$key childPreset1Props:$it property", ChildPropertyInitialValue
         )
     }
 
     val childPreset2 = CSPreset(
-        this, preset, "$key childPreset2", presetList, EmptyItem
+        this, preset, "$key childPreset2", presetList, EmptyCSPresetTestItem::class
     )
     val childPreset2Props = List(4) {
         childPreset2.property(

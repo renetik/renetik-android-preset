@@ -11,5 +11,7 @@ interface CSPresetItem : CSHasId {
     }
 
     val store: CSStore
-    fun save(properties: Iterable<CSPresetKeyData>)
+
+    fun save(properties: Iterable<CSPresetKeyData>) =
+        properties.forEach { it.saveTo(store) }
 }
