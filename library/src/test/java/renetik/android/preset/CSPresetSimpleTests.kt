@@ -40,12 +40,11 @@ class CSPresetSimpleTests {
         val presetList = CSPresetTestPresetItemList()
         presetList.createItem(title = ClearPresetItemId, isDefault = true)
 
-        val store = CSJsonObjectStore()
         val preset = CSPreset(
-            parent, store, "preset", presetList, CSPresetTestItemEmpty::class
+            parent, CSJsonObjectStore(), "preset", presetList, CSPresetTestItemEmpty::class
         )
         val childPreset = CSPreset(
-            preset, store, "childPreset", presetList, CSPresetTestItemEmpty::class
+            parent, preset, "childPreset", presetList, CSPresetTestItemEmpty::class
         )
         val property = childPreset.property(parent, "preset1 property", 5)
         assertEquals(5, property.value)
