@@ -9,12 +9,7 @@ class CSPresetTestChildClass(
     preset: CSPreset<*, *>,
     key: String
 ) : CSModel(parent) {
-
-    private val presetList = CSPresetTestPresetItemList()
-
-    init {
-        presetList.createItem(title = ClearChildPresetItemId, isDefault = true)
-    }
+    private val presetList = CSPresetTestPresetItemList(ClearChildPresetItemId)
 
     val childPreset1 = CSPreset(
         this, preset, "$key childPreset1", presetList, CSPresetTestItemEmpty::class
