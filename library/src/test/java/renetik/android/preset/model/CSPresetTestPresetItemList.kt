@@ -5,8 +5,7 @@ import renetik.android.preset.CSPresetDataList
 import renetik.android.preset.CSPresetItem
 import renetik.android.preset.items
 
-class CSPresetTestPresetItemList :
-    CSPresetDataList<CSPresetItem> {
+class CSPresetTestPresetItemList : CSPresetDataList<CSPresetItem> {
     override val defaultItems = mutableListOf<CSPresetItem>()
     override val userItems = mutableListOf<CSPresetItem>()
 
@@ -14,12 +13,8 @@ class CSPresetTestPresetItemList :
         items.remove(item)
     }
 
-    override fun createItem(
-        title: String, isDefault: Boolean
-    ): CSPresetItem {
-        val items = if (isDefault) defaultItems else userItems
-        return items.put(CSPresetTestItem(title))
-    }
+    override fun createItem(title: String, isDefault: Boolean): CSPresetItem =
+        (if (isDefault) defaultItems else userItems).put(CSPresetTestItem(title))
 
     override fun reload() = Unit
 }
