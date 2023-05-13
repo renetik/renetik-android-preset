@@ -15,7 +15,7 @@ class CSPresetTestParentClass(store: CSStore) : CSModel() {
     val parentPreset = CSPreset(this, store, "parent", presetList, CSPresetTestItemEmpty::class)
 
     val children = List(4) {
-        CSPresetTestChildClass(this, parentPreset, "childs:$it")
+        CSPresetTestChildClass(this, parentPreset, "children:$it")
     }
 
     val property = parentPreset.property(this, "property", ParentPropertyInitialValue)

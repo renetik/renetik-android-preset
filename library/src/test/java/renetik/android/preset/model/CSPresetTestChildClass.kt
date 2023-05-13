@@ -30,8 +30,7 @@ class CSPresetTestChildClass(
     )
     val childPreset2Props = List(4) {
         childPreset2.property(
-            this, "$key childPreset2Props:$it property",
-            ChildPropertyInitialValue
+            this, "$key childPreset2Props:$it property", ChildPropertyInitialValue
         )
     }
 }

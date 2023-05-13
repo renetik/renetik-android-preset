@@ -44,7 +44,7 @@ class CSPresetTest {
                 assertEquals(ChildPropertyInitialValue, it.value)
             }
         }
-        assertTrue(parent.parentPreset.store.has("childs:0 childPreset1 preset store"))
+        assertTrue(parent.parentPreset.store.has("children:0 childPreset1 preset store"))
     }
 
     @Test
