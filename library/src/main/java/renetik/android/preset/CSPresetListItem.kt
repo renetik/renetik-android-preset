@@ -25,9 +25,11 @@ class CSPresetListItem<
     private val notFoundPresetItem: KClass<out PresetItem>,
     private val defaultItemId: String? = null,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
+
     override val key = "${preset.id} current"
     override fun saveTo(store: CSStore) = store.set(key, _value.toId())
     val currentId: CSStoreProperty<String> = store.property(this, key, defaultItemId ?: "")
+
     private fun save(value: PresetItem) = currentId.value(value.toId())
     private var _value: PresetItem by lazyVar(::loadValue)
     private val eventChange = event<PresetItem>()
