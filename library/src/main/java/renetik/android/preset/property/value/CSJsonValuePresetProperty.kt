@@ -11,10 +11,9 @@ open class CSJsonValuePresetProperty<T : CSJsonObjectStore>(
     parent: CSHasRegistrationsHasDestruct,
     preset: CSPreset<*, *>, key: String,
     val type: KClass<T>,
-    onChange: ((value: T) -> Unit)? = null)
-    : CSValuePresetProperty<T>(parent, preset, key, onChange) {
+    onChange: ((value: T) -> Unit)? = null
+) : CSValuePresetProperty<T>(parent, preset, key, onChange) {
     override val default get() = type.createInstance()!!
-//    override var internalValue = load()
     override fun get(store: CSStore) = store.getJsonObject(key, type)
     override fun set(store: CSStore, value: T) = store.setJsonObject(key, value)
 }
