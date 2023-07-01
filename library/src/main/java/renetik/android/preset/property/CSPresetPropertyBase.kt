@@ -1,6 +1,6 @@
 package renetik.android.preset.property
 
-import renetik.android.core.lang.lazy.nullableLazyVar
+import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.paused
@@ -19,7 +19,7 @@ abstract class CSPresetPropertyBase<T>(
 ) : CSPropertyBase<T>(parent, onChange), CSPresetProperty<T> {
 
     protected abstract val default: T
-    private var _value by nullableLazyVar { load() }
+    private var _value by lazyNullableVar { load() }
     protected abstract fun get(store: CSStore): T?
     protected abstract fun set(store: CSStore, value: T)
     protected abstract fun load(): T
