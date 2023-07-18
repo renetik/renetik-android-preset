@@ -44,4 +44,15 @@ class CSPresetStore(
         ?.let { it.key == key && super.equals(other) } ?: super.equals(other)
 
     override fun hashCode() = 31 * key.hashCode() + super.hashCode()
+
+    //TODO: Way to clean preset data from residuals,
+    // but we need to move title and description properties somehow to
+    // CSPreset.dataList
+    override fun reset() {
+        data.clear()
+        preset.dataList.forEach {
+            if (it != this) it.reset()
+            it.saveTo(this)
+        }
+    }
 }

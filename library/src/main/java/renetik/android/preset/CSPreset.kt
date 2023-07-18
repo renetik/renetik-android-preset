@@ -55,7 +55,7 @@ class CSPreset<
     val title = store.property(this, "preset title", default = "")
 //    val item: PresetListItem = notFoundItem.createInstance(store)!! //TODO
 
-    private val dataList = mutableListOf<CSPresetKeyData>()
+    internal val dataList = mutableListOf<CSPresetKeyData>()
 
     init {
         if (store.data.isEmpty()) reload(listItem.value)
@@ -81,6 +81,8 @@ class CSPreset<
         this.listItem.value(item)
     }
 
+    fun saveTo(store: CSStore) = dataList.forEach { it.saveTo(store) }
+
     fun saveAsCurrent() = listItem.value.save(dataList)
 
     override fun toString() = "$id ${super.toString()}"
@@ -88,4 +90,8 @@ class CSPreset<
     fun onBeforeChange(function: () -> Unit) = eventReload.listen { function() }
 
     override fun onChange(function: (Unit) -> void) = eventAfterReload.listen { function(Unit) }
+
+    fun reset() {
+        store.reset()
+    }
 }
