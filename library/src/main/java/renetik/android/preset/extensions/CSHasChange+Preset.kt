@@ -1,9 +1,9 @@
 package renetik.android.preset.extensions
 
 import renetik.android.core.lang.Func
-import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.preset.Preset
 
