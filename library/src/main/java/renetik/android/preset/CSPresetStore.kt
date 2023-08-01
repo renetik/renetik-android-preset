@@ -16,6 +16,7 @@ class CSPresetStore(
     override fun saveTo(store: CSStore) = store.set(key, data)
     var isSavedToPresetAsDefaultWithoutStores = false
     var isSavedToPresetAsDefault = false
+
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.onDestruct()
