@@ -1,5 +1,6 @@
 package renetik.android.preset
 
+import kotlin.reflect.KClass
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSHasId
 import renetik.android.core.lang.void
@@ -13,7 +14,6 @@ import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
 import renetik.android.store.extensions.reload
-import kotlin.reflect.KClass
 
 class CSPreset<
     PresetListItem : CSPresetItem,
@@ -91,7 +91,5 @@ class CSPreset<
 
     override fun onChange(function: (Unit) -> void) = eventAfterReload.listen { function(Unit) }
 
-    fun reset() {
-        store.reset()
-    }
+    fun reset() = store.reset()
 }
