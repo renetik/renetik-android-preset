@@ -1,6 +1,7 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.variable.isFalse
+import renetik.android.event.common.destruct
 import renetik.android.event.registration.register
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
@@ -19,7 +20,7 @@ class CSPresetStore(
 
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
-    override fun onDestruct() = preset.onDestruct()
+    override fun onDestruct() = preset.destruct()
 
     init {
         parentStore.getMap(key)?.let { data -> load(data) }
