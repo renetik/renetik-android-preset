@@ -5,13 +5,13 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.connect
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.pause
-import renetik.android.event.registration.register
+import renetik.android.event.registration.plus
 import renetik.android.event.registration.resume
 
 typealias Preset = CSPreset<*, out CSPresetDataList<*>>
 
 fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) =
-    apply { register(isFollowStore.connect(property)) }
+    apply { this + isFollowStore.connect(property) }
 
 fun <T : Preset> T.onChange(
     before: Func,
