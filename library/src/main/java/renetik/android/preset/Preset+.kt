@@ -8,8 +8,6 @@ import renetik.android.event.registration.pause
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.resume
 
-typealias Preset = CSPreset<*, out CSPresetDataList<*>>
-
 fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) =
     apply { this + isFollowStore.connect(property) }
 
