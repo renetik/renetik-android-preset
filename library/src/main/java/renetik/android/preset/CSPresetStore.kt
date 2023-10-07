@@ -2,7 +2,7 @@ package renetik.android.preset
 
 import renetik.android.core.lang.variable.isFalse
 import renetik.android.event.common.destruct
-import renetik.android.event.registration.register
+import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.reload
@@ -24,10 +24,10 @@ class CSPresetStore(
 
     init {
         parentStore.getMap(key)?.let { data -> load(data) }
-        preset.register(parentStore.eventLoaded.listen {
+        preset + parentStore.eventLoaded.listen {
             if (preset.isFollowStore.isFalse) saveTo(parentStore)
             else onParentStoreLoaded(it.getMap(key) ?: emptyMap<String, Any>())
-        })
+        }
     }
 
     private fun onParentStoreLoaded(data: Map<String, *>) {

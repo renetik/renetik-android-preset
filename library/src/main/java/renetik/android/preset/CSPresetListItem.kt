@@ -8,6 +8,7 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
 import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.plus
 import renetik.android.event.registration.register
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
@@ -35,7 +36,7 @@ class CSPresetListItem<
     private val eventChange = event<PresetItem>()
 
     init {
-        register(store.eventLoaded.listen { onParentStoreLoaded() })
+        this + store.eventLoaded.listen { onParentStoreLoaded() }
     }
 
     private fun onParentStoreLoaded() {
