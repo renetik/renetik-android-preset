@@ -9,7 +9,6 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.plus
-import renetik.android.event.registration.register
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
