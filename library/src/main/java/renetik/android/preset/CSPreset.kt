@@ -1,6 +1,5 @@
 package renetik.android.preset
 
-import kotlin.reflect.KClass
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSHasId
 import renetik.android.core.lang.void
@@ -14,6 +13,7 @@ import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
 import renetik.android.store.extensions.reload
+import kotlin.reflect.KClass
 
 class CSPreset<
     PresetListItem : CSPresetItem,
@@ -65,6 +65,7 @@ class CSPreset<
 
     fun reload(item: PresetListItem) {
         eventReload.fire(item)
+        item.onLoad()
         store.reload(item.store)
         eventAfterReload.fire(item)
     }
@@ -77,13 +78,13 @@ class CSPreset<
     }
 
     fun saveAsNew(item: PresetListItem) {
-        item.save(dataList)
+        item.onSave(dataList)
         this.listItem.value(item)
     }
 
     fun saveTo(store: CSStore) = dataList.forEach { it.saveTo(store) }
 
-    fun saveAsCurrent() = listItem.value.save(dataList)
+    fun saveAsCurrent() = listItem.value.onSave(dataList)
 
     override fun toString() = "$id ${super.toString()}"
 
