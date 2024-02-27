@@ -20,7 +20,7 @@ class CSPreset<
     PresetList : CSPresetDataList<PresetListItem>,
     >(
     parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
-    key: String, val list: PresetList,
+    val key: String, val list: PresetList,
     notFoundItem: KClass<out PresetListItem>,
     defaultItemId: String? = null,
 ) : CSModel(parent), CSHasId, CSHasChange<Unit> {
