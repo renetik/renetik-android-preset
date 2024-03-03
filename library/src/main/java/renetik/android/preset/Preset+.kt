@@ -14,7 +14,7 @@ import renetik.android.event.registration.plus
 import renetik.android.event.registration.resume
 
 fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) =
-    apply { this + isFollowStore.connect(property) }
+    isFollowStore.connect(property)
 
 fun <T : Preset> T.onChange(
     before: Func,

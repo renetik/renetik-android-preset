@@ -1,5 +1,6 @@
 package renetik.android.preset.property.value
 
+import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.paused
 import renetik.android.preset.CSPreset
@@ -9,7 +10,7 @@ import renetik.android.preset.property.store
 import renetik.android.store.CSStore
 
 abstract class CSValuePresetProperty<T>(
-    parent: CSHasRegistrationsHasDestruct,
+    parent: CSHasDestruct,
     preset: CSPreset<*, *>,
     override val key: String,
     onChange: ((value: T) -> Unit)? = null,

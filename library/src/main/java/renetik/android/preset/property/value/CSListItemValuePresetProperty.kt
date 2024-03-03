@@ -1,24 +1,25 @@
 package renetik.android.preset.property.value
 
 import renetik.android.core.kotlin.toId
-import renetik.android.event.common.CSHasRegistrationsHasDestruct
+import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.property.CSListValuesProperty
 import renetik.android.json.obj.getValue
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 
 open class CSListItemValuePresetProperty<T>(
-    parent: CSHasRegistrationsHasDestruct, preset: CSPreset<*, *>,
+    parent: CSHasDestruct, preset: CSPreset<*, *>,
     key: String, val getValues: () -> Collection<T>, val getDefault: () -> T,
-    onChange: ((value: T) -> Unit)? = null)
-    : CSValuePresetProperty<T>(parent, preset, key, onChange), CSListValuesProperty<T> {
+    onChange: ((value: T) -> Unit)? = null
+) : CSValuePresetProperty<T>(parent, preset, key, onChange), CSListValuesProperty<T> {
 
     constructor(
-        parent: CSHasRegistrationsHasDestruct,
+        parent: CSHasDestruct,
         preset: CSPreset<*, *>, key: String,
         values: Collection<T>, default: T, onChange: ((value: T) -> Unit)? = null,
     ) : this(parent, preset, key, getValues = { values },
-        getDefault = { default }, onChange)
+        getDefault = { default }, onChange
+    )
 
     override val values: List<T> get() = getValues().toList()
     override val default: T get() = getDefault()

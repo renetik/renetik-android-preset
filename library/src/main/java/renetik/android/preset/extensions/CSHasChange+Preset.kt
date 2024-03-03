@@ -3,8 +3,8 @@ package renetik.android.preset.extensions
 import renetik.android.core.lang.Func
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.action
 import renetik.android.preset.Preset
 
 inline fun CSHasChange<*>.onChange(
@@ -24,7 +24,7 @@ inline fun CSHasChange<*>.onChange(
 inline fun <T, V : CSHasChangeValue<T>> V.action(
     preset: Preset, crossinline function: (T) -> Unit
 ): CSRegistration {
-    val registration = action { function(it) }
+    val registration = action { value -> function(value) }
     return CSRegistration(
         registration,
         preset.onBeforeChange { registration.pause() },

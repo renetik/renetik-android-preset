@@ -2,7 +2,7 @@ package renetik.android.preset.property
 
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.lang.variable.isFalse
-import renetik.android.event.common.CSHasRegistrationsHasDestruct
+import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
@@ -12,7 +12,7 @@ import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 
 abstract class CSPresetPropertyBase<T>(
-    override val parent: CSHasRegistrationsHasDestruct,
+    parent: CSHasDestruct,
     final override val preset: CSPreset<*, *>,
     override val key: String,
     onChange: ((value: T) -> Unit)? = null
