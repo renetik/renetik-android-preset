@@ -16,9 +16,9 @@ import renetik.android.store.extensions.reload
 import kotlin.reflect.KClass
 
 class CSPreset<
-    PresetListItem : CSPresetItem,
-    PresetList : CSPresetDataList<PresetListItem>,
-    >(
+        PresetListItem : CSPresetItem,
+        PresetList : CSPresetDataList<PresetListItem>,
+        >(
     parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
     val key: String, val list: PresetList,
     notFoundItem: KClass<out PresetListItem>,
@@ -34,14 +34,17 @@ class CSPreset<
         preset.add(store)
     }
 
-    constructor(
-        parent: CSHasPreset, key: String, list: PresetList,
-        notFoundItem: KClass<out PresetListItem>,
-        defaultItemId: String? = null,
-    ) : this(
-        parent, parent.preset, key = "${parent.presetId} $key",
-        list, notFoundItem, defaultItemId
-    )
+    companion object {
+        fun <Parent, PresetItems : CSPresetItem, Presets : CSPresetDataList<PresetItems>>
+                CSPreset(
+            parent: Parent, key: String, list: Presets,
+            notFoundItem: KClass<out PresetItems>, defaultItemId: String? = null
+        ): CSPreset<PresetItems, Presets>
+                where Parent : CSHasPreset, Parent : CSHasRegistrationsHasDestruct = CSPreset(
+            parent, parent.preset, key = "${parent.presetId} $key",
+            list, notFoundItem, defaultItemId
+        )
+    }
 
     override val id = "$key preset"
     val isFollowStore = property(true)
