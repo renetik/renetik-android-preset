@@ -1,6 +1,6 @@
 package renetik.android.preset
 
-import renetik.android.core.lang.variable.isFalse
+import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.destruct
 import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData

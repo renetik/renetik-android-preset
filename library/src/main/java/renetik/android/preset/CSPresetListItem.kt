@@ -3,7 +3,7 @@ package renetik.android.preset
 import renetik.android.core.kotlin.reflect.createInstance
 import renetik.android.core.kotlin.toId
 import renetik.android.core.lang.lazy.CSLazyVar.Companion.lazyVar
-import renetik.android.core.lang.variable.isFalse
+import renetik.android.core.lang.value.isFalse
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
 import renetik.android.event.paused
