@@ -63,13 +63,15 @@ fun <T : Preset, V> T.onChange(
 )
 
 fun <T : Preset, V> T.action(
-    parent: CSHasRegistrations,
     property: CSHasChangeValue<V>,
     onChange: ArgFunc<V>
-): CSRegistration = onChange(
-    parent + property.action { onChange(property.value) },
-    onChange = { onChange(property.value) }
-)
+): CSRegistration {
+    val propertyActionRegistration = property.action { onChange(property.value) }
+    return CSRegistration(propertyActionRegistration, onChange(
+        propertyActionRegistration,
+        onChange = { onChange(property.value) }
+    ))
+}
 
 fun <T : Preset> T.onChangePause(
     vararg registrations: CSRegistration,
