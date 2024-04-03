@@ -99,8 +99,8 @@ class CSPreset<
 
     fun saveAsNew(item: PresetListItem) {
         item.onSave(dataList)
+        eventSave.fire(item) // Order important
         listItem.value(item)
-        eventSave.fire(item)
     }
 
     fun delete(item: PresetListItem) {
