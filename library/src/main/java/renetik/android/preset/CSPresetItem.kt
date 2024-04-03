@@ -16,4 +16,6 @@ interface CSPresetItem : CSHasId {
 
     fun onSave(properties: Iterable<CSPresetKeyData>) =
         store.bulkSave().use { properties.forEach { it.saveTo(store) } }
+
+    fun onDelete() = Unit
 }

@@ -66,9 +66,9 @@ abstract class CSPresetPropertyBase<T>(
     private var isChangedWhilePresetReload = false
 
     private val presetEventReloadRegistration =
-        register(preset.eventReload.listen { isPresetReload = true })
+        register(preset.eventLoad.listen { isPresetReload = true })
 
-    private val presetEventAfterReloadRegistration = register(preset.eventAfterReload.listen {
+    private val presetEventAfterReloadRegistration = register(preset.eventChange.listen {
         if (isChangedWhilePresetReload) super.fireChange()
         isPresetReload = false
         isChangedWhilePresetReload = false

@@ -48,8 +48,10 @@ class CSPreset<
 
     override val id = "$key preset"
     val isFollowStore = property(true)
-    val eventReload = event<PresetListItem>()
-    val eventAfterReload = event<PresetListItem>()
+    val eventLoad = event<PresetListItem>()
+    val eventSave = event<PresetListItem>()
+    val eventChange = event<PresetListItem>()
+    val eventDelete = event<PresetListItem>()
 
     //listItem first, store second so they listen load in right order
     val listItem = CSPresetListItem(this, parentStore, notFoundItem, defaultItemId)
@@ -67,10 +69,10 @@ class CSPreset<
     fun reload() = reload(listItem.value)
 
     fun reload(item: PresetListItem) {
-        eventReload.fire(item)
+        eventLoad.fire(item)
         item.onLoad()
         store.reload(item.store)
-        eventAfterReload.fire(item)
+        eventChange.fire(item)
     }
 
     fun <T : CSPresetKeyData> add(property: T): T {
@@ -80,20 +82,30 @@ class CSPreset<
         return property
     }
 
-    fun saveAsNew(item: PresetListItem) {
-        item.onSave(dataList)
-        this.listItem.value(item)
-    }
-
     fun saveTo(store: CSStore) = dataList.forEach { it.saveTo(store) }
-
-    fun saveAsCurrent() = listItem.value.onSave(dataList)
 
     override fun toString() = "$id ${super.toString()}"
 
-    fun onBeforeChange(function: () -> Unit) = eventReload.listen { function() }
+    fun onBeforeChange(function: () -> Unit) = eventLoad.listen { function() }
 
-    override fun onChange(function: (Unit) -> void) = eventAfterReload.listen { function(Unit) }
+    override fun onChange(function: (Unit) -> void) = eventChange.listen { function(Unit) }
 
     fun reset() = store.reset()
+
+    fun saveAsCurrent() {
+        listItem.value.onSave(dataList)
+        eventSave.fire(listItem.value)
+    }
+
+    fun saveAsNew(item: PresetListItem) {
+        item.onSave(dataList)
+        listItem.value(item)
+        eventSave.fire(item)
+    }
+
+    fun delete(item: PresetListItem) {
+        item.onDelete()
+        list.remove(item)
+        eventDelete.fire(item)
+    }
 }
