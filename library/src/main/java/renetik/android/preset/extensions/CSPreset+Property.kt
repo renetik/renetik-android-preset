@@ -49,8 +49,7 @@ fun Preset.property(
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,
     default: T, onChange: ArgFunc<T>? = null
-) =
-    add(CSListItemValuePresetProperty(parent, this, key, values, default, onChange))
+) = add(CSListItemValuePresetProperty(parent, this, key, values, default, onChange))
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,
@@ -88,13 +87,12 @@ fun <T> Preset.property(
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, getValues: () -> List<T>,
     default: T, onChange: ArgFunc<T>? = null
-) =
-    add(
-        CSListItemValuePresetProperty(
-            parent, this, key, getValues,
-            { default }, onChange
-        )
+) = add(
+    CSListItemValuePresetProperty(
+        parent, this, key, getValues,
+        { default }, onChange
     )
+)
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,

@@ -1,7 +1,7 @@
 package renetik.android.preset
 
-import renetik.android.event.common.CSHasRegistrationsHasDestructHasId
+import renetik.android.core.lang.CSHasId
 
-interface CSHasPresetHasId : CSHasPreset, CSHasRegistrationsHasDestructHasId {
+interface CSHasPresetHasId : CSHasPreset, CSHasId {
     companion object
 }

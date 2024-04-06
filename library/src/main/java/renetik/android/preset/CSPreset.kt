@@ -88,7 +88,7 @@ class CSPreset<
 
     fun onBeforeChange(function: () -> Unit) = eventLoad.listen { function() }
 
-    override fun onChange(function: (Unit) -> void) = eventChange.listen { function(Unit) }
+    override fun onChange(function: (Unit) -> Unit) = eventChange.listen { function(Unit) }
 
     fun reset() = store.reset()
 
