@@ -2,7 +2,6 @@ package renetik.android.preset
 
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSHasId
-import renetik.android.core.lang.void
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSModel
