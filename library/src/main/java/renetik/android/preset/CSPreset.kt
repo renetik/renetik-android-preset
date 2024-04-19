@@ -61,9 +61,9 @@ class CSPreset<
 
     internal val dataList = mutableListOf<CSPresetKeyData>()
 
-    init {
-        if (store.data.isEmpty()) reload(listItem.value)
-    }
+//    init {
+//        if (store.data.isEmpty()) reload(listItem.value)
+//    }
 
     fun reload() = reload(listItem.value)
 

@@ -13,6 +13,13 @@ import renetik.android.event.registration.pause
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.resume
 
+fun <PresetListItem : CSPresetItem,
+        PresetList : CSPresetDataList<PresetListItem>,
+        Preset : CSPreset<PresetListItem, PresetList>> Preset.init(): Preset =
+    apply {
+        if (store.data.isEmpty()) reload(listItem.value)
+    }
+
 fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) =
     isFollowStore.connect(property)
 

@@ -17,9 +17,9 @@ import renetik.android.store.property.isSaved
 import kotlin.reflect.KClass
 
 class CSPresetListItem<
-    PresetItem : CSPresetItem,
-    PresetList : CSPresetDataList<PresetItem>,
-    >(
+        PresetItem : CSPresetItem,
+        PresetList : CSPresetDataList<PresetItem>,
+        >(
     override val preset: CSPreset<PresetItem, PresetList>,
     private val store: CSStore,
     private val notFoundPresetItem: KClass<out PresetItem>,
