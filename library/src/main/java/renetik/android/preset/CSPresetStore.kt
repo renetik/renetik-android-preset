@@ -52,7 +52,7 @@ class CSPresetStore(
     // CSPreset.dataList
     override fun reset() {
         data.clear()
-        preset.dataList.forEach {
+        preset.data.forEach {
             if (it != this) it.reset()
             it.saveTo(this)
         }

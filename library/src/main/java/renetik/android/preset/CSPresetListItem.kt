@@ -1,6 +1,5 @@
 package renetik.android.preset
 
-import renetik.android.core.kotlin.reflect.createInstance
 import renetik.android.core.kotlin.toId
 import renetik.android.core.lang.lazy.CSLazyVar.Companion.lazyVar
 import renetik.android.core.lang.value.isFalse
@@ -14,7 +13,6 @@ import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
 import renetik.android.store.property.CSStoreProperty
 import renetik.android.store.property.isSaved
-import kotlin.reflect.KClass
 
 class CSPresetListItem<
         PresetItem : CSPresetItem,
@@ -22,7 +20,7 @@ class CSPresetListItem<
         >(
     override val preset: CSPreset<PresetItem, PresetList>,
     private val store: CSStore,
-    private val notFoundPresetItem: KClass<out PresetItem>,
+    private val notFoundPresetItem: () -> PresetItem,
     private val defaultItemId: String? = null,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
 
@@ -39,8 +37,7 @@ class CSPresetListItem<
     }
 
     private fun onParentStoreLoaded() {
-        if (preset.isFollowStore.isFalse)
-            parentStoreLoadedIsFollowStoreFalseSaveToParentStore()
+        if (preset.isFollowStore.isFalse) parentStoreLoadedIsFollowStoreFalseSaveToParentStore()
         else {
             val newValue = loadValue()
             if (_value == newValue) return
@@ -50,11 +47,10 @@ class CSPresetListItem<
     }
 
     private fun loadValue(): PresetItem =
-        preset.list.items.find { it.toId() == currentId.value } ?: let {
-            if (currentId.isSaved) notFoundPresetItem.createInstance(preset.store)!!
-            else preset.list.defaultItems.find { it.id == defaultItemId }
-                ?: preset.list.defaultItems[0]
-        }.also { save(it) }
+        preset.list.items.find { it.toId() == currentId.value } ?: onItemNotFound()
+
+    private fun onItemNotFound(): PresetItem = if (currentId.isSaved) notFoundPresetItem()
+    else preset.list.defaultItems.find { it.id == defaultItemId } ?: preset.list.defaultItems[0]
 
     private fun parentStoreLoadedIsFollowStoreFalseSaveToParentStore() =
         store.eventChanged.paused { save(_value) }
@@ -73,6 +69,6 @@ class CSPresetListItem<
         get() = _value
         set(value) = value(value)
 
-    override fun toString() = "${super.toString()} key:$key value:$_value"
+    override fun toString() = "${super.toString()} key:$key"
     override fun fireChange() = eventChange.fire(_value)
 }

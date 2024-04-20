@@ -14,8 +14,8 @@ interface CSPresetItem : CSHasId {
 
     fun onLoad() = Unit
 
-    fun onSave(properties: Iterable<CSPresetKeyData>) =
-        store.operation { properties.forEach { it.saveTo(store) } }
+    @Deprecated("Remove", ReplaceWith("Remove"))
+    fun onSave(properties: Iterable<CSPresetKeyData>) = Unit
 
     fun onDelete() = Unit
 }

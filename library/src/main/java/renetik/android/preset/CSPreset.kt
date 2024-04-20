@@ -12,7 +12,6 @@ import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
 import renetik.android.store.extensions.reload
-import kotlin.reflect.KClass
 
 class CSPreset<
         PresetListItem : CSPresetItem,
@@ -20,25 +19,25 @@ class CSPreset<
         >(
     parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
     val key: String, val list: PresetList,
-    notFoundItem: KClass<out PresetListItem>,
+    notFoundItem: () -> PresetListItem,
     defaultItemId: String? = null,
 ) : CSModel(parent), CSHasId, CSHasChange<Unit> {
 
     constructor(
         parent: CSHasRegistrationsHasDestruct, preset: CSPreset<*, *>,
         key: String, list: PresetList,
-        notFoundItem: KClass<out PresetListItem>, defaultItemId: String? = null,
+        notFoundItem: () -> PresetListItem, defaultItemId: String? = null,
     ) : this(parent, preset.store, key, list, notFoundItem, defaultItemId) {
         preset.add(listItem)
         preset.add(store)
     }
 
     companion object {
-        fun <Parent, PresetItems : CSPresetItem, Presets : CSPresetDataList<PresetItems>>
+        fun <Parent, PresetItem : CSPresetItem, Presets : CSPresetDataList<PresetItem>>
                 CSPreset(
             parent: Parent, key: String, list: Presets,
-            notFoundItem: KClass<out PresetItems>, defaultItemId: String? = null
-        ): CSPreset<PresetItems, Presets>
+            notFoundItem: () -> PresetItem, defaultItemId: String? = null
+        ): CSPreset<PresetItem, Presets>
                 where Parent : CSHasPreset, Parent : CSHasRegistrationsHasDestruct = CSPreset(
             parent, parent.preset, key = "${parent.presetId} $key",
             list, notFoundItem, defaultItemId
@@ -59,7 +58,7 @@ class CSPreset<
     val title = store.property(this, "preset title", default = "")
 //    val item: PresetListItem = notFoundItem.createInstance(store)!! //TODO
 
-    internal val dataList = mutableListOf<CSPresetKeyData>()
+    val data = mutableListOf<CSPresetKeyData>()
 
 //    init {
 //        if (store.data.isEmpty()) reload(listItem.value)
@@ -75,13 +74,13 @@ class CSPreset<
     }
 
     fun <T : CSPresetKeyData> add(property: T): T {
-        if (dataList.contains(property)) unexpected()
-        dataList.add(property)
-        property.eventDestruct.listenOnce { dataList.remove(property) }
+        if (data.contains(property)) unexpected()
+        data.add(property)
+        property.eventDestruct.listenOnce { data.remove(property) }
         return property
     }
 
-    fun saveTo(store: CSStore) = dataList.forEach { it.saveTo(store) }
+    fun saveTo(store: CSStore) = data.forEach { it.saveTo(store) }
 
     override fun toString() = "$id ${super.toString()}"
 
@@ -92,12 +91,12 @@ class CSPreset<
     fun reset() = store.reset()
 
     fun saveAsCurrent() {
-        listItem.value.onSave(dataList)
+        listItem.value.onSave(data)
         eventSave.fire(listItem.value)
     }
 
     fun saveAsNew(item: PresetListItem) {
-        item.onSave(dataList)
+        item.onSave(data)
         eventSave.fire(item) // Order important
         listItem.value(item)
     }
