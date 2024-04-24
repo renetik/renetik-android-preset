@@ -1,7 +1,6 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.CSHasId
-import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 
 interface CSPresetItem : CSHasId {
@@ -11,11 +10,4 @@ interface CSPresetItem : CSHasId {
     }
 
     val store: CSStore
-
-    fun onLoad() = Unit
-
-    @Deprecated("Remove", ReplaceWith("Remove"))
-    fun onSave(properties: Iterable<CSPresetKeyData>) = Unit
-
-    fun onDelete() = Unit
 }
