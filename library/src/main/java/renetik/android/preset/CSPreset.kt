@@ -56,8 +56,6 @@ class CSPreset<
     val store = CSPresetStore(this, parentStore)
 
     val title = store.property(this, "preset title", default = "")
-
-    //    val item: PresetListItem = notFoundItem.createInstance(store)!! //TODO
     val data = mutableListOf<CSPresetKeyData>()
 
     fun reload() = reload(listItem.value)

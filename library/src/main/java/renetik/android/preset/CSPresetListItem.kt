@@ -37,7 +37,8 @@ class CSPresetListItem<
     }
 
     private fun onParentStoreLoaded() {
-        if (preset.isFollowStore.isFalse) parentStoreLoadedIsFollowStoreFalseSaveToParentStore()
+        if (preset.isFollowStore.isFalse)
+            parentStoreLoadedIsFollowStoreFalseSaveToParentStore()
         else {
             val newValue = loadValue()
             if (_value == newValue) return
