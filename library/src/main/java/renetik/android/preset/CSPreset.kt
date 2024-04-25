@@ -14,13 +14,11 @@ import renetik.android.store.extensions.property
 import renetik.android.store.extensions.reload
 
 class CSPreset<
-        PresetListItem : CSPresetItem,
-        PresetList : CSPresetDataList<PresetListItem>,
+        PresetListItem : CSPresetItem, PresetList : CSPresetDataList<PresetListItem>,
         >(
     parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
     val key: String, val list: PresetList,
-    notFoundItem: () -> PresetListItem,
-    defaultItemId: String? = null,
+    notFoundItem: () -> PresetListItem, defaultItemId: String? = null,
 ) : CSModel(parent), CSHasId, CSHasChange<Unit> {
 
     constructor(

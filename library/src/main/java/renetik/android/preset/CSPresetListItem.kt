@@ -19,26 +19,26 @@ class CSPresetListItem<
         PresetList : CSPresetDataList<PresetItem>,
         >(
     override val preset: CSPreset<PresetItem, PresetList>,
-    private val store: CSStore,
+    parentStore: CSStore,
     private val notFoundPresetItem: () -> PresetItem,
     private val defaultItemId: String? = null,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
     override fun saveTo(store: CSStore) = store.set(key, _value.toId())
-    val currentId: CSStoreProperty<String> = store.property(this, key, defaultItemId ?: "")
+    val currentId: CSStoreProperty<String> = parentStore.property(this, key, defaultItemId ?: "")
 
     private fun save(value: PresetItem) = currentId.value(value.toId())
     private var _value: PresetItem by lazyVar(::loadValue)
     private val eventChange = event<PresetItem>()
 
     init {
-        this + store.eventLoaded.listen { onParentStoreLoaded() }
+        this + parentStore.eventLoaded.listen { onParentStoreLoaded(it) }
     }
 
-    private fun onParentStoreLoaded() {
+    private fun onParentStoreLoaded(store: CSStore) {
         if (preset.isFollowStore.isFalse)
-            parentStoreLoadedIsFollowStoreFalseSaveToParentStore()
+            store.eventChanged.paused { save(_value) }
         else {
             val newValue = loadValue()
             if (_value == newValue) return
@@ -48,13 +48,13 @@ class CSPresetListItem<
     }
 
     private fun loadValue(): PresetItem =
-        preset.list.items.find { it.toId() == currentId.value } ?: onItemNotFound()
+        (preset.list.items.find { it.toId() == currentId.value }
+            ?: onItemNotFound()).also(::save)
 
-    private fun onItemNotFound(): PresetItem = if (currentId.isSaved) notFoundPresetItem()
-    else preset.list.defaultItems.find { it.id == defaultItemId } ?: preset.list.defaultItems[0]
-
-    private fun parentStoreLoadedIsFollowStoreFalseSaveToParentStore() =
-        store.eventChanged.paused { save(_value) }
+    private fun onItemNotFound(): PresetItem =
+        if (currentId.isSaved) notFoundPresetItem()
+        else preset.list.defaultItems.find { it.id == defaultItemId }
+            ?: preset.list.defaultItems[0]
 
     override fun value(newValue: PresetItem, fire: Boolean) {
         if (_value == newValue) return
