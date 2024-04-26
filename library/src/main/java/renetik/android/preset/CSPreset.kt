@@ -8,6 +8,7 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
+import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
@@ -28,6 +29,9 @@ class CSPreset<
     ) : this(parent, preset.store, key, list, notFoundItem, defaultItemId) {
         preset.add(listItem)
         preset.add(store)
+        parent + preset.onChange {
+            store.onParentPresetChanged()
+        }
     }
 
     companion object {
