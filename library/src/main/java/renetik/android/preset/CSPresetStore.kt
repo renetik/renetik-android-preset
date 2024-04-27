@@ -22,13 +22,9 @@ class CSPresetStore(
 
     init {
         parentStore.getMap(key)?.let { data -> load(data) }
-//        preset + parentStore.eventLoaded.listen {
-//            if (preset.isFollowStore.isFalse) saveTo(parentStore)
-//            else onParentStoreLoaded(it.getMap(key))
-//        }
     }
 
-    internal fun onParentPresetChanged() {
+    internal fun onParentStoreChanged() {
         if (preset.isFollowStore.isFalse) saveTo(parentStore)
         else onParentStoreLoaded(parentStore.getMap(key))
     }

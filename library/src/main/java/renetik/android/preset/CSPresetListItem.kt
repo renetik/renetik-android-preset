@@ -7,7 +7,6 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
 import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
@@ -19,7 +18,7 @@ class CSPresetListItem<
         PresetList : CSPresetDataList<PresetItem>,
         >(
     override val preset: CSPreset<PresetItem, PresetList>,
-    parentStore: CSStore,
+    private val parentStore: CSStore,
     private val notFoundPresetItem: () -> PresetItem,
     private val defaultItemId: String? = null,
 ) : CSModel(preset), CSProperty<PresetItem>, CSPresetKeyData {
@@ -32,13 +31,9 @@ class CSPresetListItem<
     private var _value: PresetItem by lazyVar(::loadValue)
     private val eventChange = event<PresetItem>()
 
-    init {
-        this + parentStore.eventLoaded.listen { onParentStoreLoaded(it) }
-    }
-
-    private fun onParentStoreLoaded(store: CSStore) {
+    internal fun onParentStoreChanged() {
         if (preset.isFollowStore.isFalse)
-            store.eventChanged.paused { save(_value) }
+            parentStore.eventChanged.paused { save(_value) }
         else {
             val newValue = loadValue()
             if (_value == newValue) return
