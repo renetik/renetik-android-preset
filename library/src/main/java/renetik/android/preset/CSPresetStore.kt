@@ -21,17 +21,16 @@ class CSPresetStore(
     override fun onDestruct() = preset.destruct()
 
     init {
-        parentStore.getMap(key)?.let { data -> load(data) }
+        parentStore.getMap(key)?.let(::load)
     }
 
     internal fun onParentStoreChanged() {
         if (preset.isFollowStore.isFalse) saveTo(parentStore)
-        else onParentStoreLoaded(parentStore.getMap(key))
-    }
-
-    private fun onParentStoreLoaded(data: Map<String, *>?) {
-        if (this.data == data) return
-        if (data.isNullOrEmpty()) preset.reload() else reload(data)
+        else {
+            val data = parentStore.getMap(key)
+            if (this.data == data) return
+            if (data.isNullOrEmpty()) preset.reload() else reload(data)
+        }
     }
 
     override fun onChanged() {
