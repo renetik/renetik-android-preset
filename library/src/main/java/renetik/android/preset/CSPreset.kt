@@ -37,10 +37,7 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
 
     companion object {
         fun <Parent, PresetItem : CSPresetItem, Presets : CSPresetDataList<PresetItem>> CSPreset(
-            parent: Parent,
-            key: String,
-            list: Presets,
-            notFoundItem: () -> PresetItem,
+            parent: Parent, key: String, list: Presets, notFoundItem: () -> PresetItem,
             defaultItemId: String? = null
         ): CSPreset<PresetItem, Presets>
                 where Parent : CSHasPreset, Parent : CSHasRegistrationsHasDestruct =

@@ -3,6 +3,7 @@ package renetik.android.preset.model
 import renetik.android.preset.CSPreset
 import renetik.android.preset.CSPresetItem
 import renetik.android.preset.property.CSPresetKeyData
+import renetik.android.store.extensions.operation
 
 fun <T : CSPreset<CSPresetItem, CSPresetTestPresetItemList>>
         T.manageItems() = apply {
