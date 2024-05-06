@@ -4,6 +4,7 @@ import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.destruct
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
+import renetik.android.store.extensions.reload
 import renetik.android.store.type.CSJsonObjectStore
 
 class CSPresetStore(
@@ -29,7 +30,9 @@ class CSPresetStore(
         else {
             val data = parentStore.getMap(key)
             if (this.data == data) return
-            if (data.isNullOrEmpty()) preset.reload() else reload(data)
+            if (data.isNullOrEmpty()) reload(preset.listItem.value.store)
+            else reload(data)
+//            if (data.isNullOrEmpty()) preset.reload() else reload(data)
         }
     }
 
