@@ -97,8 +97,7 @@ fun <T> Preset.property(
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,
     defaultIndex: Int, onChange: ArgFunc<T>? = null
-) =
-    property(parent, key, values, values[defaultIndex], onChange)
+) = property(parent, key, values, values[defaultIndex], onChange)
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: Array<T>,
