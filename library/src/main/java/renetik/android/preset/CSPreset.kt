@@ -30,7 +30,7 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         parent: CSHasRegistrationsHasDestruct, preset: CSPreset<*, *>,
         key: String, list: PresetList,
         notFoundItem: () -> PresetListItem, defaultItemId: String? = null,
-    ) : this(parent, preset.store, preset, key, list, notFoundItem, defaultItemId) {
+    ) : this(parent, preset.store, preset.store, key, list, notFoundItem, defaultItemId) {
         preset.add(listItem)
         preset.add(store)
     }
