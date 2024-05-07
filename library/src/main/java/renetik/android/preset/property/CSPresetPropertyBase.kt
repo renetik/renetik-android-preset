@@ -81,5 +81,19 @@ abstract class CSPresetPropertyBase<T>(
         else isChangedWhilePresetReload = true
     }
 
+//    private var isChangedWhilePresetReload = false
+//
+//    init {
+//        register(preset.isPresetReload.onFalse {
+//            if (isChangedWhilePresetReload) super.fireChange()
+//            isChangedWhilePresetReload = false
+//        })
+//    }
+//
+//    override fun fireChange() {
+//        if (preset.isPresetReload.isFalse) super.fireChange()
+//        else isChangedWhilePresetReload = true
+//    }
+
     val isStored get() = get(store) != null
 }

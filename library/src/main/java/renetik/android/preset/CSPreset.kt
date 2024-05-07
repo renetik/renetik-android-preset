@@ -1,6 +1,8 @@
 package renetik.android.preset
 
 import renetik.android.core.kotlin.unexpected
+import renetik.android.core.lang.variable.setFalse
+import renetik.android.core.lang.variable.setTrue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSModel
@@ -31,6 +33,9 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         key: String, list: PresetList,
         notFoundItem: () -> PresetListItem, defaultItemId: String? = null,
     ) : this(parent, preset.store, preset.store, key, list, notFoundItem, defaultItemId) {
+        parent + preset.isPresetReload.onChange {
+            isPresetReload.value = it
+        }
         preset.add(listItem)
         preset.add(store)
     }
@@ -49,6 +54,7 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
 
     val id = "$key preset"
     val isFollowStore = property(true)
+    val isPresetReload = property(false)
     val eventLoad = event<PresetListItem>()
     val eventSave = event<PresetListItem>()
     val eventChange = event<PresetListItem>()
@@ -71,9 +77,11 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     fun reload() = reload(listItem.value)
 
     fun reload(item: PresetListItem) {
+        isPresetReload.setTrue()
         eventLoad.fire(item)
         store.reload(item.store)
         eventChange.fire(item)
+        isPresetReload.setFalse()
     }
 
     fun <T : CSPresetKeyData> add(property: T): T {
