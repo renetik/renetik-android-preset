@@ -7,6 +7,7 @@ import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
+import renetik.android.event.registration.plus
 import renetik.android.event.registration.register
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
@@ -21,12 +22,12 @@ abstract class CSPresetPropertyBase<T>(
     protected abstract val default: T
     private var _value by lazyNullableVar { load() }
     protected abstract fun get(store: CSStore): T?
-    protected abstract fun set(store: CSStore, value: T)
     protected abstract fun load(): T
     protected abstract fun loadFrom(store: CSStore): T
 
     override var filter: ((T?) -> T?)? = null
-    fun getFiltered(store: CSStore): T? = get(store).let { filter?.invoke(it) ?: it }
+    override fun getFiltered(store: CSStore): T? =
+        get(store).let { filter?.invoke(it) ?: it }
 
     override fun saveTo(store: CSStore) = set(store, value)
     override val isFollowPreset: CSProperty<Boolean> = property(true)
@@ -45,7 +46,8 @@ abstract class CSPresetPropertyBase<T>(
     override fun toString() = "${super.toString()} key:$key value:$value"
 
     init {
-        register(store.eventLoaded.listen { onStoreLoaded() })
+        @Suppress("LeakingThis")
+        this + store.eventLoaded.listen { onStoreLoaded() }
     }
 
     private fun onStoreLoaded() {

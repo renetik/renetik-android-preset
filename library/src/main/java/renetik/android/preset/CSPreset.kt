@@ -89,7 +89,7 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
 
     override fun onChange(function: (Unit) -> Unit) = eventChange.listen { function(Unit) }
 
-    fun reset() = store.reset()
+//    fun reset() = store.reset()
 
     fun saveAsCurrent() = eventSave.fire(listItem.value)
 
