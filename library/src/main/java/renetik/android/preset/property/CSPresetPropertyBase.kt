@@ -43,7 +43,7 @@ abstract class CSPresetPropertyBase<T>(
         get() = _value
         set(value) = value(value)
 
-    override fun toString() = "${super.toString()} key:$key value:$value"
+    override fun toString() = "${super.toString()} key:$key"
 
     init {
         register(store.eventChanged.listen { onStoreLoaded() })

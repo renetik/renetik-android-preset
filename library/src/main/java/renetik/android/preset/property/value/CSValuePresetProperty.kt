@@ -14,9 +14,7 @@ abstract class CSValuePresetProperty<T>(
     onChange: ((value: T) -> Unit)? = null,
 ) : CSPresetPropertyBase<T>(parent, preset, key, onChange), CSPresetKeyData {
 
-    var isOnLoadStoreDefaultValue = true
-
-    override fun loadFrom(store: CSStore): T = getFiltered(store) ?: default
+    var isOnLoadStoreDefaultValue = false
 
     override fun load(): T = getFiltered(store) ?: default.also {
         if (isOnLoadStoreDefaultValue) storeDefault(it)

@@ -3,22 +3,26 @@ package renetik.android.preset.property.nullable
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.paused
 import renetik.android.preset.CSPreset
-import renetik.android.preset.property.CSPresetPropertyBase
 import renetik.android.preset.property.CSPresetKeyData
-import renetik.android.store.CSStore
+import renetik.android.preset.property.CSPresetPropertyBase
 
 abstract class CSNullablePresetProperty<T>(
     parent: CSHasRegistrationsHasDestruct,
     preset: CSPreset<*, *>,
     override val key: String,
-    onChange: ((value: T?) -> Unit)?)
-    : CSPresetPropertyBase<T?>(parent, preset, key, onChange), CSPresetKeyData {
+    onChange: ((value: T?) -> Unit)?
+) : CSPresetPropertyBase<T?>(parent, preset, key, onChange), CSPresetKeyData {
 
-    override fun loadFrom(store: CSStore): T? =
-        if (store.has(key)) getFiltered(store) else default
+    var isOnLoadStoreDefaultValue = false
 
     override fun load(): T? =
-        if (store.has(key)) getFiltered(store) else default?.also { value ->
-            store.eventChanged.paused { set(store, value) }  /// TODO Why ?
+        if (store.has(key)) getFiltered(store) else default?.also {
+            if (isOnLoadStoreDefaultValue) storeDefault(it)
         }
+
+    private fun storeDefault(value: T?) {
+        store.eventChanged.paused { set(store, value) }
+    }
+
+    fun storeDefaultNow() = apply { storeDefault(default) }
 }
