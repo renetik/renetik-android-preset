@@ -8,7 +8,6 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
 import renetik.android.event.registration.onFalse
-import renetik.android.event.registration.plus
 import renetik.android.event.registration.register
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
@@ -47,13 +46,12 @@ abstract class CSPresetPropertyBase<T>(
     override fun toString() = "${super.toString()} key:$key value:$value"
 
     init {
-        @Suppress("LeakingThis")
-        this + store.eventChanged.listen { onStoreLoaded() }
+        register(store.eventChanged.listen { onStoreLoaded() })
     }
 
     private fun onStoreLoaded() {
         if (isFollowPreset.isFalse)
-            presetStoreLoadedIsFollowStoreFalseSaveToParentStore()
+            store.eventChanged.paused { saveTo(store) }
         else {
             val newValue = load()
             if (_value == newValue) return
@@ -61,9 +59,6 @@ abstract class CSPresetPropertyBase<T>(
             onValueChanged(newValue)
         }
     }
-
-    private fun presetStoreLoadedIsFollowStoreFalseSaveToParentStore() =
-        store.eventChanged.paused { saveTo(store) }
 
 //    private var isPresetReload = false
 //    private var isChangedWhilePresetReload = false

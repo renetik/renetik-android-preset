@@ -33,9 +33,7 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         key: String, list: PresetList,
         notFoundItem: () -> PresetListItem, defaultItemId: String? = null,
     ) : this(parent, preset.store, preset.store, key, list, notFoundItem, defaultItemId) {
-        parent + preset.isPresetReload.onChange {
-            isPresetReload.value = it
-        }
+        parent + preset.isPresetReload.onChange { isPresetReload.value = it }
         preset.add(listItem)
         preset.add(store)
     }

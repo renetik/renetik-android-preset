@@ -2,7 +2,9 @@ package renetik.android.preset
 
 import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.destruct
+import renetik.android.event.registration.launch
 import renetik.android.event.registration.plus
+import renetik.android.event.registration.waitIsFalse
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.reload
@@ -29,26 +31,26 @@ class CSPresetStore(
         }
     }
 
-//    private fun onParentStoreLoaded() = preset.launch {
-//        preset.isPresetReload.waitIsFalse()
-//        if (preset.isFollowStore.isFalse) saveTo(parentStore)
-//        else {
-//            val data = parentStore.getMap(key)
-//            if (this.data == data) return@launch
-//            if (data.isNullOrEmpty()) reload(preset.listItem.value.store)
-//            else reload(data)
-//        }
-//    }
-
-    private fun onParentStoreLoaded() {
+    private fun onParentStoreLoaded() = preset.launch {
+        preset.isPresetReload.waitIsFalse()
         if (preset.isFollowStore.isFalse) saveTo(parentStore)
         else {
             val data = parentStore.getMap(key)
-            if (this.data == data) return
+            if (this.data == data) return@launch
             if (data.isNullOrEmpty()) reload(preset.listItem.value.store)
             else reload(data)
         }
     }
+
+//    private fun onParentStoreLoaded() {
+//        if (preset.isFollowStore.isFalse) saveTo(parentStore)
+//        else {
+//            val data = parentStore.getMap(key)
+//            if (this.data == data) return
+//            if (data.isNullOrEmpty()) reload(preset.listItem.value.store)
+//            else reload(data)
+//        }
+//    }
 
     override fun onChanged() {
         super.onChanged()
