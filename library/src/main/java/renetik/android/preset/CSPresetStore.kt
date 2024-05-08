@@ -2,8 +2,7 @@ package renetik.android.preset
 
 import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.destruct
-import renetik.android.event.registration.launch
-import renetik.android.event.registration.waitIsFalse
+import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.reload
@@ -25,17 +24,29 @@ class CSPresetStore(
 
     init {
         parentStore.getMap(key)?.let(::load)
+        preset + parentStore.eventLoaded.listen {
+            onParentStoreLoaded()
+        }
     }
 
-    internal fun onParentStoreChanged() = preset.launch {
+//    private fun onParentStoreLoaded() = preset.launch {
 //        preset.isPresetReload.waitIsFalse()
+//        if (preset.isFollowStore.isFalse) saveTo(parentStore)
+//        else {
+//            val data = parentStore.getMap(key)
+//            if (this.data == data) return@launch
+//            if (data.isNullOrEmpty()) reload(preset.listItem.value.store)
+//            else reload(data)
+//        }
+//    }
+
+    private fun onParentStoreLoaded() {
         if (preset.isFollowStore.isFalse) saveTo(parentStore)
         else {
             val data = parentStore.getMap(key)
-            if (this.data == data) return@launch
+            if (this.data == data) return
             if (data.isNullOrEmpty()) reload(preset.listItem.value.store)
             else reload(data)
-//            if (data.isNullOrEmpty()) preset.reload() else reload(data)
         }
     }
 
@@ -49,9 +60,9 @@ class CSPresetStore(
 
     override fun hashCode() = 31 * key.hashCode() + super.hashCode()
 
-    //TODO: Way to clean preset data from residuals,
-    // but we need to move title and description properties somehow to
-    // CSPreset.dataList
+//TODO: Way to clean preset data from residuals,
+// but we need to move title and description properties somehow to
+// CSPreset.dataList
 //    override fun reset() {
 //        data.clear()
 //        preset.data.forEach {

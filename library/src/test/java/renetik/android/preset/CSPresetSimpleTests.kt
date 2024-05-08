@@ -1,6 +1,15 @@
 package renetik.android.preset
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -14,13 +23,21 @@ import renetik.android.preset.model.manageItems
 import renetik.android.preset.property.max
 import renetik.android.store.extensions.reload
 import renetik.android.store.type.CSJsonObjectStore
+import renetik.android.testing.CSAssert.assert
 import renetik.android.testing.CSAssert.assertContains
 
-
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 class CSPresetSimpleTests {
+
+    @Before
+    fun setUp() = Dispatchers.setMain(StandardTestDispatcher())
+
+    @After
+    fun tearDown() = Dispatchers.resetMain()
+
     @Test
-    fun presetPropertyPresetReload() {
+    fun presetPropertyPresetReload() = runTest {
         val parent = CSModel()
         val presetList = CSPresetTestPresetItemList(ClearPresetItemId)
 
@@ -40,7 +57,7 @@ class CSPresetSimpleTests {
     }
 
     @Test
-    fun childPresetPropertyPresetReload() {
+    fun childPresetPropertyPresetReload() = runTest {
         val parent = CSModel()
         val presetList = CSPresetTestPresetItemList(ClearPresetItemId)
 
@@ -57,11 +74,12 @@ class CSPresetSimpleTests {
         assertEquals(10, childPresetProperty.value)
 
         preset.reload()
+        advanceUntilIdle()
         assertEquals(5, childPresetProperty.value)
     }
 
     @Test
-    fun childPresetPropertySaveAsNewItemPresetReload() {
+    fun childPresetPropertySaveAsNewItemPresetReload() = runTest {
         val parent = CSModel()
         val preset = CSPreset(
             parent, CSJsonObjectStore(), "preset",
@@ -93,10 +111,15 @@ class CSPresetSimpleTests {
             """"childPreset preset store":{"childPresetProperty":10}}"""
         )
         preset.reload()
-        assertContains(
-            preset.store.data.toJson(),
-            """"childPreset preset current":"clear childPreset item"""",
-            """"childPreset preset store":{"childPresetProperty":5}}""",
+        advanceUntilIdle()
+        assert(expected = 2, preset.store.data.size)
+        assert(
+            expected = "clear childPreset item",
+            actual = preset.store.data["childPreset preset current"]
+        )
+        assert(
+            expected = """{"childPresetProperty":5}""",
+            actual = preset.store.data["childPreset preset store"]?.toJson()
         )
         assertEquals(5, childPresetProperty.value)
     }

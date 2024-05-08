@@ -64,13 +64,6 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val listItem = CSPresetListItem(this, parentStore, notFoundItem, defaultItemId)
     val store = CSPresetStore(this, parentStore)
 
-    init {
-        this + parentStoreChange.onChange {
-            listItem.onParentStoreChanged()
-            store.onParentStoreChanged()
-        }
-    }
-
     val title = store.property(this, "preset title", default = "")
     val data = mutableListOf<CSPresetKeyData>()
 

@@ -10,7 +10,8 @@ fun <T : CSPreset<CSPresetItem, CSPresetTestPresetItemList>>
     eventSave.listen { item ->
         item.store.operation {
             item.store.clear()
-            for (property: CSPresetKeyData in data) property.saveTo(item.store)
+            for (property: CSPresetKeyData in data)
+                property.saveTo(item.store)
         }
     }
 }

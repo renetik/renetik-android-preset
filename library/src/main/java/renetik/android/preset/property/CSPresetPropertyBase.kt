@@ -7,6 +7,7 @@ import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
+import renetik.android.event.registration.onFalse
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.register
 import renetik.android.preset.CSPreset
@@ -47,7 +48,7 @@ abstract class CSPresetPropertyBase<T>(
 
     init {
         @Suppress("LeakingThis")
-        this + store.eventLoaded.listen { onStoreLoaded() }
+        this + store.eventChanged.listen { onStoreLoaded() }
     }
 
     private fun onStoreLoaded() {
@@ -64,36 +65,36 @@ abstract class CSPresetPropertyBase<T>(
     private fun presetStoreLoadedIsFollowStoreFalseSaveToParentStore() =
         store.eventChanged.paused { saveTo(store) }
 
-    private var isPresetReload = false
-    private var isChangedWhilePresetReload = false
-
-    init {
-        register(preset.eventLoad.listen { isPresetReload = true })
-        register(preset.eventChange.listen {
-            if (isChangedWhilePresetReload) super.fireChange()
-            isPresetReload = false
-            isChangedWhilePresetReload = false
-        })
-    }
-
-    override fun fireChange() {
-        if (!isPresetReload) super.fireChange()
-        else isChangedWhilePresetReload = true
-    }
-
+//    private var isPresetReload = false
 //    private var isChangedWhilePresetReload = false
 //
 //    init {
-//        register(preset.isPresetReload.onFalse {
+//        register(preset.eventLoad.listen { isPresetReload = true })
+//        register(preset.eventChange.listen {
 //            if (isChangedWhilePresetReload) super.fireChange()
+//            isPresetReload = false
 //            isChangedWhilePresetReload = false
 //        })
 //    }
 //
 //    override fun fireChange() {
-//        if (preset.isPresetReload.isFalse) super.fireChange()
+//        if (!isPresetReload) super.fireChange()
 //        else isChangedWhilePresetReload = true
 //    }
+
+    private var isChangedWhilePresetReload = false
+
+    init {
+        register(preset.isPresetReload.onFalse {
+            if (isChangedWhilePresetReload) super.fireChange()
+            isChangedWhilePresetReload = false
+        })
+    }
+
+    override fun fireChange() {
+        if (preset.isPresetReload.isFalse) super.fireChange()
+        else isChangedWhilePresetReload = true
+    }
 
     val isStored get() = get(store) != null
 }

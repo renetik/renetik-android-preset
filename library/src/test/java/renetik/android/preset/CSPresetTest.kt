@@ -1,7 +1,16 @@
 package renetik.android.preset
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -23,10 +32,18 @@ import renetik.android.preset.model.ParentPropertyInitialValue
 import renetik.android.preset.model.ParentPropertyNewValue1
 import renetik.android.preset.model.ParentPropertyNewValue2
 import renetik.android.store.type.CSJsonObjectStore
+import renetik.android.testing.CSAssert.assert
 
 @Deprecated("Replace all cases by simple tests")
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 class CSPresetTest {
+
+    @Before
+    fun setUp() = Dispatchers.setMain(StandardTestDispatcher())
+
+    @After
+    fun tearDown() = Dispatchers.resetMain()
 
     private val store = CSJsonObjectStore()
     private val parent = CSPresetTestParentClass(store)
@@ -65,7 +82,7 @@ class CSPresetTest {
     }
 
     @Test
-    fun test3() {
+    fun test3() = runTest {
         assertEquals(
             ClearChildPresetItemId, parent.children.first()
                 .childPreset1.listItem.value.id
@@ -94,6 +111,7 @@ class CSPresetTest {
         )
 
         parent.parentPreset.reload()
+        advanceUntilIdle()
         assertEquals(
             ClearChildPresetItemId, parent.children.first()
                 .childPreset1.listItem.value.id
@@ -105,21 +123,21 @@ class CSPresetTest {
     }
 
     @Test
-    fun test4() {
+    fun test4() = runTest {
         parent.children.first().childPreset1Props.first().value = ChildPropertyNewValue0
-        assertEquals(
-            ChildPropertyNewValue0, parent.children.first()
-                .childPreset1Props.first().value
+        assert(
+            expected = ChildPropertyNewValue0,
+            actual = parent.children.first().childPreset1Props.first().value
         )
-
         val item = parent.parentPreset.list.createItem(ParentPresetItemId1, isDefault = true)
         parent.parentPreset.saveAsNew(item)
-        assertEquals(
-            ChildPropertyNewValue0, parent.children.first()
-                .childPreset1Props.first().value
+        advanceUntilIdle()
+        assert(
+            expected = ChildPropertyNewValue0,
+            actual = parent.children.first().childPreset1Props.first().value
         )
-
         parent.parentPreset.listItem.value = parent.parentPreset.list.items.first()
+        advanceUntilIdle()
         assertEquals(
             ChildPropertyInitialValue, parent.children.first()
                 .childPreset1Props.first().value
@@ -127,10 +145,11 @@ class CSPresetTest {
     }
 
     @Test
-    fun test5() {
+    fun test5() = runTest {
         parent.children.first().childPreset1Props.first().value = ChildPropertyNewValue0
         val item1 = parent.parentPreset.list.createItem(ParentPresetItemId1, isDefault = true)
         parent.parentPreset.saveAsNew(item1)
+        advanceUntilIdle()
         assertEquals(
             ChildPropertyNewValue0, parent.children.first()
                 .childPreset1Props.first().value
@@ -140,7 +159,7 @@ class CSPresetTest {
 
         val item2 = parent.parentPreset.list.createItem(ParentPresetItemId2, isDefault = true)
         parent.parentPreset.saveAsNew(item2)
-
+        advanceUntilIdle()
         parent.parentPreset.listItem.value = parent.parentPreset.list.items.first()
         assertEquals(
             ChildPropertyInitialValue, parent.children.first()
@@ -148,12 +167,14 @@ class CSPresetTest {
         )
 
         parent.parentPreset.listItem.value = parent.parentPreset.list.items.third()
+        advanceUntilIdle()
         assertEquals(
             ChildPropertyNewValue1, parent.children.first()
                 .childPreset1Props.first().value
         )
 
         parent.parentPreset.listItem.value = parent.parentPreset.list.items.second()
+        advanceUntilIdle()
         assertEquals(
             ChildPropertyNewValue0, parent.children.first()
                 .childPreset1Props.first().value
@@ -161,7 +182,7 @@ class CSPresetTest {
     }
 
     @Test
-    fun test6() {
+    fun test6() = runTest {
         parent.children.first().childPreset1Props.at(0)!!.value = ChildPropertyNewValue0
         parent.children.first().childPreset1Props.at(2)!!.value = ChildPropertyNewValue2
         parent.children.second().childPreset1Props.at(1)!!.value = ChildPropertyNewValue1
@@ -169,18 +190,21 @@ class CSPresetTest {
 
         val item = parent.parentPreset.list.createItem(ParentPresetItemId1, isDefault = true)
         parent.parentPreset.saveAsNew(item)
+        advanceUntilIdle()
         assertEquals(
             ChildPropertyNewValue1, parent.children.second()
                 .childPreset1Props.at(1)!!.value
         )
 
         parent.parentPreset.listItem.value = parent.parentPreset.list.items.first()
+        advanceUntilIdle()
         assertEquals(
             ChildPropertyInitialValue, parent.children.second()
                 .childPreset1Props.at(1)!!.value
         )
 
         parent.parentPreset.listItem.value = parent.parentPreset.list.items.second()
+        advanceUntilIdle()
         assertEquals(
             ChildPropertyNewValue2, parent.children.first()
                 .childPreset1Props.at(2)!!.value
@@ -190,6 +214,5 @@ class CSPresetTest {
                 .childPreset1Props.at(1)!!.value
         )
     }
-
 }
 
