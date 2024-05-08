@@ -33,9 +33,6 @@ class CSPresetListItem<
         this + parentStore.eventLoaded.action { _ ->
             currentItem.save()
         }
-        this + currentItem.onChange {
-            preset.reload(it)
-        }
     }
 
     private fun getDefaultItem(): PresetItem =

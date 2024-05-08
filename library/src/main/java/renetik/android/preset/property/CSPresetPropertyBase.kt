@@ -60,36 +60,36 @@ abstract class CSPresetPropertyBase<T>(
         }
     }
 
-//    private var isPresetReload = false
-//    private var isChangedWhilePresetReload = false
-//
-//    init {
-//        register(preset.eventLoad.listen { isPresetReload = true })
-//        register(preset.eventChange.listen {
-//            if (isChangedWhilePresetReload) super.fireChange()
-//            isPresetReload = false
-//            isChangedWhilePresetReload = false
-//        })
-//    }
-//
-//    override fun fireChange() {
-//        if (!isPresetReload) super.fireChange()
-//        else isChangedWhilePresetReload = true
-//    }
-
+    private var isPresetReload = false
     private var isChangedWhilePresetReload = false
 
     init {
-        register(preset.isPresetReload.onFalse {
+        register(preset.eventLoad.listen { isPresetReload = true })
+        register(preset.eventChange.listen {
             if (isChangedWhilePresetReload) super.fireChange()
+            isPresetReload = false
             isChangedWhilePresetReload = false
         })
     }
 
     override fun fireChange() {
-        if (preset.isPresetReload.isFalse) super.fireChange()
+        if (!isPresetReload) super.fireChange()
         else isChangedWhilePresetReload = true
     }
+
+//    private var isChangedWhilePresetReload = false
+//
+//    init {
+//        register(preset.isPresetReload.onFalse {
+//            if (isChangedWhilePresetReload) super.fireChange()
+//            isChangedWhilePresetReload = false
+//        })
+//    }
+//
+//    override fun fireChange() {
+//        if (preset.isPresetReload.isFalse) super.fireChange()
+//        else isChangedWhilePresetReload = true
+//    }
 
     val isStored get() = get(store) != null
 }

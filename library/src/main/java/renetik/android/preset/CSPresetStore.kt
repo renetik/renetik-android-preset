@@ -31,26 +31,26 @@ class CSPresetStore(
         }
     }
 
-    private fun onParentStoreLoaded() = preset.launch {
-        preset.isPresetReload.waitIsFalse()
-        if (preset.isFollowStore.isFalse) saveTo(parentStore)
-        else {
-            val data = parentStore.getMap(key)
-            if (this.data == data) return@launch
-            if (data.isNullOrEmpty()) reload(preset.listItem.value.store)
-            else reload(data)
-        }
-    }
-
-//    private fun onParentStoreLoaded() {
+//    private fun onParentStoreLoaded() = preset.launch {
+//        preset.isPresetReload.waitIsFalse()
 //        if (preset.isFollowStore.isFalse) saveTo(parentStore)
 //        else {
 //            val data = parentStore.getMap(key)
-//            if (this.data == data) return
+//            if (this.data == data) return@launch
 //            if (data.isNullOrEmpty()) reload(preset.listItem.value.store)
 //            else reload(data)
 //        }
 //    }
+
+    private fun onParentStoreLoaded() {
+        if (preset.isFollowStore.isFalse) saveTo(parentStore)
+        else {
+            val data = parentStore.getMap(key)
+            if (this.data == data) return
+            if (data.isNullOrEmpty()) reload(preset.listItem.value.store)
+            else reload(data)
+        }
+    }
 
     override fun onChanged() {
         super.onChanged()
