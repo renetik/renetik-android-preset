@@ -5,6 +5,7 @@ import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnce
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrationsList
+import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.preset.Preset
 
 inline fun <T : CSHasChange<*>> List<T>.onChange(
@@ -25,7 +26,7 @@ inline fun <T : CSHasChange<*>> List<T>.onChange(
 inline fun <T : CSHasChange<*>> List<T>.onChangeLater(
     preset: Preset, crossinline function: Func
 ): CSRegistration {
-    val registrations = CSRegistrationsList(this)
+    val registrations = CSRegistrationsMap(this)
     val laterOnceFunction = registrations.laterOnce { function() }
     forEach { registrations.register(it.onChange { laterOnceFunction() }) }
     return CSRegistration(

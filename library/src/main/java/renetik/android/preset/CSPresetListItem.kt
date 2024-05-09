@@ -9,6 +9,7 @@ import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
+import renetik.android.store.property.isSaved
 import renetik.android.store.property.save
 
 class CSPresetListItem<
@@ -30,20 +31,20 @@ class CSPresetListItem<
     val currentId = currentItem.delegate(this, from = { it.id })
 
     init {
-        this + parentStore.eventLoaded.action { _ ->
-            currentItem.save()
-        }
+        this + parentStore.eventLoaded.action(currentItem::save)
     }
 
     private fun getDefaultItem(): PresetItem =
-//      if (currentItem.isSaved) notFoundPresetItem() else
-        preset.list.defaultItems.find { it.id == defaultItemId }
-            ?: preset.list.defaultItems[0]
+//        if (currentItem.isSaved) notFoundPresetItem() else
+            preset.list.defaultItems.find { it.id == defaultItemId }
+                ?: preset.list.defaultItems[0]
 
     override fun value(newValue: PresetItem, fire: Boolean) {
-        currentItem.value(newValue, fire)
+        super.value(newValue, fire)
         preset.reload(newValue)
     }
 
     override val property: CSProperty<PresetItem> = currentItem
+
+    override fun toString() = "$key ${super.toString()}"
 }
