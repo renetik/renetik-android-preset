@@ -72,11 +72,9 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     fun reload(item: PresetListItem) {
         val isAlreadyReloading = isPresetReload.isTrue
         if (!isAlreadyReloading) isPresetReload.setTrue()
-        isThisPresetReload.setTrue()
         eventLoad.fire(item)
         store.reload(item.store)
         eventChange.fire(item)
-        isThisPresetReload.setFalse()
         if (!isAlreadyReloading) isPresetReload.setFalse()
     }
 
