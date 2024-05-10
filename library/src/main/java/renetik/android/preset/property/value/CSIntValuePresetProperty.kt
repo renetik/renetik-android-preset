@@ -11,8 +11,10 @@ class CSIntValuePresetProperty(
     override val default: Int,
     onChange: ((value: Int) -> Unit)?
 ) : CSValuePresetProperty<Int>(parent, preset, key, onChange) {
-    override fun get(store: CSStore) = store.getInt(key)
-    override fun set(store: CSStore, value: Int) = store.set(key, value)
+    override fun get(store: CSStore) =
+        store.getInt(key)
+    override fun set(store: CSStore, value: Int) =
+        store.set(key, value)
 }
 
 

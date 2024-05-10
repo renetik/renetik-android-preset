@@ -5,7 +5,6 @@ import renetik.android.event.paused
 import renetik.android.preset.CSPreset
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.preset.property.CSPresetPropertyBase
-import renetik.android.store.CSStore
 
 abstract class CSValuePresetProperty<T>(
     parent: CSHasDestruct,
@@ -14,7 +13,7 @@ abstract class CSValuePresetProperty<T>(
     onChange: ((value: T) -> Unit)? = null,
 ) : CSPresetPropertyBase<T>(parent, preset, key, onChange), CSPresetKeyData {
 
-    var isOnLoadStoreDefaultValue = false
+    var isOnLoadStoreDefaultValue = true
 
     override fun load(): T = getFiltered(store) ?: default.also {
         if (isOnLoadStoreDefaultValue) storeDefault(it)

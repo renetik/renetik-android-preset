@@ -13,7 +13,7 @@ abstract class CSNullablePresetProperty<T>(
     onChange: ((value: T?) -> Unit)?
 ) : CSPresetPropertyBase<T?>(parent, preset, key, onChange), CSPresetKeyData {
 
-    var isOnLoadStoreDefaultValue = false
+    var isOnLoadStoreDefaultValue = true
 
     override fun load(): T? =
         if (store.has(key)) getFiltered(store) else default?.also {

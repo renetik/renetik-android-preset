@@ -6,7 +6,6 @@ import renetik.android.event.common.destruct
 import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
-import renetik.android.store.extensions.reload
 import renetik.android.store.type.CSJsonObjectStore
 
 class CSPresetStore(
@@ -21,7 +20,9 @@ class CSPresetStore(
 
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
-    override fun onDestruct() = preset.destruct()
+    override fun onDestruct() {
+        preset.destruct()
+    }
 
     private val saveToParentStore = preset.laterOnce { saveTo(parentStore) }
 
@@ -49,8 +50,7 @@ class CSPresetStore(
             val data = parentStore.getMap(key)
             if (this.data == data) return
             if (data.isNullOrEmpty())
-                reload(preset.listItem.value.store)
-//                preset.reload()
+                preset.reload()
             else reload(data)
         }
     }

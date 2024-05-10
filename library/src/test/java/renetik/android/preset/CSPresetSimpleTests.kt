@@ -94,6 +94,7 @@ class CSPresetSimpleTests {
         ).manageItems().init()
         val childPresetProperty = childPreset.property(parent, "childPresetProperty", 5)
         assertEquals(5, childPresetProperty.value)
+        advanceUntilIdle()
         assertContains(
             preset.store.data.toJson(),
             """"childPreset preset current":"clear childPreset item"""",
@@ -104,7 +105,7 @@ class CSPresetSimpleTests {
         assertEquals(10, childPresetProperty.value)
         val item = childPreset.list.createItem("childPresetProperty item", isDefault = true)
         childPreset.saveAsNew(item)
-
+        advanceUntilIdle()
         assertContains(
             preset.store.data.toJson(),
             """"childPreset preset current":"childPresetProperty item"""",

@@ -49,7 +49,7 @@ class CSPresetTest {
     private val parent = CSPresetTestParentClass(store)
 
     @Test
-    fun test1() {
+    fun test1() = runTest {
         assertEquals(ClearPresetItemId, parent.parentPreset.listItem.value.id)
         assertEquals(ParentPropertyInitialValue, parent.property.value)
         parent.children.forEach {
@@ -62,6 +62,7 @@ class CSPresetTest {
                 assertEquals(ChildPropertyInitialValue, it.value)
             }
         }
+        advanceUntilIdle()
         assertTrue(parent.parentPreset.store.has("children:0 childPreset1 preset store"))
     }
 
