@@ -22,10 +22,7 @@ class CSPresetStore(
 
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
-    override fun onDestruct() {
-        preset.destruct()
-    }
-
+    override fun onDestruct() = preset.destruct()
     private val saveToParentStore = preset.laterOnce { saveTo(parentStore) }
 
     init {
