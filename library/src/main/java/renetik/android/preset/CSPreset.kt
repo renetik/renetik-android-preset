@@ -54,7 +54,6 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val id = "$key preset"
     val isFollowStore = property(true)
     val isPresetReload = property(false)
-    val isThisPresetReload = property(false)
     val eventLoad = event<PresetListItem>()
     val eventSave = event<PresetListItem>()
     val eventChange = event<PresetListItem>()
