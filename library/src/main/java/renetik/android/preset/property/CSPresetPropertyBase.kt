@@ -61,7 +61,8 @@ abstract class CSPresetPropertyBase<T>(
     }
 
     override fun fireChange() {
-        launch {
+        if (preset.isPresetReload.isFalse) super.fireChange()
+        else launch {
             preset.isPresetReload.waitIsFalse()
             super.fireChange()
         }
