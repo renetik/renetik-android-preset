@@ -3,9 +3,7 @@ package renetik.android.preset
 import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnce
 import renetik.android.event.common.destruct
-import renetik.android.event.registration.launch
 import renetik.android.event.registration.plus
-import renetik.android.event.registration.waitIsFalse
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore
@@ -32,27 +30,16 @@ class CSPresetStore(
         }
     }
 
-    private fun onParentStoreLoaded() = preset.launch {
-        preset.isPresetReload.waitIsFalse()
-        if (preset.isFollowStore.isFalse) saveTo(parentStore)
+    private fun onParentStoreLoaded() {
+        if (preset.isFollowStore.isFalse) saveToParentStore()
         else {
             val data = parentStore.getMap(key)
-            if (this.data == data) return@launch
-            if (data.isNullOrEmpty()) preset.reload()
+            if (this.data == data) return
+            if (data.isNullOrEmpty())
+                preset.reload()
             else reload(data)
         }
     }
-
-//    private fun onParentStoreLoaded() {
-//        if (preset.isFollowStore.isFalse) saveTo(parentStore)
-//        else {
-//            val data = parentStore.getMap(key)
-//            if (this.data == data) return
-//            if (data.isNullOrEmpty())
-//                preset.reload()
-//            else reload(data)
-//        }
-//    }
 
     override fun onChanged() {
         super.onChanged()
@@ -66,7 +53,7 @@ class CSPresetStore(
 
     override fun toString() = "$key ${super.toString()}"
 
-//TODO: Way to clean preset data from residuals,
+//TODO?: Way to clean preset data from residuals,
 // but we need to move title and description properties somehow to
 // CSPreset.dataList
 //    override fun reset() {

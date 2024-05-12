@@ -3,7 +3,6 @@ package renetik.android.preset.property.nullable
 import renetik.android.event.common.CSModel
 import renetik.android.preset.CSPreset
 import renetik.android.preset.CSPresetItem
-import renetik.android.preset.model.CSPresetTestItemEmpty
 import renetik.android.preset.extensions.nullIntProperty
 import renetik.android.preset.model.NotFoundInstPresetItem
 import renetik.android.store.CSStore
