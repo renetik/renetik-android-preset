@@ -72,7 +72,6 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         store.reload(item.store)
         eventChange.fire(item)
         if (!isAlreadyReloading) isPresetReload.setFalse()
-        CSLog.logInfo()
     }
 
     fun <T : CSPresetKeyData> add(property: T): T {
