@@ -4,7 +4,6 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
-import renetik.android.core.logging.CSLog
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSModel
@@ -29,23 +28,17 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
             key: String, list: PresetList,
             notFoundItem: () -> PresetItem, defaultItemId: String? = null,
         ): CSPreset<PresetItem, PresetList> = CSPreset(
-            parent, parentPreset.store, key,
-            list, notFoundItem, defaultItemId
-        ).apply {
-            this + parentPreset.isPresetReload.onChange { isPresetReload.value = it }
-            parentPreset.add(listItem)
-            parentPreset.add(store)
-        }
+            parent, parentPreset.store, key, list, notFoundItem, defaultItemId
+        ).also(parentPreset::add)
 
         fun <Parent, PresetItem : CSPresetItem, Presets : CSPresetDataList<PresetItem>> CSPreset(
-            parent: Parent, key: String, list: Presets, notFoundItem: () -> PresetItem,
-            defaultItemId: String? = null
-        ): CSPreset<PresetItem, Presets>
-                where Parent : CSHasPreset,
-                      Parent : CSHasRegistrationsHasDestruct = CSPreset(
-            parent, parent.preset, key = "${parent.presetId} $key",
-            list, notFoundItem, defaultItemId
-        )
+            parent: Parent, key: String, list: Presets,
+            notFoundItem: () -> PresetItem, defaultItemId: String? = null
+        ): CSPreset<PresetItem, Presets> where Parent : CSHasPreset, Parent : CSHasRegistrationsHasDestruct =
+            CSPreset(
+                parent, parent.preset, key = "${parent.presetId} $key",
+                list, notFoundItem, defaultItemId
+            )
     }
 
     val id = "$key preset"
@@ -63,6 +56,19 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val title = store.property(this, "preset title", default = "")
     val data = mutableListOf<CSPresetKeyData>()
 
+    private fun add(preset: CSPreset<*, *>) {
+        preset + isPresetReload.onChange { preset.isPresetReload.value = it }
+        add(preset.listItem)
+        add(preset.store)
+    }
+
+    fun <T : CSPresetKeyData> add(property: T): T {
+        if (data.contains(property)) unexpected()
+        data += property
+        property.eventDestruct.listenOnce { data -= property }
+        return property
+    }
+
     fun reload() = reload(listItem.value)
 
     fun reload(item: PresetListItem) {
@@ -74,21 +80,6 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         if (!isAlreadyReloading) isPresetReload.setFalse()
     }
 
-    fun <T : CSPresetKeyData> add(property: T): T {
-        if (data.contains(property)) unexpected()
-        data.add(property)
-        property.eventDestruct.listenOnce { data.remove(property) }
-        return property
-    }
-
-    override fun toString() = "$id ${super.toString()}"
-
-    fun onBeforeChange(function: () -> Unit) = eventLoad.listen { function() }
-
-    override fun onChange(function: (Unit) -> Unit) = eventChange.listen { function(Unit) }
-
-    fun saveAsCurrent() = eventSave.fire(listItem.value)
-
     fun saveAsNew(item: PresetListItem) {
         eventSave.fire(item) // Order important
         listItem.value(item)
@@ -98,4 +89,12 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         list.remove(item)
         eventDelete.fire(item)
     }
+
+    override fun toString() = "$id ${super.toString()}"
+
+    fun onBeforeChange(function: () -> Unit) = eventLoad.listen { function() }
+
+    override fun onChange(function: (Unit) -> Unit) = eventChange.listen { function(Unit) }
+
+    fun saveAsCurrent() = eventSave.fire(listItem.value)
 }
