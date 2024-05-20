@@ -1,7 +1,6 @@
 package renetik.android.preset
 
 import renetik.android.core.kotlin.toId
-import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSPropertyWrapper
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.preset.property.CSPresetKeyData
@@ -19,20 +18,16 @@ class CSPresetListItem<
     private val defaultItemId: String? = null,
 ) : CSPropertyWrapper<PresetItem>(preset), CSPresetKeyData {
     override val key = "${preset.id} current"
-    override fun saveTo(store: CSStore) = store.set(key, currentItem.value.toId())
 
-    val currentItem = parentStore.property(
-        this, key, getValues = { preset.list.items },
-        getDefault = ::getDefaultItem
-    )
+    override val property = parentStore.property(
+        this, key, preset.list::items, ::getDefaultItem
+    ).also { it.save() }
 
-    val currentId = currentItem.delegate(this, from = { it.id })
+    override fun saveTo(store: CSStore) = store.set(key, property.value.toId())
 
-    init {
-        currentItem.save()
-    }
+    val currentId = delegate(from = { it.id })
 
-    override fun onStoreLoaded() = currentItem.save()
+    override fun onStoreLoaded() = property.save()
 
     private fun getDefaultItem(): PresetItem =
 //        if (currentItem.isSaved) notFoundPresetItem() else
@@ -43,8 +38,6 @@ class CSPresetListItem<
         super.value(newValue, fire)
         preset.reload(newValue)
     }
-
-    override val property: CSProperty<PresetItem> = currentItem
 
     override fun toString() = "$key ${super.toString()}"
 }
