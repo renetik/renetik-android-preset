@@ -23,7 +23,8 @@ class CSPresetListItem<
 
     val currentItem = parentStore.property(
         this, key, getValues = { preset.list.items },
-        getDefault = { getDefaultItem() })
+        getDefault = ::getDefaultItem
+    )
 
     val currentId = currentItem.delegate(this, from = { it.id })
 
