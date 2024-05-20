@@ -8,7 +8,6 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
 import renetik.android.event.registration.launch
-import renetik.android.event.registration.register
 import renetik.android.event.registration.waitIsFalse
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
@@ -45,11 +44,7 @@ abstract class CSPresetPropertyBase<T>(
 
     override fun toString() = "key:$key ${super.toString()}"
 
-    init {
-        register(store.eventLoaded.listen { onStoreLoaded() })
-    }
-
-    protected open fun onStoreLoaded() {
+    override fun onStoreLoaded() {
         if (isFollowPreset.isFalse)
             store.eventChanged.paused { saveTo(store) }
         else {

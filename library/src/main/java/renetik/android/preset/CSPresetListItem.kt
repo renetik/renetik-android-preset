@@ -1,15 +1,12 @@
 package renetik.android.preset
 
 import renetik.android.core.kotlin.toId
-import renetik.android.event.action
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSPropertyWrapper
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
-import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
-import renetik.android.store.property.isSaved
 import renetik.android.store.property.save
 
 class CSPresetListItem<
@@ -31,13 +28,15 @@ class CSPresetListItem<
     val currentId = currentItem.delegate(this, from = { it.id })
 
     init {
-        this + parentStore.eventLoaded.action(currentItem::save)
+        currentItem.save()
     }
+
+    override fun onStoreLoaded() = currentItem.save()
 
     private fun getDefaultItem(): PresetItem =
 //        if (currentItem.isSaved) notFoundPresetItem() else
-            preset.list.defaultItems.find { it.id == defaultItemId }
-                ?: preset.list.defaultItems[0]
+        preset.list.defaultItems.find { it.id == defaultItemId }
+            ?: preset.list.defaultItems[0]
 
     override fun value(newValue: PresetItem, fire: Boolean) {
         super.value(newValue, fire)

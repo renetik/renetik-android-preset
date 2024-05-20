@@ -14,7 +14,6 @@ import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
-import renetik.android.store.extensions.reload
 
 class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<PresetListItem>>(
     parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
@@ -54,7 +53,7 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val store = CSPresetStore(this, parentStore)
 
     val title = store.property(this, "preset title", default = "")
-    val data = mutableListOf<CSPresetKeyData>()
+    val properties = mutableListOf<CSPresetKeyData>()
 
     private fun add(preset: CSPreset<*, *>) {
         preset + isPresetReload.onChange { preset.isPresetReload.value = it }
@@ -63,9 +62,9 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     }
 
     fun <T : CSPresetKeyData> add(property: T): T {
-        if (data.contains(property)) unexpected()
-        data += property
-        property.eventDestruct.listenOnce { data -= property }
+        if (properties.contains(property)) unexpected()
+        properties += property
+        property.eventDestruct.listenOnce { properties -= property }
         return property
     }
 
@@ -75,9 +74,14 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         val isAlreadyReloading = isPresetReload.isTrue
         if (!isAlreadyReloading) isPresetReload.setTrue()
         eventLoad.fire(item)
-        store.reload(item.store)
+        reload(item.store.data)
         eventChange.fire(item)
         if (!isAlreadyReloading) isPresetReload.setFalse()
+    }
+
+    internal fun reload(data: Map<String, Any?>) {
+        store.reload(data)
+        properties.forEach(CSPresetKeyData::onStoreLoaded)
     }
 
     fun saveAsNew(item: PresetListItem) {
