@@ -2,6 +2,7 @@ package renetik.android.preset.property
 
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.lang.value.isFalse
+import renetik.android.core.lang.value.isTrue
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
@@ -55,13 +56,14 @@ abstract class CSPresetPropertyBase<T>(
         }
     }
 
-    override fun fireChange() {
-        if (preset.isPresetReload.isFalse) super.fireChange()
-        else launch {
-            preset.isPresetReload.waitIsFalse()
-            super.fireChange()
-        }
-    }
+//    override fun fireChange() {
+//        if (preset.isThisPresetReload.isTrue || preset.isPresetReload.isFalse)
+//            super.fireChange()
+//        else launch {
+//            preset.isPresetReload.waitIsFalse()
+//            super.fireChange()
+//        }
+//    }
 
     val isStored get() = get(store) != null
 }

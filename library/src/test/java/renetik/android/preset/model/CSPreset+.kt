@@ -12,6 +12,8 @@ fun <T : CSPreset<CSPresetItem, CSPresetTestPresetItemList>>
             item.store.clear()
             for (property: CSPresetKeyData in properties)
                 property.saveTo(item.store)
+            for (preset: CSPreset<*,*> in presets)
+                preset.store.saveTo(item.store)
         }
     }
 }
