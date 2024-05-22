@@ -21,6 +21,7 @@ class CSPresetStore(
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.destruct()
     private val saveToParentStore = preset.laterOnce { saveTo(parentStore) }
+//    val isSaved: Boolean get() = parentStore.has(key)
 
     init {
         parentStore.getMap(key)?.let(::load)

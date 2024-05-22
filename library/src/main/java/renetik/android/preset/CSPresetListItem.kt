@@ -30,8 +30,8 @@ class CSPresetListItem<
     override fun onStoreLoaded() = property.save()
 
     private fun getDefaultItem(): PresetItem =
-        if (parentStore.has(key)) notFoundPresetItem()
-        else preset.list.defaultItems.find { it.id == defaultItemId }
+//        if (preset.store.isSaved) notFoundPresetItem()
+         preset.list.defaultItems.find { it.id == defaultItemId }
             ?: preset.list.defaultItems[0]
 
     override fun value(newValue: PresetItem, fire: Boolean) {

@@ -43,15 +43,14 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val id = "$key preset"
     val isFollowStore = property(true)
     val isPresetReload = property(false)
-//    val isThisPresetReload = property(false)
+
     val eventLoad = event<PresetListItem>()
     val eventSave = event<PresetListItem>()
     val eventChange = event<PresetListItem>()
     val eventDelete = event<PresetListItem>()
 
-    //listItem first, store second so they listen load in right order
-    val listItem = CSPresetListItem(this, parentStore, notFoundItem, defaultItemId)
     val store = CSPresetStore(this, parentStore)
+    val listItem = CSPresetListItem(this, parentStore, notFoundItem, defaultItemId)
 
     val title = store.property(this, "preset title", default = "")
     val properties = mutableListOf<CSPresetKeyData>()
@@ -68,7 +67,6 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         if (presets.contains(preset)) unexpected()
         preset + isPresetReload.onChange { preset.isPresetReload.value = it }
         add(preset.listItem)
-//        add(preset.store)
         presets += preset
         preset.eventDestruct.listenOnce { presets -= preset }
     }
@@ -85,10 +83,8 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     }
 
     internal fun reload(data: Map<String, Any?>) {
-//        isThisPresetReload.setTrue()
         store.reload(data)
         properties.toList().forEach(CSPresetKeyData::onStoreLoaded)
-//        isThisPresetReload.setFalse()
         presets.toList().forEach { it.store.onStoreLoaded() }
     }
 
