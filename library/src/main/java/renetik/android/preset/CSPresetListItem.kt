@@ -13,7 +13,7 @@ class CSPresetListItem<
         PresetList : CSPresetDataList<PresetItem>,
         >(
     override val preset: CSPreset<PresetItem, PresetList>,
-    parentStore: CSStore,
+    private val parentStore: CSStore,
     private val notFoundPresetItem: () -> PresetItem,
     private val defaultItemId: String? = null,
 ) : CSPropertyWrapper<PresetItem>(preset), CSPresetKeyData {
@@ -30,8 +30,8 @@ class CSPresetListItem<
     override fun onStoreLoaded() = property.save()
 
     private fun getDefaultItem(): PresetItem =
-//        if (currentItem.isSaved) notFoundPresetItem() else
-        preset.list.defaultItems.find { it.id == defaultItemId }
+        if (parentStore.has(key)) notFoundPresetItem()
+        else preset.list.defaultItems.find { it.id == defaultItemId }
             ?: preset.list.defaultItems[0]
 
     override fun value(newValue: PresetItem, fire: Boolean) {
