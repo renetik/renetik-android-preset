@@ -16,7 +16,7 @@ import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
 
 class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<PresetListItem>>(
-    parent: CSHasRegistrationsHasDestruct, parentStore: CSStore,
+    parent: CSHasRegistrationsHasDestruct, val parentStore: CSStore,
     key: String, val list: PresetList,
     notFoundItem: () -> PresetListItem, defaultItemId: String? = null,
 ) : CSModel(parent), CSHasChange<Unit> {
@@ -49,8 +49,8 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val eventChange = event<PresetListItem>()
     val eventDelete = event<PresetListItem>()
 
-    val store = CSPresetStore(this, parentStore)
-    val listItem = CSPresetListItem(this, parentStore, notFoundItem, defaultItemId)
+    val store = CSPresetStore(this)
+    val listItem = CSPresetListItem(this, notFoundItem, defaultItemId)
 
     val title = store.property(this, "preset title", default = "")
     val properties = mutableListOf<CSPresetKeyData>()
