@@ -2,14 +2,11 @@ package renetik.android.preset.property
 
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.lang.value.isFalse
-import renetik.android.core.lang.value.isTrue
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
-import renetik.android.event.registration.launch
-import renetik.android.event.registration.waitIsFalse
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 
@@ -21,7 +18,7 @@ abstract class CSPresetPropertyBase<T>(
 ) : CSPropertyBase<T>(parent, onChange), CSPresetProperty<T> {
 
     protected abstract val default: T
-    protected var _value by lazyNullableVar { load() }
+    private var _value by lazyNullableVar { load() }
     protected abstract fun get(store: CSStore): T?
     protected abstract fun load(): T
 
@@ -55,6 +52,18 @@ abstract class CSPresetPropertyBase<T>(
             onValueChanged(newValue)
         }
     }
+
+    private var isTrackingModified = false
+    override fun trackModified(track: Boolean) = apply {
+        isTrackingModified = track
+    }
+
+    override val isModified
+        get() = if (isTrackingModified)
+            if (preset.listItem.value.store.has(key))
+                value != getFiltered(preset.listItem.value.store)
+            else value != default
+        else false
 
 //    override fun fireChange() {
 //        if (preset.isThisPresetReload.isTrue || preset.isPresetReload.isFalse)

@@ -12,6 +12,7 @@ import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
+import renetik.android.preset.property.CSPresetProperty
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
 
@@ -55,6 +56,10 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val title = store.property(this, "preset title", default = "")
     val properties = mutableListOf<CSPresetKeyData>()
     val presets = mutableListOf<CSPreset<*, *>>()
+
+    val isModified: Boolean
+        get() = properties.any { (it as? CSPresetProperty<*>)?.isModified ?: false }
+                || presets.any { it.isModified }
 
     fun <T : CSPresetKeyData> add(property: T): T {
         if (properties.contains(property)) unexpected()

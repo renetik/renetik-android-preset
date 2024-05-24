@@ -7,5 +7,6 @@ interface CSPresetProperty<T> : CSStoreProperty<T>, CSPresetKeyData {
     companion object;
     override val store get() = preset.store
     val isFollowPreset: CSProperty<Boolean>
+    val isModified: Boolean
 }
 
