@@ -32,8 +32,11 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         ).also(parentPreset::add)
 
         fun <Parent, PresetItem : CSPresetItem, Presets : CSPresetDataList<PresetItem>> CSPreset(
-            parent: Parent, key: String, list: Presets,
-            notFoundItem: () -> PresetItem, defaultItemId: String? = null
+            parent: Parent,
+            key: String,
+            list: Presets,
+            notFoundItem: () -> PresetItem,
+            defaultItemId: String? = null
         ): CSPreset<PresetItem, Presets> where Parent : CSHasPreset, Parent : CSHasRegistrationsHasDestruct =
             CSPreset(
                 parent, parent.preset, key = "${parent.presetId} $key",
