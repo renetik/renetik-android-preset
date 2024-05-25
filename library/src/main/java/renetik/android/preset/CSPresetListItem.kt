@@ -32,6 +32,10 @@ class CSPresetListItem<
 
     override fun onStoreLoaded() = property.save()
 
+    fun clear() = value(
+        preset.list.defaultItems.find { it.id == defaultItemId } ?: preset.list.defaultItems[0]
+    )
+
     override val isModified: Boolean
         get() = parentStore.get(key) != currentId.value
 
