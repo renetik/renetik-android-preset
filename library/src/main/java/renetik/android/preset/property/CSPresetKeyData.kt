@@ -11,4 +11,6 @@ interface CSPresetKeyData : CSHasDestruct {
     val key: String
     fun saveTo(store: CSStore)
     fun onStoreLoaded()
+    val isModified: Boolean get() = false
+    fun isModifiedIn(store: CSStore): Boolean = false
 }
