@@ -46,5 +46,5 @@ class CSPresetStore(
 
     override fun hashCode() = 31 * key.hashCode() + super.hashCode()
 
-    override fun toString() = "$key ${super.toString()}"
+    override fun toString() = "key:$key ${super.toString()}"
 }

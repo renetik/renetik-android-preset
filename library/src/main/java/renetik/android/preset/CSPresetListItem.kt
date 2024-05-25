@@ -21,8 +21,7 @@ class CSPresetListItem<
     override val key = "${preset.id} current"
 
     override val property = parentStore.property(
-        this, key, preset.list::items,
-        getDefault = { if (preset.store.isSaved) notFoundPresetItem() else getDefaultItem() }
+        this, key, preset.list::items, getDefault = ::getDefaultItem
     ).also { it.save() }
 
     override fun saveTo(store: CSStore) = store.set(key, property.value.toId())
@@ -48,5 +47,5 @@ class CSPresetListItem<
         preset.reload(newValue)
     }
 
-    override fun toString() = "$key ${super.toString()}"
+    override fun toString() = "key:$key ${super.toString()}"
 }

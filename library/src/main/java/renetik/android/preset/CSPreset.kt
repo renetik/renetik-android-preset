@@ -14,7 +14,7 @@ import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
-import renetik.android.store.type.CSJsonObjectStore
+import renetik.android.store.type.CSJsonObjectStore.Companion.CSJsonObjectStore
 
 class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<PresetListItem>>(
     parent: CSHasRegistrationsHasDestruct, val parentStore: CSStore,
@@ -60,23 +60,19 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val properties = mutableListOf<CSPresetKeyData>()
     val presets = mutableListOf<CSPreset<*, *>>()
 
-    val isModified: Boolean get() = isModifiedIn(listItem.value.store)
-
     fun clear() {
         store.clear()
         listItem.clear()
     }
 
+    val isModified: Boolean get() = isModifiedIn(listItem.value.store)
+
     private fun isModifiedIn(store: CSStore): Boolean =
-        properties.any { it.isModifiedIn(store) } ||
-                presets.any { preset ->
-                    if (store.has(preset.store.key)) {
-                        val presetStoreInItem = CSJsonObjectStore().apply {
-                            load(store.getMap(preset.store.key)!!)
-                        }
-                        preset.isModifiedIn(presetStoreInItem)
-                    } else preset.isModifiedIn(preset.listItem.value.store)
-                }
+        properties.any { it.isModifiedIn(store) } || presets.any {
+            store.getMap(it.store.key)?.let { data ->
+                it.isModifiedIn(CSJsonObjectStore(data))
+            } ?: it.isModifiedIn(it.listItem.value.store)
+        }
 
     fun <T : CSPresetKeyData> add(property: T): T {
         if (properties.contains(property)) unexpected()
