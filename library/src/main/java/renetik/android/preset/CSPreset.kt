@@ -59,6 +59,11 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
 
     val isModified: Boolean get() = isModifiedIn(listItem.value.store)
 
+    fun clear() {
+        store.clear()
+        listItem.clear()
+    }
+
     private fun isModifiedIn(store: CSStore): Boolean =
         properties.any {
             if (it.isModifiedIn(store)) {
