@@ -65,26 +65,15 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     }
 
     private fun isModifiedIn(store: CSStore): Boolean =
-        properties.any {
-            if (it.isModifiedIn(store)) {
-                true
-            } else {
-                false
-            }
-        } || presets.any { preset ->
-            if (listItem.value.store.has(preset.store.key)) {
-                val presetStoreInItem = CSJsonObjectStore().apply {
-                    load(listItem.value.store.getMap(preset.store.key)!!)
+        properties.any { it.isModifiedIn(store) } ||
+                presets.any { preset ->
+                    if (store.has(preset.store.key)) {
+                        val presetStoreInItem = CSJsonObjectStore().apply {
+                            load(store.getMap(preset.store.key)!!)
+                        }
+                        preset.isModifiedIn(presetStoreInItem)
+                    } else preset.isModifiedIn(preset.listItem.value.store)
                 }
-                preset.properties.any {
-                    if (it.isModifiedIn(presetStoreInItem)) {
-                        true
-                    } else {
-                        false
-                    }
-                }
-            } else false
-        }
 
     fun <T : CSPresetKeyData> add(property: T): T {
         if (properties.contains(property)) unexpected()
