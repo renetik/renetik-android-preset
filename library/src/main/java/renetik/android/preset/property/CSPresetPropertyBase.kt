@@ -58,13 +58,6 @@ abstract class CSPresetPropertyBase<T>(
         isTrackingModified = track
     }
 
-    override val isModified //TODO..
-        get() = if (isTrackingModified)
-            if (preset.listItem.value.store.has(key))
-                value != getFiltered(preset.listItem.value.store)
-            else value != default
-        else false
-
     override fun isModifiedIn(store: CSStore) = if (isTrackingModified)
         if (store.has(key)) value != getFiltered(store)
         else value != default

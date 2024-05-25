@@ -36,9 +36,6 @@ class CSPresetListItem<
         preset.list.defaultItems.find { it.id == defaultItemId } ?: preset.list.defaultItems[0]
     )
 
-    override val isModified: Boolean
-        get() = parentStore.get(key) != currentId.value
-
     override fun isModifiedIn(store: CSStore) =
         if (store.has(key)) currentId.value != store.get(key)
         else currentId.value != (preset.list.defaultItems.find { it.id == defaultItemId }
