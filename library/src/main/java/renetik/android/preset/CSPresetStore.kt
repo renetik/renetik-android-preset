@@ -47,15 +47,4 @@ class CSPresetStore(
     override fun hashCode() = 31 * key.hashCode() + super.hashCode()
 
     override fun toString() = "$key ${super.toString()}"
-
-//TODO?: Way to clean preset data from residuals,
-// but we need to move title and description properties somehow to
-// CSPreset.dataList
-//    override fun reset() {
-//        data.clear()
-//        preset.data.forEach {
-//            if (it != this) it.reset()
-//            it.saveTo(this)
-//        }
-//    }
 }
