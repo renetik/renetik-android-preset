@@ -1,6 +1,6 @@
 package renetik.android.preset
 
-interface CSHasPreset {
+interface CSHasPresetId {
     val preset: Preset
     val presetId: String
 }

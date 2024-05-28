@@ -37,7 +37,7 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
             list: Presets,
             notFoundItem: () -> PresetItem,
             defaultItemId: String? = null
-        ): CSPreset<PresetItem, Presets> where Parent : CSHasPreset, Parent : CSHasRegistrationsHasDestruct =
+        ): CSPreset<PresetItem, Presets> where Parent : CSHasPresetId, Parent : CSHasRegistrationsHasDestruct =
             CSPreset(
                 parent, parent.preset, key = "${parent.presetId} $key",
                 list, notFoundItem, defaultItemId
