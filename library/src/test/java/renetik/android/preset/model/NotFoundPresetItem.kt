@@ -4,7 +4,7 @@ import renetik.android.preset.CSPresetItem
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore
 
-class NotFoundInstPresetItem : CSPresetItem {
+class NotFoundPresetItem : CSPresetItem {
     override val store: CSStore = CSJsonObjectStore()
-    override val id: String = CSPresetItem.NotFoundPresetItemId
+    override val id: String = "NotFoundPresetItemId"
 }

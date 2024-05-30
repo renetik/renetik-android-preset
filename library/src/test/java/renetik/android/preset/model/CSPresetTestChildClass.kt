@@ -14,7 +14,7 @@ class CSPresetTestChildClass(
     private val presetList = CSPresetTestPresetItemList(ClearChildPresetItemId)
 
     val childPreset1 = CSPreset(
-        this, preset, "$key childPreset1", presetList, ::NotFoundInstPresetItem
+        this, preset, "$key childPreset1", presetList, ::NotFoundPresetItem
     ).manageItems().init()
     val childPreset1Props = List(4) {
         childPreset1.property(
@@ -23,7 +23,7 @@ class CSPresetTestChildClass(
     }
 
     val childPreset2 = CSPreset(
-        this, preset, "$key childPreset2", presetList, ::NotFoundInstPresetItem
+        this, preset, "$key childPreset2", presetList, ::NotFoundPresetItem
     ).manageItems().init()
     val childPreset2Props = List(4) {
         childPreset2.property(

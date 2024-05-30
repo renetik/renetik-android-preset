@@ -10,7 +10,7 @@ class CSPresetTestParentClass(store: CSStore) : CSModel() {
     private val presetList = CSPresetTestPresetItemList(ClearPresetItemId)
 
     val parentPreset = CSPreset(
-        this, store, "parent", presetList, ::NotFoundInstPresetItem
+        this, store, "parent", presetList, ::NotFoundPresetItem
     ).manageItems().init()
 
     val children = List(4) {
