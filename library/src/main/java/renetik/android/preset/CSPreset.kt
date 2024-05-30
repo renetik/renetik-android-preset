@@ -123,4 +123,9 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     override fun onChange(function: (Unit) -> Unit) = eventChange.listen { function(Unit) }
 
     fun saveAsCurrent() = eventSave.fire(listItem.value)
+
+    var onSaveToParentPresetItemStore: (Boolean, CSStore) -> Unit =
+        { isDefault, itemStore ->
+            this.store.saveTo(itemStore)
+        }
 }
