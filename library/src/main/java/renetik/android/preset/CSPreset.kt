@@ -111,6 +111,10 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         listItem.value(item)
     }
 
+    fun saveAs(item: PresetListItem) {
+        eventSave.fire(item) // Order important
+    }
+
     fun delete(item: PresetListItem) {
         list.remove(item)
         eventDelete.fire(item)
