@@ -24,4 +24,8 @@ abstract class CSValuePresetProperty<T>(
     }
 
     fun storeDefaultNow() = apply { storeDefault(default) }
+
+    fun storeDefaultOnLoad(isEnabled: Boolean = true) = apply {
+        isOnLoadStoreDefaultValue = isEnabled
+    }
 }
