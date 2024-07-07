@@ -9,5 +9,3 @@ interface CSPresetDataList<PresetItem : CSPresetItem> {
     fun createItem(title: String, isDefault: Boolean): PresetItem
     fun reload()
 }
-
-val CSPresetDataList<*>.size: Int get() = defaultItems.size + userItems.size
