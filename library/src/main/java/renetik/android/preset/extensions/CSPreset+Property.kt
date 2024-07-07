@@ -76,13 +76,12 @@ fun <T> Preset.property(
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, getValues: () -> List<T>,
     defaultIndex: Int, onChange: ArgFunc<T>? = null
-) =
-    add(
-        CSListItemValuePresetProperty(
-            parent, this, key, getValues,
-            { getValues()[defaultIndex] }, onChange
-        )
+) = add(
+    CSListItemValuePresetProperty(
+        parent, this, key, getValues,
+        { getValues()[defaultIndex] }, onChange
     )
+)
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, getValues: () -> List<T>,
