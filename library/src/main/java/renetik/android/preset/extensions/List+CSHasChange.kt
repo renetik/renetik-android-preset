@@ -4,7 +4,6 @@ import renetik.android.core.lang.Func
 import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnce
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistrationsList
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.preset.Preset
 

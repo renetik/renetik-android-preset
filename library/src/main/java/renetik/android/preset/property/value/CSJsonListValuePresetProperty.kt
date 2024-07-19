@@ -1,10 +1,9 @@
 package renetik.android.preset.property.value
 
 import renetik.android.event.common.CSHasDestruct
-import renetik.android.event.common.CSHasRegistrationsHasDestruct
-import renetik.android.store.type.CSJsonObjectStore
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
+import renetik.android.store.type.CSJsonObjectStore
 import kotlin.reflect.KClass
 
 class CSJsonListValuePresetProperty<T : CSJsonObjectStore>(
