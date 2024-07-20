@@ -13,7 +13,7 @@ import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
-import renetik.android.store.extensions.property
+import renetik.android.store.extensions.dataProperty
 import renetik.android.store.type.CSJsonObjectStore.Companion.CSJsonObjectStore
 
 class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<PresetListItem>>(
@@ -56,7 +56,7 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val store = CSPresetStore(this)
     val listItem = CSPresetListItem(this, notFoundItem, defaultItemId)
 
-    val title = store.property(this, "preset title", default = "")
+    val title = store.dataProperty("preset title", default = "")
     val properties = mutableListOf<CSPresetKeyData>()
     val presets = mutableListOf<CSPreset<*, *>>()
 
@@ -124,7 +124,8 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
 
     fun onBeforeChange(function: () -> Unit) = eventLoad.listen { function() }
 
-    override fun onChange(function: (Unit) -> Unit) = eventChange.listen { function(Unit) }
+    override fun onChange(function: (Unit) -> Unit) =
+        eventChange.listen { function(Unit) }
 
     fun saveAsCurrent() = eventSave.fire(listItem.value)
 

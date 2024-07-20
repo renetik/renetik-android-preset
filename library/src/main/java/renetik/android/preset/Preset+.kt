@@ -2,13 +2,21 @@ package renetik.android.preset
 
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
+import renetik.android.core.lang.to
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
+import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnce
+import renetik.android.event.common.onDestructed
 import renetik.android.event.property.CSProperty
+import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.connect
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChange.Companion.action
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.hasChangeValue
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistrationsMap
+import renetik.android.event.registration.onChange
 import renetik.android.event.registration.pause
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.resume
@@ -128,3 +136,29 @@ fun <T : Preset> T.onChange(
         paused.resume()
     }
 )
+
+fun Preset.isModified(
+    parent: CSHasRegistrationsHasDestruct
+): CSHasChangeValue<Boolean> {
+    val property = property(isModified)
+    val registrations = CSRegistrationsMap(this)
+    val update = registrations.laterOnce(after = 500) { property.value(isModified) }
+    val storeOnChange = registrations + store.onChange { update() }
+    registrations + onBeforeChange { storeOnChange.pause() }
+    registrations + onChange { storeOnChange.resume(); update() }
+    registrations + (listItem to listItem.value.store.eventLoaded to eventSave)
+        .onChange { update() }
+    this + registrations
+    this + parent.onDestructed { registrations.cancel() }
+//    this + (parent + registrations)
+    return property
+}
+
+fun Preset.title(
+    parent: CSHasRegistrationsHasDestruct, withIsModified: Boolean = false
+): CSHasChangeValue<String> =
+    if (withIsModified) (title to isModified(parent)).hasChangeValue(
+        this, from = { title, modified ->
+            "$title${if (modified) " *" else ""}"
+        })
+    else title
