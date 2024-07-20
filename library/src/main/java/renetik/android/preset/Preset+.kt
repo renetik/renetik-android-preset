@@ -155,10 +155,12 @@ fun Preset.isModified(
 }
 
 fun Preset.title(
-    parent: CSHasRegistrationsHasDestruct, withIsModified: Boolean = false
-): CSHasChangeValue<String> =
-    if (withIsModified) (title to isModified(parent)).hasChangeValue(
-        this, from = { title, modified ->
-            "$title${if (modified) " *" else ""}"
-        })
-    else title
+    parent: CSHasRegistrationsHasDestruct, withModified: Boolean = false
+): CSHasChangeValue<String> = if (withModified) titleWithModified(parent) else title
+
+fun Preset.titleWithModified(
+    parent: CSHasRegistrationsHasDestruct
+): CSHasChangeValue<String> = (title to isModified(parent)).hasChangeValue(
+    this, from = { title, modified ->
+        "$title${if (modified) " *" else ""}"
+    })
