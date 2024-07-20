@@ -137,6 +137,10 @@ fun <T : Preset> T.onChange(
     }
 )
 
+//TODO: write test to prove why it has to be like this to avoid leaks
+// and why it has to be so complicated...
+// also if this shell be used in the future as general solution it has to be
+// reused for all clients of preset but calculated just when used
 fun Preset.isModified(
     parent: CSHasRegistrationsHasDestruct
 ): CSHasChangeValue<Boolean> {
@@ -150,7 +154,7 @@ fun Preset.isModified(
         .onChange { update() }
     this + registrations
     this + parent.onDestructed { registrations.cancel() }
-//    this + (parent + registrations)
+//    this + (parent + registrations) // TODO: And why this is not ok..
     return property
 }
 
