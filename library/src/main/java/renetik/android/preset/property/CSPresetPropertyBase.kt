@@ -63,14 +63,5 @@ abstract class CSPresetPropertyBase<T>(
         else value != default
     else false
 
-//    override fun fireChange() {
-//        if (preset.isThisPresetReload.isTrue || preset.isPresetReload.isFalse)
-//            super.fireChange()
-//        else launch {
-//            preset.isPresetReload.waitIsFalse()
-//            super.fireChange()
-//        }
-//    }
-
     val isStored get() = get(store) != null
 }
