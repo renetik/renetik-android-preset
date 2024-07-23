@@ -3,6 +3,7 @@ package renetik.android.preset
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.to
+import renetik.android.core.lang.value.isTrue
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnce
 import renetik.android.event.common.onDestructed
@@ -88,12 +89,15 @@ fun <T : Preset, V> T.action(
     ))
 }
 
-fun <T : Preset> T.onChangePause(
+fun <T : Preset> T.onReloadPause(
     vararg registrations: CSRegistration,
-): CSRegistration = CSRegistration(
-    onBeforeChange { registrations.pause() },
-    onChange { registrations.resume() }
-)
+): CSRegistration {
+    if (isReload.isTrue) registrations.pause()
+    return CSRegistration(
+        onBeforeChange { registrations.pause() },
+        onChange { registrations.resume() }
+    )
+}
 
 //fun <T : Preset> T.onChange(
 //    vararg registrations: CSRegistration,
