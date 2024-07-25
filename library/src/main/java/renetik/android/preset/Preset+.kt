@@ -9,6 +9,7 @@ import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnce
 import renetik.android.event.common.onDestructed
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.property.CSPropertyBase
 import renetik.android.event.property.connect
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChange.Companion.action
@@ -96,6 +97,16 @@ fun <T : Preset> T.onReloadPause(
     return CSRegistration(
         onBeforeChange { registrations.pause() },
         onChange { registrations.resume() }
+    )
+}
+
+fun <T : Preset> T.onReloadPause(
+    vararg properties: CSProperty<*>,
+): CSRegistration {
+    if (isReload.isTrue) properties.forEach(CSProperty<*>::pause)
+    return CSRegistration(
+        onBeforeChange { properties.forEach(CSProperty<*>::pause) },
+        onChange { properties.forEach(CSProperty<*>::resume) }
     )
 }
 
