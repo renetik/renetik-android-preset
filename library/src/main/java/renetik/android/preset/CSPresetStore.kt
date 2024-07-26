@@ -3,6 +3,7 @@ package renetik.android.preset
 import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnce
 import renetik.android.event.common.destruct
+import renetik.android.event.common.onDestructed
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore
@@ -17,11 +18,19 @@ class CSPresetStore(
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.destruct()
-    private val saveToParentStore = preset.laterOnce { saveNow() }
-    fun saveNow() = saveTo(parentStore)
+
+    private var pendingSave: Boolean = false
+    private fun saveToParentStore() {
+        pendingSave = true; preset.laterOnce(function = ::saveNow)
+    }
+
+    fun saveNow() {
+        pendingSave = false; saveTo(parentStore)
+    }
 
     init {
         parentStore.getMap(key)?.let(::load)
+        preset.onDestructed { if (pendingSave) saveNow() }
     }
 
     override fun onStoreLoaded() {
