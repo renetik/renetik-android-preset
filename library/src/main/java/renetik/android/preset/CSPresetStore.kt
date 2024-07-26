@@ -13,12 +13,12 @@ class CSPresetStore(
     val parentStore: CSStore = preset.parentStore
     override val key = "${preset.id} store"
     override fun saveTo(store: CSStore) = store.set(key, data)
-    var isSavedToParentPresetAsDefaultWithoutChildStores = false
 
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.destruct()
-    private val saveToParentStore = preset.laterOnce { saveTo(parentStore) }
+    private val saveToParentStore = preset.laterOnce { saveNow() }
+    fun saveNow() = saveTo(parentStore)
 
     init {
         parentStore.getMap(key)?.let(::load)
