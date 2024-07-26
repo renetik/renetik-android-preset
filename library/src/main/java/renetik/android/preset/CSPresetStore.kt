@@ -19,12 +19,15 @@ class CSPresetStore(
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.destruct()
 
+    private val saveLater = preset.laterOnce(function = ::saveNow)
+
     private var pendingSave: Boolean = false
+
     private fun saveToParentStore() {
-        pendingSave = true; preset.laterOnce(function = ::saveNow)
+        pendingSave = true; saveLater()
     }
 
-    fun saveNow() {
+    private fun saveNow() {
         pendingSave = false; saveTo(parentStore)
     }
 
