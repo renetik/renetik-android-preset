@@ -62,14 +62,14 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val presets = mutableListOf<CSPreset<*, *>>()
 
     fun clear() {
-        listItem.clear()
-        store.clear()
+        listItem.clearKeyData()
+        store.clearKeyData()
     }
 
     fun purge() {
         destruct()
-        listItem.clear()
-        store.clear()
+        listItem.clearKeyData()
+        store.clearKeyData()
     }
 
     val isModified: Boolean get() = isModifiedIn(listItem.value.store)

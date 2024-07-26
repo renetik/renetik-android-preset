@@ -32,7 +32,7 @@ class CSPresetStore(
         pendingSave = false; saveTo(parentStore)
     }
 
-    override fun clear() = parentStore.clear(key)
+    override fun clearKeyData() = parentStore.clear(key)
 
     init {
         parentStore.getMap(key)?.let(::load)
@@ -54,8 +54,9 @@ class CSPresetStore(
         saveToParentStore()
     }
 
-    override fun equals(other: Any?) = (other as? CSPresetStore)
-        ?.let { it.key == key && super.equals(other) } ?: super.equals(other)
+    override fun equals(other: Any?) =
+        (other as? CSPresetStore)?.let { it.key == key && super.equals(other) }
+            ?: super.equals(other)
 
     override fun hashCode() = 31 * key.hashCode() + super.hashCode()
 
