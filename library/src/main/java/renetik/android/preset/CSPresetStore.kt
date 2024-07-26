@@ -1,7 +1,7 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.value.isFalse
-import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnce
+import renetik.android.event.common.CSLaterOnceFunc.Companion.funLaterOnce
 import renetik.android.event.common.destruct
 import renetik.android.event.common.onDestructed
 import renetik.android.preset.property.CSPresetKeyData
@@ -19,7 +19,7 @@ class CSPresetStore(
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.destruct()
 
-    private val saveLater = preset.laterOnce(function = ::saveNow)
+    private val saveLater = preset.funLaterOnce(function = ::saveNow)
 
     private var pendingSave: Boolean = false
 
