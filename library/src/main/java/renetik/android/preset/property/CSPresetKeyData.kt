@@ -8,6 +8,7 @@ interface CSPresetKeyData : CSHasDestruct {
     val preset: CSPreset<*, *>
     val key: String
     fun saveTo(store: CSStore)
+    fun clear()
     fun onStoreLoaded()
     fun isModifiedIn(store: CSStore): Boolean = false
 }

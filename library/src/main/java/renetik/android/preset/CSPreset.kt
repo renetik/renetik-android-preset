@@ -7,6 +7,7 @@ import renetik.android.core.lang.variable.setTrue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSModel
+import renetik.android.event.common.destruct
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
@@ -61,10 +62,14 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val presets = mutableListOf<CSPreset<*, *>>()
 
     fun clear() {
-        parentStore.clear(store.key)
-        parentStore.clear(listItem.key)
-        store.clear()
         listItem.clear()
+        store.clear()
+    }
+
+    fun purge() {
+        destruct()
+        listItem.clear()
+        store.clear()
     }
 
     val isModified: Boolean get() = isModifiedIn(listItem.value.store)

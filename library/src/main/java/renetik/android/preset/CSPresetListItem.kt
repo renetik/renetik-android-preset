@@ -32,7 +32,8 @@ class CSPresetListItem<
 
     override fun onStoreLoaded() = property.save()
 
-    fun clear() = value(getDefaultItem())
+    //    fun clear() = value(getDefaultItem())
+    override fun clear() = parentStore.clear(key)
 
     override fun isModifiedIn(store: CSStore) =
         if (store.has(key)) currentId.value != store.get(key)

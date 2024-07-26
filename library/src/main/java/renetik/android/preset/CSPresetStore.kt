@@ -32,6 +32,8 @@ class CSPresetStore(
         pendingSave = false; saveTo(parentStore)
     }
 
+    override fun clear() = parentStore.clear(key)
+
     init {
         parentStore.getMap(key)?.let(::load)
         preset.onDestructed { if (pendingSave) saveNow() }
