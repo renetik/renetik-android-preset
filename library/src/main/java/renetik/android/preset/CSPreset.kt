@@ -61,6 +61,8 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
     val presets = mutableListOf<CSPreset<*, *>>()
 
     fun clear() {
+        parentStore.clear(store.key)
+        parentStore.clear(listItem.key)
         store.clear()
         listItem.clear()
     }
