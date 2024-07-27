@@ -58,10 +58,12 @@ abstract class CSPresetPropertyBase<T>(
         isTrackingModified = track
     }
 
-    override fun isModifiedIn(store: CSStore) = if (isTrackingModified)
-        if (store.has(key)) value != getFiltered(store)
-        else value != default
-    else false
+    override fun isModifiedIn(store: CSStore): Boolean {
+        return if (isTrackingModified)
+            if (store.has(key)) value != getFiltered(store)
+            else value != default
+        else false
+    }
 
     val isStored get() = get(store) != null
 }
