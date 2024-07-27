@@ -5,7 +5,7 @@ import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.CSHasRegistrationsHasDestruct
+import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
 import renetik.android.event.common.destruct
 import renetik.android.event.listenOnce
@@ -17,28 +17,32 @@ import renetik.android.store.CSStore
 import renetik.android.store.extensions.dataProperty
 import renetik.android.store.type.CSJsonObjectStore.Companion.CSJsonObjectStore
 
-class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<PresetListItem>>(
-    parent: CSHasRegistrationsHasDestruct, val parentStore: CSStore,
+class CSPreset<PresetListItem : CSPresetItem,
+        PresetList : CSPresetDataList<PresetListItem>>(
+    parent: CSHasDestruct, val parentStore: CSStore,
     key: String, val list: PresetList,
     notFoundItem: () -> PresetListItem, defaultItemId: String? = null,
 ) : CSModel(parent), CSHasChange<Unit> {
 
     companion object {
-        fun <PresetItem : CSPresetItem, PresetList : CSPresetDataList<PresetItem>> CSPreset(
-            parent: CSHasRegistrationsHasDestruct, parentPreset: CSPreset<*, *>,
+        fun <PresetItem : CSPresetItem,
+                PresetList : CSPresetDataList<PresetItem>> CSPreset(
+            parent: CSHasDestruct, parentPreset: CSPreset<*, *>,
             key: String, list: PresetList,
             notFoundItem: () -> PresetItem, defaultItemId: String? = null,
         ): CSPreset<PresetItem, PresetList> = CSPreset(
             parent, parentPreset.store, key, list, notFoundItem, defaultItemId
         ).also(parentPreset::add)
 
-        fun <Parent, PresetItem : CSPresetItem, Presets : CSPresetDataList<PresetItem>> CSPreset(
+        fun <Parent, PresetItem : CSPresetItem,
+                Presets : CSPresetDataList<PresetItem>> CSPreset(
             parent: Parent,
             key: String,
             list: Presets,
             notFoundItem: () -> PresetItem,
             defaultItemId: String? = null
-        ): CSPreset<PresetItem, Presets> where Parent : CSHasPresetId, Parent : CSHasRegistrationsHasDestruct =
+        ): CSPreset<PresetItem, Presets>
+                where Parent : CSHasPresetId, Parent : CSHasDestruct =
             CSPreset(
                 parent, parent.preset, key = "${parent.presetId} $key",
                 list, notFoundItem, defaultItemId
