@@ -66,7 +66,7 @@ class CSPreset<PresetListItem : CSPresetItem, PresetList : CSPresetDataList<Pres
         store.clearKeyData()
     }
 
-    fun purge() {
+    fun destructClear() {
         destruct()
         listItem.clearKeyData()
         store.clearKeyData()
