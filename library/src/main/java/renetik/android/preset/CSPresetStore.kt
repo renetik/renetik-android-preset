@@ -25,7 +25,8 @@ class CSPresetStore(
     private var pendingSave: Boolean = false
 
     private fun saveToParentStore() {
-        pendingSave = true; saveLater()
+//        pendingSave = true; saveLater() //Temporary to find cause of issues ?
+        saveNow()
     }
 
     private fun saveNow() {
