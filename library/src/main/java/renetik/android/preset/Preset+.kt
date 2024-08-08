@@ -21,6 +21,7 @@ import renetik.android.event.registration.onChange
 import renetik.android.event.registration.pause
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.resume
+import kotlin.time.Duration.Companion.milliseconds
 
 fun <PresetListItem : CSPresetItem,
         PresetList : CSPresetDataList<PresetListItem>,
@@ -160,7 +161,9 @@ fun Preset.isModified(
 ): CSHasChangeValue<Boolean> {
     val property = property(isModified)
     val registrations = CSRegistrationsMap(this)
-    val update = registrations.laterOnceFunc({ property.value(isModified) }, after = 500)
+    val update = registrations.laterOnceFunc(500.milliseconds) {
+        property.value(isModified)
+    }
     val storeOnChange = registrations + store.onChange { update() }
     registrations + onBeforeChange { storeOnChange.pause() }
     registrations + onChange { storeOnChange.resume(); update() }
