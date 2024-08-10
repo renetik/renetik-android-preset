@@ -46,11 +46,20 @@ abstract class CSPresetPropertyBase<T>(
         if (isFollowPreset.isFalse)
             store.eventChanged.paused { saveTo(store) }
         else {
-            val newValue = load()
-            if (_value == newValue) return
-            _value = newValue
-            onValueChanged(newValue)
+            update()
         }
+    }
+
+    private fun update() {
+        val newValue = load()
+        if (_value == newValue) return
+        _value = newValue
+        onValueChanged(newValue)
+    }
+
+    override fun clear() {
+        store.clear(key)
+        update()
     }
 
     private var isTrackingModified = false
