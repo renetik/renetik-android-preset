@@ -17,7 +17,7 @@ abstract class CSPresetPropertyBase<T>(
     onChange: ((value: T) -> Unit)? = null
 ) : CSPropertyBase<T>(parent, onChange), CSPresetProperty<T> {
 
-    protected abstract val default: T
+    abstract override val default: T
     private var _value by lazyNullableVar { load() }
     protected abstract fun get(store: CSStore): T?
     protected abstract fun load(): T
@@ -67,12 +67,8 @@ abstract class CSPresetPropertyBase<T>(
         isTrackingModified = track
     }
 
-    override fun isModifiedIn(store: CSStore): Boolean {
-        return if (isTrackingModified)
-            if (store.has(key)) value != getFiltered(store)
-            else value != default
-        else false
-    }
+    override fun isTrackedModifiedIn(store: CSStore): Boolean =
+        if (isTrackingModified) isModifiedIn(store) else false
 
     val isStored get() = get(store) != null
 }

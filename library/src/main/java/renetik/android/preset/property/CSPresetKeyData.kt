@@ -10,5 +10,5 @@ interface CSPresetKeyData : CSHasDestruct {
     fun saveTo(store: CSStore)
     fun clearKeyData()
     fun onStoreLoaded()
-    fun isModifiedIn(store: CSStore): Boolean = false
+    fun isTrackedModifiedIn(store: CSStore): Boolean = false
 }

@@ -79,7 +79,7 @@ class CSPreset<PresetListItem : CSPresetItem,
     val isModified: Boolean get() = isModifiedIn(listItem.value.store)
 
     private fun isModifiedIn(store: CSStore): Boolean =
-        properties.any { it.isModifiedIn(store) } || presets.any {
+        properties.any { it.isTrackedModifiedIn(store) } || presets.any {
             store.getMap(it.store.key)?.let { data ->
                 it.isModifiedIn(CSJsonObjectStore(data))
             } ?: it.isModifiedIn(it.listItem.value.store)

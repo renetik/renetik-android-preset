@@ -34,7 +34,7 @@ class CSPresetListItem<
 
     override fun clearKeyData() = parentStore.clear(key)
 
-    override fun isModifiedIn(store: CSStore) =
+    override fun isTrackedModifiedIn(store: CSStore) =
         if (store.has(key)) currentId.value != store.get(key)
         else currentId.value != getDefaultItem().id
 
