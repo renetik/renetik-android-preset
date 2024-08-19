@@ -86,14 +86,14 @@ class CSPreset<PresetListItem : CSPresetItem,
         }
 
     fun <T : CSPresetKeyData> add(property: T): T {
-        if (properties.contains(property)) unexpected()
+        if (property in properties) unexpected()
         properties += property
         property.eventDestruct.listenOnce { properties -= property }
         return property
     }
 
     private fun add(preset: CSPreset<*, *>) {
-        if (presets.contains(preset)) unexpected()
+        if (preset in presets) unexpected()
         preset + isReload.onChange { preset.isReload.value = it }
         add(preset.listItem)
         presets += preset
