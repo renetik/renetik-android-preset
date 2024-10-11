@@ -141,7 +141,5 @@ class CSPreset<PresetListItem : CSPresetItem,
     fun saveAsCurrent() = eventSave.fire(listItem.value)
 
     var onSaveToParentPresetItemStore: (Boolean, CSStore) -> Unit =
-        { isDefault, itemStore ->
-            this.store.saveTo(itemStore)
-        }
+        { isDefault, itemStore -> this.store.saveTo(itemStore) }
 }
