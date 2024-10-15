@@ -25,10 +25,10 @@ import kotlin.time.Duration.Companion.milliseconds
 
 fun <PresetListItem : CSPresetItem,
         PresetList : CSPresetDataList<PresetListItem>,
-        Preset : CSPreset<PresetListItem, PresetList>> Preset.init(): Preset =
-    apply {
-        if (store.data.isEmpty()) reload(listItem.value)
-    }
+        Preset : CSPreset<PresetListItem, PresetList>>
+        Preset.init(): Preset = apply {
+    if (store.data.isEmpty()) reload(listItem.value)
+}
 
 fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) =
     isFollowStore.connect(property)
