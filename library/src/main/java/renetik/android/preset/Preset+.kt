@@ -110,20 +110,6 @@ fun <T : Preset> T.onReloadPause(
     )
 }
 
-//fun <T : Preset> T.onChange(
-//    vararg registrations: CSRegistration,
-//    before: Func,
-//    onChange: Func
-//): CSRegistration = CSRegistration(
-//    onBeforeChange {
-//        registrations.pause()
-//        before()
-//    }, onChange {
-//        onChange()
-//        registrations.resume()
-//    }
-//)
-
 fun <T : Preset> T.onChange(
     paused: CSRegistration,
     before: Func,
