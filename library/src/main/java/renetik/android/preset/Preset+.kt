@@ -24,7 +24,7 @@ import renetik.android.event.registration.resume
 import kotlin.time.Duration.Companion.milliseconds
 
 fun <PresetListItem : CSPresetItem,
-        PresetList : CSPresetDataList<PresetListItem>,
+        PresetList : CSPresetItemList<PresetListItem>,
         Preset : CSPreset<PresetListItem, PresetList>>
         Preset.init(): Preset = apply {
     if (store.data.isEmpty()) reload(listItem.value)

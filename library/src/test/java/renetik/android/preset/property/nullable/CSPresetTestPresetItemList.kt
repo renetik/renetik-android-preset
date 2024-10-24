@@ -4,7 +4,7 @@ import renetik.android.core.kotlin.collections.put
 import renetik.android.preset.CSPresetItem
 import renetik.android.preset.model.CSPresetTestItem
 
-class CSPresetTestPresetItemList : renetik.android.preset.CSPresetDataList<CSPresetItem> {
+class CSPresetTestPresetItemList : renetik.android.preset.CSPresetItemList<CSPresetItem> {
     override val defaultItems = mutableListOf<CSPresetItem>()
     override val userItems = mutableListOf<CSPresetItem>()
 

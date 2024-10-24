@@ -18,7 +18,7 @@ import renetik.android.store.extensions.dataProperty
 import renetik.android.store.type.CSJsonObjectStore.Companion.CSJsonObjectStore
 
 class CSPreset<PresetListItem : CSPresetItem,
-        PresetList : CSPresetDataList<PresetListItem>>(
+        PresetList : CSPresetItemList<PresetListItem>>(
     parent: CSHasDestruct, val parentStore: CSStore,
     key: String, val list: PresetList,
     notFoundItem: () -> PresetListItem, defaultItemId: String? = null,
@@ -26,7 +26,7 @@ class CSPreset<PresetListItem : CSPresetItem,
 
     companion object {
         fun <PresetItem : CSPresetItem,
-                PresetList : CSPresetDataList<PresetItem>> CSPreset(
+                PresetList : CSPresetItemList<PresetItem>> CSPreset(
             parent: CSHasDestruct, parentPreset: CSPreset<*, *>,
             key: String, list: PresetList,
             notFoundItem: () -> PresetItem, defaultItemId: String? = null,
@@ -35,7 +35,7 @@ class CSPreset<PresetListItem : CSPresetItem,
         ).also(parentPreset::add)
 
         fun <Parent, PresetItem : CSPresetItem,
-                Presets : CSPresetDataList<PresetItem>> CSPreset(
+                Presets : CSPresetItemList<PresetItem>> CSPreset(
             parent: Parent,
             key: String,
             list: Presets,

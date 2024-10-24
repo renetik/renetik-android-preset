@@ -11,7 +11,7 @@ import renetik.android.store.property.save
 
 class CSPresetListItem<
         PresetItem : CSPresetItem,
-        PresetList : CSPresetDataList<PresetItem>,
+        PresetList : CSPresetItemList<PresetItem>,
         >(
     override val preset: CSPreset<PresetItem, PresetList>,
     private val notFoundPresetItem: () -> PresetItem,
