@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import renetik.android.core.extensions.content.createTempFile
 import renetik.android.core.java.io.readString
-import renetik.android.core.lang.CSEnvironment
+import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.event.common.CSModel
 import renetik.android.preset.CSPreset
 import renetik.android.preset.init
@@ -42,15 +42,16 @@ class CSPresetStoreContextTest {
     fun presetPropertyPresetReload() = runTest {
         val parent = CSModel()
         val presetList = CSPresetTestPresetItemList(ClearPresetItemId)
-        val testFile = CSEnvironment.app.createTempFile()
+        val testFile = app.createTempFile()
         val store = CSFileJsonStore(
             testFile, isJsonPretty = false, isImmediateWrite = false
         )
         val preset = CSPreset(
             parent, store, "preset1", presetList, ::NotFoundPresetItem
         ).manageItems().init()
+        val contextParent = CSModel(parent)
         val context = PresetStoreContext(
-            parent, id = "contextId", preset, presetId = "contextKey"
+            contextParent, id = "contextId", preset, presetId = "contextKey"
         )
         val property = context.property("property", 5)
         fun checkStoreFor(content: String) {
