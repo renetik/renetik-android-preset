@@ -45,9 +45,7 @@ abstract class CSPresetPropertyBase<T>(
     override fun onStoreLoaded() {
         if (isFollowPreset.isFalse)
             store.eventChanged.paused { saveTo(store) }
-        else {
-            update()
-        }
+        else update()
     }
 
     private fun update() {
@@ -59,7 +57,7 @@ abstract class CSPresetPropertyBase<T>(
 
     override fun clear() {
         store.clear(key)
-        update()
+        if (!isDestructed) update()
     }
 
     private var isTrackingModified = false

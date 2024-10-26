@@ -13,7 +13,7 @@ abstract class CSValuePresetProperty<T>(
     onChange: ((value: T) -> Unit)? = null,
 ) : CSPresetPropertyBase<T>(parent, preset, key, onChange), CSPresetKeyData {
 
-    var isOnLoadStoreDefaultValue = true
+    var isOnLoadStoreDefaultValue = false
 
     override fun load(): T = getFiltered(store) ?: default.also {
         if (isOnLoadStoreDefaultValue) storeDefault(it)
