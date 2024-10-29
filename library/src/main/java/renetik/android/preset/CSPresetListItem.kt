@@ -3,7 +3,7 @@ package renetik.android.preset
 import renetik.android.core.kotlin.toId
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSPropertyWrapper
-import renetik.android.event.property.computed
+import renetik.android.event.property.delegate
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
@@ -26,7 +26,7 @@ class CSPresetListItem<
 
     override fun saveTo(store: CSStore) = store.set(key, property.value.toId())
 
-    val currentId: CSProperty<String> = computed(from = { it.id }, to = { presetId ->
+    val currentId: CSProperty<String> = delegate(from = { it.id }, to = { presetId ->
         preset.list.items.find { it.id == presetId } ?: notFoundPresetItem()
     })
 
