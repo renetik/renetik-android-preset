@@ -99,7 +99,7 @@ class CSPresetSimpleTests {
         assertContains(
             preset.store.data.toJson(),
             """"childPreset preset current":"clear childPreset item"""",
-            """"childPreset preset store":{"childPresetProperty":5}}""",
+            """"childPreset preset store":{}}""",
         )
 
         childPresetProperty.value = 10
@@ -120,7 +120,7 @@ class CSPresetSimpleTests {
             actual = preset.store.data["childPreset preset current"]
         )
         assert(
-            expected = """{"childPresetProperty":5}""",
+            expected = """{}""",
             actual = preset.store.data["childPreset preset store"]?.toJson()
         )
         assertEquals(5, childPresetProperty.value)
