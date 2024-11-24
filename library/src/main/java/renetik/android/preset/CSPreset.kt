@@ -140,6 +140,7 @@ class CSPreset<PresetListItem : CSPresetItem,
 
     fun saveAsCurrent() = eventSave.fire(listItem.value)
 
+    @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     var onSaveToParentPresetItemStore: (Boolean, CSStore) -> Unit =
         { isDefault, itemStore -> this.store.saveTo(itemStore) }
 }
