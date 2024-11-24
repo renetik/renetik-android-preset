@@ -80,17 +80,7 @@ class PresetStoreContext(
     }
 
     override fun destructClear() {
-        preset.store.operation {
-            repeat(properties.size) {
-                properties[0].also { it.destruct(); it.clear() }
-            }
-            repeat(presets.size) {
-                presets[0].also { it.destructClear() }
-            }
-            repeat(childContexts.size) {
-                childContexts[0].also { it.destructClear() }
-            }
-        }
+        clear()
         parent.destruct()
     }
 
