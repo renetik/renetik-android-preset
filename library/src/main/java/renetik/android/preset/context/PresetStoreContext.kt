@@ -73,7 +73,7 @@ class PresetStoreContext(
         presets += preset; preset.onDestructed { presets -= preset }
     }
 
-    override fun clear() = preset.store.operation {
+    override fun clear(): Unit = preset.store.operation {
         properties.forEach(CSPresetProperty<*>::clear)
         childContexts.onEach(StoreContext::clear)
         presets.onEach(CSPreset<*, *>::clear)
