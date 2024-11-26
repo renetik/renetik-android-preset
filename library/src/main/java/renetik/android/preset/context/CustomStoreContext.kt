@@ -4,7 +4,6 @@ import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
-import renetik.android.event.common.destruct
 import renetik.android.event.common.onDestructed
 import renetik.android.event.common.parent
 import renetik.android.event.registration.CSRegistration
@@ -22,12 +21,12 @@ import renetik.android.store.property.listenStore
 import renetik.android.store.property.value.CSIntListValueStoreProperty
 
 class CustomStoreContext(
-    private val parent: CSHasDestruct? = null,
+    parent: CSHasDestruct? = null,
     val store: CSStore,
-    override val key: String,
     private val hasId: CSHasId? = null,
+    override val key: String? = null,
 ) : CSModel(parent), StoreContext {
-    override val id = hasId?.let { "${it.id} $key" } ?: key
+    override val id = hasId?.let { "${it.id} $key" } ?: key ?: ""
     private val childContexts = mutableListOf<StoreContext>()
 
     private fun <T : StoreContext> T.init() = apply {
@@ -35,19 +34,18 @@ class CustomStoreContext(
     }
 
     override fun context(parent: CSHasDestruct, key: String?) =
-        (key?.let { CustomStoreContext(parent, store, key, this) }
-            ?: CustomStoreContext(parent, store, this.key, hasId)).init()
+        (key?.let { CustomStoreContext(parent, store, this, key) }
+            ?: CustomStoreContext(parent, store, hasId, this.key)).init()
 
-    override fun appContext(parent: CSHasDestruct, key: String) =
+    override fun appContext(parent: CSHasDestruct, key: String?) =
         AppStoreContext(parent, this, key).init()
 
-    override fun memoryContext(parent: CSHasDestruct, key: String) =
+    override fun memoryContext(parent: CSHasDestruct, key: String?) =
         RuntimeStoreContext(parent, this, key).init()
 
     override fun onChange(function: (Unit) -> Unit): CSRegistration =
         store.eventLoaded.listen { function(Unit) }
 
-    private val keys = mutableMapOf<String, String>()
 
     private val properties = mutableListOf<CSStoreProperty<*>>()
     private fun <T : CSStoreProperty<*>> T.init() = apply {
@@ -66,18 +64,7 @@ class CustomStoreContext(
         presets.onEach(CSPreset<*, *>::clear)
     }
 
-    override fun destructClear() {
-        store.operation {
-            properties.forEach(CSStoreProperty<*>::clear)
-            repeat(presets.size) {
-                presets[0].also { it.destructClear() }
-            }
-            repeat(childContexts.size) {
-                childContexts[0].also { it.destructClear() }
-            }
-        }
-        parent?.destruct()
-    }
+    private val String.newKey get() = "$id $this"
 
     override fun property(
         key: String, default: String, onChange: ArgFunc<String>?,
@@ -120,6 +107,4 @@ class CustomStoreContext(
         key: String, default: List<Int>, onChange: ArgFunc<List<Int>>?
     ) = CSIntListValueStoreProperty(store, key.newKey, default, onChange)
         .parent(this).listenStore().init()
-
-    private val String.newKey get() = let { "$id $it".apply { keys[it] = this } }
 }

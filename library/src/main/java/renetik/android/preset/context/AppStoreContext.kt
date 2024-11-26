@@ -14,9 +14,9 @@ fun <Parent> AppStoreContext(parent: Parent): CustomStoreContext
     CustomStoreContext(parent, fileStore, key = parent.id)
 
 fun AppStoreContext(
-    parent: CSHasDestruct, hasId: CSHasId? = null, key: String,
-): CustomStoreContext = CustomStoreContext(parent, fileStore, key, hasId)
+    parent: CSHasDestruct, hasId: CSHasId? = null, key: String? = null,
+): CustomStoreContext = CustomStoreContext(parent, fileStore, hasId, key)
 
 fun RuntimeStoreContext(
-    parent: CSHasDestruct, hasId: CSHasId? = null, key: String,
-): CustomStoreContext = CustomStoreContext(parent, runtimeStore, key, hasId)
+    parent: CSHasDestruct, hasId: CSHasId? = null, key: String? = null,
+): CustomStoreContext = CustomStoreContext(parent, runtimeStore, hasId, key)
