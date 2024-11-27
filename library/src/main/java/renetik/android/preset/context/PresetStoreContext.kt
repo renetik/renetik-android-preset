@@ -57,6 +57,13 @@ class PresetStoreContext(
             presetId = (presetId to key).joinToString(" "), key
         ).init()
 
+
+    fun context(parent: CSHasDestruct, id: String, presetId: String): PresetStoreContext =
+        PresetStoreContext(parent,
+            id = "${this.id} $id", preset,
+            presetId = (this.presetId to presetId).joinToString(" "), key
+        ).init()
+
     override fun appContext(parent: CSHasDestruct, key: String?) =
         AppStoreContext(parent, this, key).init()
 
