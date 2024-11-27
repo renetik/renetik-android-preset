@@ -33,20 +33,6 @@ class CSPreset<PresetListItem : CSPresetItem,
         ): CSPreset<PresetItem, PresetList> = CSPreset(
             parent, parentPreset.store, key, list, notFoundItem, defaultItemId
         ).also(parentPreset::add)
-
-        fun <Parent, PresetItem : CSPresetItem,
-                Presets : CSPresetItemList<PresetItem>> CSPreset(
-            parent: Parent,
-            key: String,
-            list: Presets,
-            notFoundItem: () -> PresetItem,
-            defaultItemId: String? = null
-        ): CSPreset<PresetItem, Presets>
-                where Parent : CSHasPresetId, Parent : CSHasDestruct =
-            CSPreset(
-                parent, parent.preset, key = "${parent.presetId} $key",
-                list, notFoundItem, defaultItemId
-            )
     }
 
     val id = "$key preset"

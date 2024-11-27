@@ -7,7 +7,6 @@ import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
 import renetik.android.event.common.onDestructed
-import renetik.android.preset.CSHasPresetIdHasId
 import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset
 import renetik.android.preset.extensions.nullFloatProperty
@@ -28,15 +27,15 @@ class PresetStoreContext(
 ) : CSModel(parent), StoreContext {
 
     companion object {
-        fun PresetStoreContext(
-            parent: CSHasDestruct, hasPresetHasId: CSHasPresetIdHasId, key: String? = null
-        ) = PresetStoreContext(
-            parent,
-            id = key?.let { "${hasPresetHasId.id} $it" } ?: hasPresetHasId.id,
-            preset = hasPresetHasId.preset,
-            presetId = key?.let { "${hasPresetHasId.presetId} $it" } ?: hasPresetHasId.id,
-            key
-        )
+//        fun PresetStoreContext(
+//            parent: CSHasDestruct, hasPresetHasId: CSHasPresetIdHasId, key: String? = null
+//        ) = PresetStoreContext(
+//            parent,
+//            id = key?.let { "${hasPresetHasId.id} $it" } ?: hasPresetHasId.id,
+//            preset = hasPresetHasId.preset,
+//            presetId = key?.let { "${hasPresetHasId.presetId} $it" } ?: hasPresetHasId.id,
+//            key
+//        )
 
         fun PresetStoreContext(
             parent: CSHasDestruct, hasId: CSHasId, preset: Preset, key: String? = null,
