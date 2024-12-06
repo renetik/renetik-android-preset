@@ -4,6 +4,7 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
+import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
@@ -52,8 +53,11 @@ class CSPreset<PresetListItem : CSPresetItem,
     val presets = mutableListOf<CSPreset<*, *>>()
 
     fun clear() {
-        listItem.clearKeyData()
+        store.clear()
         store.clearKeyData()
+        listItem.clearKeyData()
+        properties.forEach(CSPresetKeyData::clear)
+        title.clear()
     }
 
     fun destructClear() {

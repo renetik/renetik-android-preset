@@ -9,6 +9,7 @@ interface CSPresetKeyData : CSHasDestruct {
     val key: String
     fun saveTo(store: CSStore)
     fun clearKeyData()
+    fun clear()
     fun onStoreLoaded()
     fun isTrackedModifiedIn(store: CSStore): Boolean = false
 }

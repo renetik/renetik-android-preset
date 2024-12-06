@@ -11,6 +11,7 @@ interface CSPresetProperty<T> : CSStoreProperty<T>, CSPresetKeyData {
     val isFollowPreset: CSProperty<Boolean>
     override fun listenStoreLoad() = unexpected()
     override fun clearKeyData() = super.clear()
+    override fun clear() = super.clear()
 }
 
 fun <T : CSPresetProperty<*>> T.isModifiedIn(store: CSStore) = if (store.has(key))
