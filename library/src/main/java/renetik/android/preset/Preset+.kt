@@ -157,7 +157,6 @@ fun Preset.isModified(
         .onChange { update() }
     this + registrations
     this + parent.onDestructed { registrations.cancel() }
-//    this + (parent + registrations) // TODO: And why this is not ok..
     return property
 }
 
