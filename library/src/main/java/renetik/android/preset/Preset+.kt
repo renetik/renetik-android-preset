@@ -1,5 +1,6 @@
 package renetik.android.preset
 
+import renetik.android.core.kotlin.changeIf
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.to
@@ -168,5 +169,5 @@ fun Preset.titleWithModified(
     parent: CSHasRegistrationsHasDestruct
 ): CSHasChangeValue<String> = (title to isModified(parent)).hasChangeValue(
     this, from = { title, modified ->
-        "$title${if (modified) " *" else ""}"
+        title.changeIf(String::isNotBlank) { "$it${if (modified) " *" else ""}" }
     })
