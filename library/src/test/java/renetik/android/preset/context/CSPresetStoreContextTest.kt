@@ -3,6 +3,7 @@ package renetik.android.preset.context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -56,14 +57,14 @@ class CSPresetStoreContextTest {
         )
     }
 
-    private suspend fun checkStoreFor(content: String) {
-        delay(CSFileJsonStore.SAVE_DELAY)
+    private fun checkStoreFor(content: String) = runBlocking {
+        delay(1.seconds)
         fileStore.waitForWriteFinish()
         assertContains(actual = testFile.readString()!!, content)
     }
 
-    private suspend fun checkStoreForNot(content: String) {
-        delay(CSFileJsonStore.SAVE_DELAY)
+    private fun checkStoreForNot(content: String) = runBlocking {
+        delay(1.seconds)
         fileStore.waitForWriteFinish()
         assertContainsNot(actual = testFile.readString()!!, content)
     }
