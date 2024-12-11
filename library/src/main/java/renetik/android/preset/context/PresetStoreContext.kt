@@ -27,16 +27,6 @@ class PresetStoreContext(
 ) : CSModel(parent), StoreContext {
 
     companion object {
-//        fun PresetStoreContext(
-//            parent: CSHasDestruct, hasPresetHasId: CSHasPresetIdHasId, key: String? = null
-//        ) = PresetStoreContext(
-//            parent,
-//            id = key?.let { "${hasPresetHasId.id} $it" } ?: hasPresetHasId.id,
-//            preset = hasPresetHasId.preset,
-//            presetId = key?.let { "${hasPresetHasId.presetId} $it" } ?: hasPresetHasId.id,
-//            key
-//        )
-
         fun PresetStoreContext(
             parent: CSHasDestruct, hasId: CSHasId, preset: Preset, key: String? = null,
         ) = PresetStoreContext(
@@ -47,8 +37,9 @@ class PresetStoreContext(
 
     private val childContexts = mutableListOf<StoreContext>()
 
-    private fun <T : StoreContext> T.init() = apply {
-        childContexts += this; onDestructed { childContexts -= this }
+    private fun <T : StoreContext> T.init() = also {
+        childContexts += this
+        it.onDestructed { if (!isDestructed) childContexts -= this }
     }
 
     override fun context(parent: CSHasDestruct, key: String?): PresetStoreContext =
@@ -75,14 +66,16 @@ class PresetStoreContext(
     private val keys = mutableListOf<String>()
 
     private val properties = mutableListOf<CSPresetProperty<*>>()
-    private fun <T : CSPresetProperty<*>> T.init() = apply {
-        properties += this; onDestructed { properties -= this }
+    private fun <T : CSPresetProperty<*>> T.init() = also {
+        properties += this
+        it.onDestructed { if (!isDestructed) properties -= this }
     }
 
     private val presets = mutableListOf<CSPreset<*, *>>()
 
     fun add(preset: CSPreset<*, *>) {
-        presets += preset; preset.onDestructed { presets -= preset }
+        presets += preset
+        preset.onDestructed { if (!isDestructed) presets -= preset }
     }
 
     override fun clear(): Unit = preset.store.operation {

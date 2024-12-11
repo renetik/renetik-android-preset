@@ -3,7 +3,6 @@ package renetik.android.preset.context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -18,16 +17,18 @@ import renetik.android.core.extensions.content.createTempFile
 import renetik.android.core.java.io.readString
 import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.event.common.CSModel
-import renetik.android.event.common.destruct
 import renetik.android.preset.CSPreset
 import renetik.android.preset.init
 import renetik.android.preset.model.CSPresetTestPresetItemList
 import renetik.android.preset.model.ClearPresetItemId
 import renetik.android.preset.model.NotFoundPresetItem
 import renetik.android.preset.model.manageItems
+import renetik.android.store.context.CSHasStoreContext
+import renetik.android.store.context.CSHasStoreContext.Companion.clearDestruct
 import renetik.android.store.type.CSFileJsonStore
 import renetik.android.testing.CSAssert.assert
 import renetik.android.testing.CSAssert.assertContains
+import renetik.android.testing.CSAssert.assertContainsNot
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -43,25 +44,33 @@ class CSPresetStoreContextTest {
     private val parent = CSModel()
     private val presetList = CSPresetTestPresetItemList(ClearPresetItemId)
     private val testFile = app.createTempFile()
-    private val store = CSFileJsonStore(
+    private val fileStore = CSFileJsonStore(
         testFile, isJsonPretty = false, isImmediateWrite = false
     )
     private val preset = CSPreset(
-        parent, store, "preset1", presetList, ::NotFoundPresetItem
+        parent, fileStore, "preset1", presetList, ::NotFoundPresetItem
     ).manageItems().init()
-    private val contextParent = CSModel(parent)
-    private val context = PresetStoreContext(
-        contextParent, id = "contextId", preset, presetId = "contextKey"
-    )
+    private val storeParent = object : CSModel(parent), CSHasStoreContext {
+        override val store = PresetStoreContext(
+            this, id = "contextId", preset, presetId = "contextKey"
+        )
+    }
 
-    private fun checkStoreFor(content: String) {
-        runBlocking { delay(2.seconds) }
+    private suspend fun checkStoreFor(content: String) {
+        delay(CSFileJsonStore.SAVE_DELAY)
+        fileStore.waitForWriteFinish()
         assertContains(actual = testFile.readString()!!, content)
+    }
+
+    private suspend fun checkStoreForNot(content: String) {
+        delay(CSFileJsonStore.SAVE_DELAY)
+        fileStore.waitForWriteFinish()
+        assertContainsNot(actual = testFile.readString()!!, content)
     }
 
     @Test
     fun presetReload() = runTest {
-        val property = context.property("property", 5)
+        val property = storeParent.store.property("property", 5)
         assertEquals(5, property.value)
         checkStoreFor(""""preset1 preset store":{}""")
         property.value = 10
@@ -73,15 +82,38 @@ class CSPresetStoreContextTest {
     }
 
     @Test
-    fun contextClear() = runTest {
-        val property = context.property("property", 5)
+    fun storeClear() = runTest {
+        var propertyValue: Int? = null
+        val property = storeParent.store.property("property", 5)
+        property.onChange { propertyValue = it }
         property.value = 10
-        assertEquals(10, property.value)
-        runBlocking { delay(2.seconds) }
+        assert(expected = 10, property.value)
+        assert(expected = 10, propertyValue)
         checkStoreFor("""{"contextKey property":10}""")
-        context.clear()
-        contextParent.destruct()
+        checkStoreForNot(""""preset1 preset store":{}""")
+        storeParent.store.clear()
+        assert(expected = 5, property.value)
+        assert(expected = 5, propertyValue)
         checkStoreFor(""""preset1 preset store":{}""")
+        checkStoreForNot("""{"contextKey property":10}""")
+    }
+
+
+    @Test
+    fun storeParentClearDestruct() = runTest {
+        var propertyValue: Int? = null
+        val property = storeParent.store.property("property", 5)
+        property.onChange { propertyValue = it }
+        property.value = 10
+        assert(expected = 10, property.value)
+        assert(expected = 10, propertyValue)
+        checkStoreFor("""{"contextKey property":10}""")
+        checkStoreForNot(""""preset1 preset store":{}""")
+        storeParent.clearDestruct()
+        assert(expected = 10, property.value)
+        assert(expected = 10, propertyValue)
+        checkStoreFor(""""preset1 preset store":{}""")
+        checkStoreForNot("""{"contextKey property":10}""")
     }
 }
 
