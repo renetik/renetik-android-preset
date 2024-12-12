@@ -1,11 +1,13 @@
 package renetik.android.preset.context
 
+import renetik.android.core.kotlin.collections.first
 import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.joinToString
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
+import renetik.android.event.common.destruct
 import renetik.android.event.common.onDestructed
 import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset
@@ -38,8 +40,7 @@ class PresetStoreContext(
     private val childContexts = mutableListOf<StoreContext>()
 
     private fun <T : StoreContext> T.init() = also {
-        childContexts += this
-        it.onDestructed { if (!isDestructed) childContexts -= this }
+        childContexts += this; it.onDestructed { childContexts -= this }
     }
 
     override fun context(parent: CSHasDestruct, key: String?): PresetStoreContext =
@@ -67,21 +68,25 @@ class PresetStoreContext(
 
     private val properties = mutableListOf<CSPresetProperty<*>>()
     private fun <T : CSPresetProperty<*>> T.init() = also {
-        properties += this
-        it.onDestructed { if (!isDestructed) properties -= this }
+        properties += this; it.onDestructed { properties -= this }
     }
 
     private val presets = mutableListOf<CSPreset<*, *>>()
 
     fun add(preset: CSPreset<*, *>) {
-        presets += preset
-        preset.onDestructed { if (!isDestructed) presets -= preset }
+        presets += preset; preset.onDestructed { presets -= preset }
     }
 
     override fun clear(): Unit = preset.store.operation {
         properties.forEach(CSPresetProperty<*>::clear)
         childContexts.onEach(StoreContext::clear)
         presets.onEach(CSPreset<*, *>::clear)
+    }
+
+    override fun clean(): Unit = preset.store.operation {
+        repeat(properties.size) { properties.first().also { it.destruct(); it.clear() } }
+        repeat(childContexts.size) { childContexts.first().also { it.destruct(); it.clear() } }
+        repeat(presets.size) { presets.first().also { it.destruct(); it.clear() } }
     }
 
     private val String.newKey

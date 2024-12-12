@@ -1,9 +1,11 @@
 package renetik.android.preset.context
 
+import renetik.android.core.kotlin.collections.first
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
+import renetik.android.event.common.destruct
 import renetik.android.event.common.onDestructed
 import renetik.android.event.common.parent
 import renetik.android.event.registration.CSRegistration
@@ -62,6 +64,12 @@ class CustomStoreContext(
         properties.forEach(CSStoreProperty<*>::clear)
         childContexts.onEach(StoreContext::clear)
         presets.onEach(CSPreset<*, *>::clear)
+    }
+
+    override fun clean(): Unit = store.operation {
+        repeat(properties.size) { properties.first.apply {  clear() } }
+        repeat(childContexts.size) { childContexts.first.apply {  clear() } }
+        repeat(presets.size) { presets.first.apply {  clear() } }
     }
 
     private val String.newKey get() = "$id $this"

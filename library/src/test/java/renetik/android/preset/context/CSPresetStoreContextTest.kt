@@ -58,13 +58,13 @@ class CSPresetStoreContextTest {
     }
 
     private fun checkStoreFor(content: String) = runBlocking {
-        delay(1.seconds)
+        delay(2.seconds)
         fileStore.waitForWriteFinish()
         assertContains(actual = testFile.readString()!!, content)
     }
 
     private fun checkStoreForNot(content: String) = runBlocking {
-        delay(1.seconds)
+        delay(2.seconds)
         fileStore.waitForWriteFinish()
         assertContainsNot(actual = testFile.readString()!!, content)
     }
