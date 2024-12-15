@@ -25,7 +25,7 @@ import renetik.android.preset.model.ClearPresetItemId
 import renetik.android.preset.model.NotFoundPresetItem
 import renetik.android.preset.model.manageItems
 import renetik.android.store.context.CSHasStoreContext
-import renetik.android.store.context.CSHasStoreContext.Companion.cleanDestruct
+import renetik.android.store.context.CSHasStoreContext.Companion.destructClean
 import renetik.android.store.type.CSFileJsonStore
 import renetik.android.testing.CSAssert.assert
 import renetik.android.testing.CSAssert.assertContains
@@ -110,7 +110,7 @@ class CSPresetStoreContextTest {
         assert(expected = 10, propertyValue)
         checkStoreFor("""{"contextKey property":10}""")
         checkStoreForNot(""""preset1 preset store":{}""")
-        storeParent.cleanDestruct()
+        storeParent.destructClean()
         assert(expected = 10, property.value)
         assert(expected = 10, propertyValue)
         checkStoreFor(""""preset1 preset store":{}""")

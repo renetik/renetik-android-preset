@@ -39,42 +39,41 @@ class PresetStoreContext(
 
     private val childContexts = mutableListOf<StoreContext>()
 
-    private fun <T : StoreContext> T.init() = also {
-        childContexts += this; it.onDestructed { childContexts -= this }
+    private fun <T : StoreContext> T.init(parent: PresetStoreContext) = apply {
+        parent.childContexts += this
+        onDestructed { if (!parent.isDestructed) parent.childContexts -= this }
     }
 
     override fun context(parent: CSHasDestruct, key: String?): PresetStoreContext =
         PresetStoreContext(parent,
             id = (id to key).joinToString(" "), preset,
             presetId = (presetId to key).joinToString(" "), key
-        ).init()
+        ).init(this)
 
 
     fun context(parent: CSHasDestruct, id: String, presetId: String): PresetStoreContext =
         PresetStoreContext(parent,
             id = "${this.id} $id", preset,
             presetId = (this.presetId to presetId).joinToString(" "), key
-        ).init()
+        ).init(this)
 
     override fun appContext(parent: CSHasDestruct, key: String?) =
-        AppStoreContext(parent, this, key).init()
+        AppStoreContext(parent, this, key).init(this)
 
     override fun memoryContext(parent: CSHasDestruct, key: String?) =
-        RuntimeStoreContext(parent, this, key).init()
+        RuntimeStoreContext(parent, this, key).init(this)
 
     override fun onChange(function: (Unit) -> Unit) = preset.onChange(function)
 
     private val keys = mutableListOf<String>()
 
     private val properties = mutableListOf<CSPresetProperty<*>>()
-    private fun <T : CSPresetProperty<*>> T.init() = also {
-        properties += this; it.onDestructed { properties -= this }
-    }
+    private fun <T : CSPresetProperty<*>> T.init() = apply { properties += this }
 
     private val presets = mutableListOf<CSPreset<*, *>>()
 
     fun add(preset: CSPreset<*, *>) {
-        presets += preset; preset.onDestructed { presets -= preset }
+        presets += preset
     }
 
     override fun clear(): Unit = preset.store.operation {
