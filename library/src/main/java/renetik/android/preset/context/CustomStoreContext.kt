@@ -66,11 +66,11 @@ class CustomStoreContext(
         presets.onEach(CSPreset<*, *>::clear)
     }
 
-    override fun clean(): Unit = store.operation {
-        repeat(properties.size) { properties.first.apply {  clear() } }
-        repeat(childContexts.size) { childContexts.first.apply {  clear() } }
-        repeat(presets.size) { presets.first.apply {  clear() } }
-    }
+//    override fun clean(): Unit = store.operation {
+//        repeat(properties.size) { properties.first.apply {  clear() } }
+//        repeat(childContexts.size) { childContexts.first.apply {  clear() } }
+//        repeat(presets.size) { presets.first.apply {  clear() } }
+//    }
 
     private val String.newKey get() = "$id $this"
 

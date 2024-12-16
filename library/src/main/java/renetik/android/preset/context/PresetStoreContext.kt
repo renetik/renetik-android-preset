@@ -1,13 +1,10 @@
 package renetik.android.preset.context
 
-import renetik.android.core.kotlin.collections.first
-import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.joinToString
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
-import renetik.android.event.common.destruct
 import renetik.android.event.common.onDestructed
 import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset
@@ -65,10 +62,15 @@ class PresetStoreContext(
 
     override fun onChange(function: (Unit) -> Unit) = preset.onChange(function)
 
-    private val keys = mutableListOf<String>()
+// TODO?: Could be finished and used if necessary
+//    override fun equals(other: Any?): Boolean = (other as? PresetStoreContext)?.let {
+//    properties.all { (key, property) -> it.properties[key]?.value == property.value }
+//    } ?: super.equals(other)
 
-    private val properties = mutableListOf<CSPresetProperty<*>>()
-    private fun <T : CSPresetProperty<*>> T.init() = apply { properties += this }
+    private val properties = mutableMapOf<String, CSPresetProperty<*>>()
+    private fun <T : CSPresetProperty<*>> T.init(key: String) = apply {
+        properties[key] = this
+    }
 
     private val presets = mutableListOf<CSPreset<*, *>>()
 
@@ -77,77 +79,79 @@ class PresetStoreContext(
     }
 
     override fun clear(): Unit = preset.store.operation {
-        properties.forEach(CSPresetProperty<*>::clear)
+        properties.values.forEach(CSPresetProperty<*>::clear)
         childContexts.onEach(StoreContext::clear)
         presets.onEach(CSPreset<*, *>::clear)
     }
 
-    override fun clean(): Unit = preset.store.operation {
-        repeat(properties.size) { properties.first().also { it.destruct(); it.clear() } }
-        repeat(childContexts.size) { childContexts.first().also { it.destruct(); it.clear() } }
-        repeat(presets.size) { presets.first().also { it.destruct(); it.clear() } }
-    }
+//    override fun clean(): Unit = preset.store.operation {
+//        repeat(properties.size) { properties.first().also { it.destruct(); it.clear() } }
+//        repeat(childContexts.size) { childContexts.first().also { it.destruct(); it.clear() } }
+//        repeat(presets.size) { presets.first().also { it.destruct(); it.clear() } }
+//    }
 
-    private val String.newKey
-        get() = keys.put(presetId?.let { "$it $this" } ?: this)
+    private val String.newKey: String
+        get() {
+            return presetId?.let { "$it $this" } ?: this
+        }
 
     override fun property(
         key: String, default: String, onChange: ArgFunc<String>?,
     ) = preset.property(
         this, key.newKey, default, onChange
-    ).init()
+    ).init(key)
 
     override fun property(
         key: String, default: Boolean, onChange: ArgFunc<Boolean>?,
     ) = preset.property(
         this, key.newKey, default, onChange
-    ).init()
+    ).init(key)
 
     override fun property(
         key: String, default: Float, onChange: ArgFunc<Float>?,
     ) = preset.property(
         this, key.newKey, default, onChange
-    ).init()
+    ).init(key)
 
     override fun property(
         key: String, default: Int, onChange: ArgFunc<Int>?
     ) = preset.property(
         this, key.newKey, default, onChange
-    ).init()
+    ).init(key)
 
     override fun <T> property(
         key: String, values: () -> List<T>, default: () -> T, onChange: ArgFunc<T>?
     ) = preset.property(
         this, key.newKey, values, default, onChange
-    ).init()
+    ).init(key)
 
     override fun nullIntProperty(
         key: String, default: Int?, onChange: ((value: Int?) -> Unit)?
     ) = preset.nullIntProperty(
         this, key.newKey, default, onChange
-    ).init()
+    ).init(key)
 
     override fun nullFloatProperty(
         key: String, default: Float?, onChange: ((value: Float?) -> Unit)?
     ) = preset.nullFloatProperty(
         this, key.newKey, default, onChange
-    ).init()
+    ).init(key)
 
     override fun nullStringProperty(
         key: String, default: String?, onChange: ((value: String?) -> Unit)?
     ) = preset.nullStringProperty(
         this, key.newKey, default, onChange
-    ).init()
+    ).init(key)
 
     override fun <T> nullListItemProperty(
         key: String, values: List<T>, default: T?, onChange: ((value: T?) -> Unit)?
     ) = preset.nullListItemProperty(
         this, key.newKey, values, default, onChange
-    ).init()
+    ).init(key)
 
     override fun property(
         key: String, default: List<Int>, onChange: ArgFunc<List<Int>>?
     ) = preset.property(
         this, key.newKey, default, onChange
-    ).init()
+    ).init(key)
 }
