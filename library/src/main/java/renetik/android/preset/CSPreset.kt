@@ -4,7 +4,6 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
-import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
@@ -103,8 +102,12 @@ class CSPreset<PresetListItem : CSPresetItem,
 
     internal fun reload(data: Map<String, Any?>) {
         store.reload(data)
-        properties.toList().forEach(CSPresetKeyData::onStoreLoaded)
-        presets.toList().forEach { it.store.onStoreLoaded() }
+        properties.toList().forEach {
+            if (!it.isDestructed) it.onStoreLoaded()
+        }
+        presets.toList().forEach {
+            if (!it.isDestructed) it.store.onStoreLoaded()
+        }
     }
 
     fun saveAsNew(item: PresetListItem) {
