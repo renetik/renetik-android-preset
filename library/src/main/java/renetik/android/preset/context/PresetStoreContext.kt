@@ -76,6 +76,7 @@ class PresetStoreContext(
 
     fun add(preset: CSPreset<*, *>) {
         presets += preset
+        preset.onDestructed { if (!isDestructed) presets -= preset }
     }
 
     override fun clear(): Unit = preset.store.operation {
