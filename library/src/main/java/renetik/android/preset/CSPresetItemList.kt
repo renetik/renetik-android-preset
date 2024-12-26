@@ -1,5 +1,7 @@
 package renetik.android.preset
 
+import renetik.android.event.CSEvent
+
 interface CSPresetItemList<PresetItem : CSPresetItem> {
     companion object
 
@@ -7,5 +9,6 @@ interface CSPresetItemList<PresetItem : CSPresetItem> {
     val userItems: List<PresetItem>
     fun remove(item: PresetItem)
     fun createItem(title: String, isDefault: Boolean): PresetItem
+    val onReload: CSEvent<Unit>
     fun reload()
 }
