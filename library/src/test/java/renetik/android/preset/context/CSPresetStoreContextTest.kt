@@ -26,7 +26,7 @@ import renetik.android.preset.model.NotFoundPresetItem
 import renetik.android.preset.model.manageItems
 import renetik.android.store.context.CSHasStoreContext
 import renetik.android.store.context.CSHasStoreContext.Companion.destructClear
-import renetik.android.store.type.CSFileJsonStore
+import renetik.android.store.type.CSFileJsonStore.Companion.CSFileJsonStore
 import renetik.android.testing.CSAssert.assert
 import renetik.android.testing.CSAssert.assertContains
 import renetik.android.testing.CSAssert.assertContainsNot
