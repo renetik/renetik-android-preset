@@ -44,7 +44,9 @@ abstract class CSPresetPropertyBase<T>(
 
     override fun onStoreLoaded() {
         if (isFollowPreset.isFalse)
-            store.eventChanged.paused { saveTo(store) }
+            store.eventChanged.paused {
+                saveTo(store)
+            }
         else update()
     }
 
