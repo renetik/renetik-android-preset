@@ -19,12 +19,8 @@ abstract class CSPresetPropertyBase<T>(
 
     abstract override val default: T
     private var _value by lazyNullableVar { load() }
-    protected abstract fun get(store: CSStore): T?
+    abstract override fun get(store: CSStore): T?
     protected abstract fun load(): T
-
-    override var filter: ((T?) -> T?)? = null
-    override fun getFiltered(store: CSStore): T? =
-        get(store).let { filter?.invoke(it) ?: it }
 
     override fun saveTo(store: CSStore) = set(store, value)
     override val isFollowPreset: CSProperty<Boolean> = property(true)
