@@ -4,10 +4,10 @@ import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.store.CSStore.Companion.fileStore
 import renetik.android.store.CSStore.Companion.runtimeStore
-import renetik.android.store.context.StoreContext
+import renetik.android.store.context.CSStoreContext
 import renetik.android.store.type.CSJsonObjectStore
 
-fun StoreContext.Companion.empty() = CustomStoreContext(store = CSJsonObjectStore(), key = "")
+fun CSStoreContext.Companion.empty() = CustomStoreContext(store = CSJsonObjectStore(), key = "")
 
 fun <Parent> AppStoreContext(parent: Parent): CustomStoreContext
         where Parent : CSHasDestruct, Parent : CSHasId =

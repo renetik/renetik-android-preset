@@ -34,7 +34,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
-class CSPresetStoreContextTest {
+class CSPresetCSStoreContextTest {
 
     @Before
     fun setUp() = Dispatchers.setMain(StandardTestDispatcher())

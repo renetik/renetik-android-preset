@@ -1,17 +1,15 @@
 package renetik.android.preset.context
 
-import renetik.android.core.kotlin.collections.first
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
-import renetik.android.event.common.destruct
 import renetik.android.event.common.onDestructed
 import renetik.android.event.common.parent
 import renetik.android.event.registration.CSRegistration
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
-import renetik.android.store.context.StoreContext
+import renetik.android.store.context.CSStoreContext
 import renetik.android.store.extensions.nullFloatProperty
 import renetik.android.store.extensions.nullIntProperty
 import renetik.android.store.extensions.nullListItemProperty
@@ -27,11 +25,11 @@ class CustomStoreContext(
     val store: CSStore,
     private val hasId: CSHasId? = null,
     override val key: String? = null,
-) : CSModel(parent), StoreContext {
+) : CSModel(parent), CSStoreContext {
     override val id = hasId?.let { "${it.id} $key" } ?: key ?: ""
-    private val childContexts = mutableListOf<StoreContext>()
+    private val childContexts = mutableListOf<CSStoreContext>()
 
-    private fun <T : StoreContext> T.init() = apply {
+    private fun <T : CSStoreContext> T.init() = apply {
         childContexts += this; onDestructed { childContexts -= this }
     }
 
@@ -62,7 +60,7 @@ class CustomStoreContext(
 
     override fun clear() = store.operation {
         properties.forEach(CSStoreProperty<*>::clear)
-        childContexts.onEach(StoreContext::clear)
+        childContexts.onEach(CSStoreContext::clear)
         presets.onEach(CSPreset<*, *>::clear)
     }
 

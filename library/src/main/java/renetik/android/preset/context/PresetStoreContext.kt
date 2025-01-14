@@ -14,7 +14,7 @@ import renetik.android.preset.extensions.nullListItemProperty
 import renetik.android.preset.extensions.nullStringProperty
 import renetik.android.preset.extensions.property
 import renetik.android.preset.property.CSPresetProperty
-import renetik.android.store.context.StoreContext
+import renetik.android.store.context.CSStoreContext
 import renetik.android.store.extensions.operation
 
 class PresetStoreContext(
@@ -23,7 +23,7 @@ class PresetStoreContext(
     val preset: Preset,
     val presetId: String? = null,
     override val key: String? = presetId
-) : CSModel(parent), StoreContext {
+) : CSModel(parent), CSStoreContext {
 
     companion object {
         fun PresetStoreContext(
@@ -34,9 +34,9 @@ class PresetStoreContext(
         )
     }
 
-    private val childContexts = mutableListOf<StoreContext>()
+    private val childContexts = mutableListOf<CSStoreContext>()
 
-    private fun <T : StoreContext> T.init(parent: PresetStoreContext) = apply {
+    private fun <T : CSStoreContext> T.init(parent: PresetStoreContext) = apply {
         parent.childContexts += this
         onDestructed { if (!parent.isDestructed) parent.childContexts -= this }
     }
@@ -81,7 +81,7 @@ class PresetStoreContext(
 
     override fun clear(): Unit = preset.store.operation {
         properties.values.forEach(CSPresetProperty<*>::clear)
-        childContexts.onEach(StoreContext::clear)
+        childContexts.onEach(CSStoreContext::clear)
         presets.onEach(CSPreset<*, *>::clear)
     }
 
