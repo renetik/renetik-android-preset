@@ -46,7 +46,7 @@ abstract class CSPresetPropertyBase<T>(
         else update()
     }
 
-    private fun update() {
+     override fun update() {
         val newValue = load()
         if (_value == newValue) return
         _value = newValue
