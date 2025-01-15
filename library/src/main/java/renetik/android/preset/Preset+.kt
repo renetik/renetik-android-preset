@@ -42,7 +42,7 @@ fun <T : Preset> T.onChange(
     onChange { onChange() }
 )
 
-fun <T : Preset> T.onChange(
+fun <T : Preset> T.onChangePause(
     vararg registrations: CSRegistration,
     onChange: Func
 ): CSRegistration = CSRegistration(
@@ -57,7 +57,7 @@ fun <T : Preset> T.onChange(
     parent: CSHasRegistrations,
     hasChange: CSHasChange<*>,
     onChange: Func
-): CSRegistration = onChange(
+): CSRegistration = onChangePause(
     parent + hasChange.onChange { onChange() },
     onChange = { onChange() }
 )
@@ -66,7 +66,7 @@ fun <T : Preset> T.action(
     parent: CSHasRegistrations,
     hasChange: CSHasChange<*>,
     onChange: Func
-): CSRegistration = onChange(
+): CSRegistration = onChangePause(
     parent + hasChange.action { onChange() },
     onChange = { onChange() }
 )
@@ -75,7 +75,7 @@ fun <T : Preset, V> T.onChange(
     parent: CSHasRegistrations,
     property: CSHasChangeValue<V>,
     onChange: ArgFunc<V>
-): CSRegistration = onChange(
+): CSRegistration = onChangePause(
     parent + property.onChange { onChange(property.value) },
     onChange = { onChange(property.value) }
 )
@@ -85,7 +85,7 @@ fun <T : Preset, V> T.action(
     onChange: ArgFunc<V>
 ): CSRegistration {
     val propertyActionRegistration = property.action { onChange(property.value) }
-    return CSRegistration(propertyActionRegistration, onChange(
+    return CSRegistration(propertyActionRegistration, onChangePause(
         propertyActionRegistration,
         onChange = { onChange(property.value) }
     ))
