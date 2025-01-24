@@ -91,6 +91,15 @@ fun <T : Preset, V> T.action(
     ))
 }
 
+fun CSHasChange<*>.actionPausedBy(
+    preset: CSPreset<*, *>, function: () -> Unit
+): CSRegistration {
+    val propertyActionRegistration = action(function)
+    return CSRegistration(propertyActionRegistration, preset.onChangePause(
+        propertyActionRegistration, onChange = { function() }
+    ))
+}
+
 fun <T : Preset> T.onReloadPause(
     vararg registrations: CSRegistration,
 ): CSRegistration {
