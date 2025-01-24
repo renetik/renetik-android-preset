@@ -18,6 +18,7 @@ import renetik.android.event.registration.CSHasChangeValue.Companion.hasChangeVa
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrationsMap
+import renetik.android.event.registration.action
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.pause
 import renetik.android.event.registration.plus
@@ -71,23 +72,30 @@ fun <T : Preset> T.action(
     onChange = { onChange() }
 )
 
-fun <T : Preset, V> T.onChange(
-    parent: CSHasRegistrations,
-    property: CSHasChangeValue<V>,
-    onChange: ArgFunc<V>
-): CSRegistration = onChangePause(
-    parent + property.onChange { onChange(property.value) },
-    onChange = { onChange(property.value) }
-)
-
-fun <T : Preset, V> T.action(
-    property: CSHasChangeValue<V>,
-    onChange: ArgFunc<V>
+fun <T> CSHasChangeValue<T>.onChangePausedBy(
+    preset: CSPreset<*, *>, function: (T) -> Unit
 ): CSRegistration {
-    val propertyActionRegistration = property.action { onChange(property.value) }
-    return CSRegistration(propertyActionRegistration, onChangePause(
-        propertyActionRegistration,
-        onChange = { onChange(property.value) }
+    val propertyActionRegistration = onChange(function)
+    return CSRegistration(propertyActionRegistration, preset.onChangePause(
+        propertyActionRegistration, onChange = { function(value) }
+    ))
+}
+
+fun <T> CSHasChangeValue<T>.actionPausedBy(
+    preset: CSPreset<*, *>, function: (T) -> Unit
+): CSRegistration {
+    val propertyActionRegistration = action(function)
+    return CSRegistration(propertyActionRegistration, preset.onChangePause(
+        propertyActionRegistration, onChange = { function(value) }
+    ))
+}
+
+fun CSHasChange<*>.onChangePausedBy(
+    preset: CSPreset<*, *>, function: () -> Unit
+): CSRegistration {
+    val propertyActionRegistration = onChange(function)
+    return CSRegistration(propertyActionRegistration, preset.onChangePause(
+        propertyActionRegistration, onChange = { function() }
     ))
 }
 
