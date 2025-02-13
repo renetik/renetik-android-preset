@@ -1,5 +1,6 @@
 package renetik.android.preset
 
+import renetik.android.core.lang.CSFunc
 import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.CSLaterOnceFunc
 import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnceFunc
@@ -20,7 +21,7 @@ class CSPresetStore(
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.destruct()
 
-    private val saveLater: CSLaterOnceFunc = preset.laterOnceFunc(::saveNow)
+//    private val saveLater: CSFunc = preset.laterOnceFunc(::saveNow)
 
     private var pendingSave: Boolean = false
 
