@@ -1,9 +1,6 @@
 package renetik.android.preset
 
-import renetik.android.core.lang.CSFunc
 import renetik.android.core.lang.value.isFalse
-import renetik.android.event.common.CSLaterOnceFunc
-import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnceFunc
 import renetik.android.event.common.destruct
 import renetik.android.event.common.onDestructed
 import renetik.android.preset.property.CSPresetKeyData

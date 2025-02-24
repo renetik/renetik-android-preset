@@ -1,12 +1,11 @@
 package renetik.android.preset
 
 import renetik.android.core.kotlin.changeIf
-import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.to
 import renetik.android.core.lang.value.isTrue
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
-import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnceFunc
+import renetik.android.event.common.CSLaterOnceFunc.Companion.debouncer
 import renetik.android.event.common.onDestructed
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
@@ -165,7 +164,7 @@ fun Preset.isModified(
 ): CSHasChangeValue<Boolean> {
     val property = property(isModified)
     val registrations = CSRegistrationsMap(this)
-    val update = registrations.laterOnceFunc(500.milliseconds) {
+    val update = registrations.debouncer(500.milliseconds) {
         property.value(isModified)
     }
     val storeOnChange = registrations + store.onChange { update() }
