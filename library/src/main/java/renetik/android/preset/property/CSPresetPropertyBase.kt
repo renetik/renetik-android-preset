@@ -32,7 +32,7 @@ abstract class CSPresetPropertyBase<T>(
         saveTo(store)
     }
 
-    override var value: T
+    final override var value: T
         get() = _value
         set(value) = value(value)
 
@@ -46,7 +46,7 @@ abstract class CSPresetPropertyBase<T>(
         else update()
     }
 
-     override fun update() {
+    override fun update() {
         val newValue = load()
         if (_value == newValue) return
         _value = newValue
