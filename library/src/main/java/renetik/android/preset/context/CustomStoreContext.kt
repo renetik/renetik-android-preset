@@ -59,16 +59,10 @@ class CustomStoreContext(
     }
 
     override fun clear() = store.operation {
-        properties.forEach(CSStoreProperty<*>::clear)
-        childContexts.onEach(CSStoreContext::clear)
-        presets.onEach(CSPreset<*, *>::clear)
+        properties.toList().forEach { it.clear() }
+        childContexts.toList().onEach { it.clear() }
+        presets.toList().onEach { it.clear() }
     }
-
-//    override fun clean(): Unit = store.operation {
-//        repeat(properties.size) { properties.first.apply {  clear() } }
-//        repeat(childContexts.size) { childContexts.first.apply {  clear() } }
-//        repeat(presets.size) { presets.first.apply {  clear() } }
-//    }
 
     private val String.newKey get() = "$id $this"
 
