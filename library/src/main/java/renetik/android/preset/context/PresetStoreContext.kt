@@ -80,9 +80,9 @@ class PresetStoreContext(
     }
 
     override fun clear(): Unit = preset.store.operation {
-        properties.values.forEach(CSPresetProperty<*>::clear)
-        childContexts.toList().onEach(CSStoreContext::clear)
-        presets.toList().onEach(CSPreset<*, *>::clear)
+        properties.values.forEach { it.clear() }
+        childContexts.toList().onEach { it.clear() }
+        presets.toList().onEach { it.clear() }
     }
 
     private val String.newKey: String

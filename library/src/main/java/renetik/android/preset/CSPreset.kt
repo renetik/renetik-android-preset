@@ -56,9 +56,7 @@ class CSPreset<PresetListItem : CSPresetItem,
         store.clear()
         store.clearKeyData()
         listItem.clearKeyData()
-        properties.forEach {
-            it.clear()
-        }
+        properties.toList().forEach { it.clear() }
         title.clear()
     }
 
