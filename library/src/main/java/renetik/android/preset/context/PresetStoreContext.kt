@@ -81,22 +81,12 @@ class PresetStoreContext(
 
     override fun clear(): Unit = preset.store.operation {
         properties.values.forEach(CSPresetProperty<*>::clear)
-        childContexts.onEach(CSStoreContext::clear)
-        presets.onEach {
-            it.clear()
-        }
+        childContexts.toList().onEach(CSStoreContext::clear)
+        presets.toList().onEach(CSPreset<*, *>::clear)
     }
 
-//    override fun clean(): Unit = preset.store.operation {
-//        repeat(properties.size) { properties.first().also { it.destruct(); it.clear() } }
-//        repeat(childContexts.size) { childContexts.first().also { it.destruct(); it.clear() } }
-//        repeat(presets.size) { presets.first().also { it.destruct(); it.clear() } }
-//    }
-
     private val String.newKey: String
-        get() {
-            return presetId?.let { "$it $this" } ?: this
-        }
+        get() = presetId?.let { "$it $this" } ?: this
 
     override fun property(
         key: String, default: String, onChange: ArgFunc<String>?,
