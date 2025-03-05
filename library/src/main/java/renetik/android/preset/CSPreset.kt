@@ -14,7 +14,6 @@ import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
-import renetik.android.store.extensions.dataProperty
 import renetik.android.store.extensions.property
 import renetik.android.store.property.listenStore
 import renetik.android.store.type.CSJsonObjectStore.Companion.CSJsonObjectStore
@@ -57,7 +56,9 @@ class CSPreset<PresetListItem : CSPresetItem,
         store.clear()
         store.clearKeyData()
         listItem.clearKeyData()
-        properties.forEach(CSPresetKeyData::clear)
+        properties.forEach {
+            it.clear()
+        }
         title.clear()
     }
 
