@@ -11,7 +11,7 @@ import renetik.android.preset.property.value.CSFloatValuePresetProperty
 import renetik.android.preset.property.value.CSIntListValuePresetProperty
 import renetik.android.preset.property.value.CSIntValuePresetProperty
 import renetik.android.preset.property.value.CSListItemValuePresetProperty
-import renetik.android.preset.property.value.CSListValuePresetProperty
+import renetik.android.preset.property.value.CSHasIdListValuePresetProperty
 import renetik.android.preset.property.value.CSStringValuePresetProperty
 
 fun CSPreset<*, *>.property(
@@ -103,7 +103,7 @@ fun <T> Preset.property(
 fun <T : CSHasId> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,
     default: List<T>, onChange: ArgFunc<List<T>>? = null
-) = add(CSListValuePresetProperty(parent, this, key, values, default, onChange))
+) = add(CSHasIdListValuePresetProperty(parent, this, key, values, default, onChange))
 
 fun <T : CSHasId> Preset.property(
     parent: CSHasDestruct, key: String, values: Array<T>,

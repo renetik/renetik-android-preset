@@ -6,7 +6,7 @@ import renetik.android.event.common.CSHasDestruct
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 
-class CSListValuePresetProperty<T : CSHasId>(
+class CSHasIdListValuePresetProperty<T : CSHasId>(
     parent: CSHasDestruct, preset: CSPreset<*, *>,
     key: String, val values: Iterable<T>,
     override val default: List<T>, onChange: ((value: List<T>) -> Unit)?
