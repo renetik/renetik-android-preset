@@ -183,7 +183,11 @@ fun Preset.title(
 
 fun Preset.titleWithModified(
     parent: CSHasRegistrationsHasDestruct
-): CSHasChangeValue<String> = (title to isModified(parent)).hasChangeValue(
+): CSHasChangeValue<String> = titleWithModified(isModified(parent))
+
+fun Preset.titleWithModified(
+    isModified: CSHasChangeValue<Boolean>
+): CSHasChangeValue<String> = (title to isModified).hasChangeValue(
     this, from = { title, modified ->
         title.changeIf(String::isNotBlank) { "$it${if (modified) " *" else ""}" }
     })
