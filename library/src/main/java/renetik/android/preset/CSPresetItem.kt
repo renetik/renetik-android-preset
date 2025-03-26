@@ -1,7 +1,6 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.CSHasId
-import renetik.android.core.lang.CSHasTitle
 import renetik.android.store.CSStore
 import renetik.android.store.property.CSStoreProperty
 
