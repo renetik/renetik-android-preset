@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import renetik.android.core.extensions.content.createTempFile
+import renetik.android.core.extensions.content.temporaryFile
 import renetik.android.core.java.io.readString
 import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.event.common.CSModel
@@ -44,7 +44,7 @@ class CSPresetCSStoreContextTest {
 
     private val parent = CSModel()
     private val presetList = CSPresetTestPresetItemList(ClearPresetItemId)
-    private val testFile = app.createTempFile()
+    private val testFile = app.temporaryFile()
     private val fileStore = CSFileJsonStore(
         testFile, isJsonPretty = false, isImmediateWrite = false
     )
