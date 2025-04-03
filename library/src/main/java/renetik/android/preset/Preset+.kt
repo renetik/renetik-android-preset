@@ -5,7 +5,7 @@ import renetik.android.core.lang.Func
 import renetik.android.core.lang.tuples.to
 import renetik.android.core.lang.value.isTrue
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
-import renetik.android.event.common.Debouncer.Companion.debouncer
+import renetik.android.event.common.CSDebouncer.Companion.debouncer
 import renetik.android.event.common.onDestructed
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
