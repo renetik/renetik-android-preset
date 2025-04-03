@@ -2,7 +2,7 @@ package renetik.android.preset
 
 import renetik.android.core.kotlin.changeIf
 import renetik.android.core.lang.Func
-import renetik.android.core.lang.to
+import renetik.android.core.lang.tuples.to
 import renetik.android.core.lang.value.isTrue
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.Debouncer.Companion.debouncer
