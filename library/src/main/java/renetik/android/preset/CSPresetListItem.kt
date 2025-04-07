@@ -45,8 +45,9 @@ class CSPresetListItem<
             ?: preset.list.defaultItems[0]
 
     override fun value(newValue: PresetItem, fire: Boolean) {
+        val isChange = value != newValue
         super.value(newValue, fire)
-        preset.reload(newValue)
+        if (isChange) preset.reload(newValue)
     }
 
     override fun toString() = "key:$key ${super.toString()}"
