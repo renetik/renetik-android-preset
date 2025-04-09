@@ -114,7 +114,6 @@ class CSPreset<PresetListItem : CSPresetItem,
 
     fun saveAsNew(item: PresetListItem) {
         eventSave.fire(item) // Order important
-        listItem.value(item)
     }
 
     fun saveAs(item: PresetListItem) {
