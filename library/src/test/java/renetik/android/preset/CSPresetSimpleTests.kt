@@ -105,7 +105,7 @@ class CSPresetSimpleTests {
         childPresetProperty.value = 10
         assertEquals(10, childPresetProperty.value)
         val item = childPreset.list.createItem("childPresetProperty item", isDefault = true)
-        childPreset.saveAsNew(item)
+        childPreset.save(item)
         advanceUntilIdle()
         assertContains(
             preset.store.data.toJson(),
