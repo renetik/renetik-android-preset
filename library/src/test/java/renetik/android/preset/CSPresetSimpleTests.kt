@@ -13,6 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import renetik.android.core.lang.variable.assign
 import renetik.android.event.common.CSModel
 import renetik.android.json.toJson
 import renetik.android.preset.CSPreset.Companion.CSPreset
@@ -106,6 +107,7 @@ class CSPresetSimpleTests {
         assertEquals(10, childPresetProperty.value)
         val item = childPreset.list.createItem("childPresetProperty item", isDefault = true)
         childPreset.save(item)
+        childPreset.listItem assign item
         advanceUntilIdle()
         assertContains(
             preset.store.data.toJson(),
