@@ -1,9 +1,8 @@
 package renetik.android.preset.property
 
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
-import renetik.android.core.lang.value.isFalse
+import renetik.android.core.lang.value.isTrue
 import renetik.android.event.common.CSHasDestruct
-import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
@@ -39,11 +38,7 @@ abstract class CSPresetPropertyBase<T>(
     override fun toString() = "key:$key ${super.toString()}"
 
     override fun onStoreLoaded() {
-        if (isFollowPreset.isFalse)
-            store.eventChanged.paused {
-                saveTo(store)
-            }
-        else update()
+        if (isFollowPreset.isTrue) update()
     }
 
     override fun update() {
