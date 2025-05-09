@@ -17,6 +17,7 @@ import org.robolectric.RobolectricTestRunner
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.second
 import renetik.android.core.kotlin.collections.third
+import renetik.android.core.lang.variable.assign
 import renetik.android.preset.model.CSPresetTestParentClass
 import renetik.android.preset.model.ChildPresetItemId2
 import renetik.android.preset.model.ChildPropertyInitialValue
@@ -101,6 +102,7 @@ class CSPresetTest {
         val item = parent.children.first().childPreset1.list
             .createItem(ChildPresetItemId2, isDefault = true)
         parent.children.first().childPreset1.save(item)
+        parent.children.first().childPreset1.listItem assign item
 
         assertEquals(
             ChildPropertyNewValue0, parent.children.first()
