@@ -4,12 +4,12 @@ import renetik.android.core.kotlin.collections.put
 import renetik.android.preset.CSPresetItemList
 import renetik.android.preset.CSPresetItem
 
-class CSPresetTestPresetItemList(clearItemId: String) : CSPresetItemList<CSPresetItem> {
+class CSPresetTestPresetItemList(defaultItemId: String) : CSPresetItemList<CSPresetItem> {
     override val defaultItems = mutableListOf<CSPresetItem>()
     override val userItems = mutableListOf<CSPresetItem>()
 
     init {
-        createItem(clearItemId, isDefault = true)
+        createItem(defaultItemId, isDefault = true)
     }
 
     override fun remove(item: CSPresetItem) {

@@ -13,6 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import renetik.android.core.kotlin.collections.first
 import renetik.android.core.lang.variable.assign
 import renetik.android.event.common.CSModel
 import renetik.android.json.toJson
@@ -85,13 +86,13 @@ class CSPresetSimpleTests {
         val parent = CSModel()
         val preset = CSPreset(
             parent, CSJsonObjectStore(), "preset",
-            CSPresetTestPresetItemList(clearItemId = "clear preset item"),
+            CSPresetTestPresetItemList(defaultItemId = "clear preset item"),
             ::NotFoundPresetItem
         ).manageItems().init()
         val defaultItemId = "clear childPreset item"
         val childPreset = CSPreset(
             parent, preset, "childPreset",
-            CSPresetTestPresetItemList(clearItemId = defaultItemId),
+            CSPresetTestPresetItemList(defaultItemId = defaultItemId),
             ::NotFoundPresetItem, defaultItemId
         ).manageItems().init()
         val childPresetProperty = childPreset.property(parent, "childPresetProperty", 5)
@@ -134,15 +135,27 @@ class CSPresetSimpleTests {
         val presetList = CSPresetTestPresetItemList(ClearPresetItemId)
 
         val store = CSJsonObjectStore()
-        store.reload("""{"preset preset store":{"key":10}}""")
+        store.reload("""{"test preset store":{"key":10}}""")
         val preset = CSPreset(
-            parent, store, "preset", presetList, ::NotFoundPresetItem
+            parent, store, "test", presetList, ::NotFoundPresetItem
         ).manageItems().init()
         val property = preset.property(parent, "key", 5)
         assertEquals(10, property.value)
 
         val propertyMax = preset.property(parent, "key", 5).max(7)
         assertEquals(7, propertyMax.value)
+    }
+
+    @Test
+    fun presetLoadingDefaultDataOnInit() {
+        val parent = CSModel()
+        val presetList = CSPresetTestPresetItemList("DefaultItemId")
+        presetList.defaultItems.first!!.store.reload("""{"key":100}""")
+        val preset = CSPreset(
+            parent, CSJsonObjectStore(), "test", presetList, ::NotFoundPresetItem
+        ).manageItems().init()
+        val property = preset.property(parent, "key", 5)
+        assertEquals(100, property.value)
     }
 
 }
