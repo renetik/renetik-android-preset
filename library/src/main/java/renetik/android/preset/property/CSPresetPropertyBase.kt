@@ -1,8 +1,9 @@
 package renetik.android.preset.property
 
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
-import renetik.android.core.lang.value.isTrue
+import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.CSPropertyBase
@@ -22,6 +23,8 @@ abstract class CSPresetPropertyBase<T>(
     protected abstract fun load(): T
 
     override fun saveTo(store: CSStore) = set(store, value)
+
+    // TODO: Write test for this!!!!
     override val isFollowPreset: CSProperty<Boolean> = property(true)
 
     override fun value(newValue: T, fire: Boolean) {
@@ -38,7 +41,11 @@ abstract class CSPresetPropertyBase<T>(
     override fun toString() = "key:$key ${super.toString()}"
 
     override fun onStoreLoaded() {
-        if (isFollowPreset.isTrue) update()
+        // Write test to see how this should work I cant simulate where this make difference difference
+//        if (isFollowPreset.isTrue) update()
+        if (isFollowPreset.isFalse)
+            store.eventChanged.paused { saveTo(store) }
+        else update()
     }
 
     override fun update() {
