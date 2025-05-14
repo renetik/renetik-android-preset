@@ -32,7 +32,7 @@ class CSPresetListItem<
 
     override fun onStoreLoaded() = property.save()
 
-    override fun clearKeyData() = parentStore.clear(key)
+    override fun clearKeyData() = property.clear()
 
     override fun clear() = property.clear()
 

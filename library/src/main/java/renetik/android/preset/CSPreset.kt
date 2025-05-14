@@ -49,7 +49,7 @@ class CSPreset<PresetListItem : CSPresetItem,
     val listItem = CSPresetListItem(this, notFoundItem, defaultItemId)
 
     val title = store.property("preset title",
-        default = listItem.value.title.value).listenStore()
+        default = { listItem.value.title.value }).listenStore()
     val properties = mutableListOf<CSPresetKeyData>()
     val presets = mutableListOf<CSPreset<*, *>>()
 
