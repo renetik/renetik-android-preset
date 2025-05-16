@@ -82,6 +82,10 @@ class CustomStoreContext(
         key: String, default: Int, onChange: ArgFunc<Int>?
     ) = store.property(this, key.newKey, default, onChange).init()
 
+    override fun property(
+        key: String, default: () -> Int, onChange: ArgFunc<Int>?
+    ) = store.property(this, key.newKey, default, onChange).init()
+
     override fun <T> property(
         key: String, values: () -> List<T>, default: () -> T, onChange: ArgFunc<T>?
     ) = store.property(this, key.newKey, values, default, onChange).init()

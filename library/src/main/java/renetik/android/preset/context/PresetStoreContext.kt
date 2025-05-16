@@ -112,6 +112,12 @@ class PresetStoreContext(
         this, key.newKey, default, onChange
     ).init(key)
 
+    override fun property(
+        key: String, default: ()->Int, onChange: ArgFunc<Int>?
+    ) = preset.property(
+        this, key.newKey, default, onChange
+    ).init(key)
+
     override fun <T> property(
         key: String, values: () -> List<T>, default: () -> T, onChange: ArgFunc<T>?
     ) = preset.property(
