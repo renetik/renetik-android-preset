@@ -102,7 +102,7 @@ class CSPreset<PresetListItem : CSPresetItem,
         if (!isAlreadyReloading) isReload.setFalse()
     }
 
-    internal fun reload(data: Map<String, Any?>) {
+    fun reload(data: Map<String, Any?>) {
         store.reload(data)
         properties.toList().forEach {
             if (!it.isDestructed) it.onStoreLoaded()
