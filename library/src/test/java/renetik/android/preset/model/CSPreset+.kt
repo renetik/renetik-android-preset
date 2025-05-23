@@ -7,11 +7,11 @@ import renetik.android.store.extensions.operation
 fun <T : CSPreset<*, *>> T.manageItems() = apply {
     eventSave.listen { item ->
         item.store.operation {
-            item.store.clear()
+            it.clear()
             for (property: CSPresetKeyData in properties)
-                property.saveTo(item.store)
+                property.saveTo(it)
             for (preset: CSPreset<*, *> in presets)
-                preset.store.saveTo(item.store)
+                preset.store.saveTo(it)
         }
     }
 }
