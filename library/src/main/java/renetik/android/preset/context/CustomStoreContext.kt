@@ -17,7 +17,7 @@ import renetik.android.store.extensions.nullStringProperty
 import renetik.android.store.extensions.operation
 import renetik.android.store.extensions.property
 import renetik.android.store.property.CSStoreProperty
-import renetik.android.store.property.listenStore
+import renetik.android.store.property.listenLoad
 import renetik.android.store.property.value.CSIntListValueStoreProperty
 
 class CustomStoreContext(
@@ -105,10 +105,10 @@ class CustomStoreContext(
     override fun <T> nullListItemProperty(
         key: String, values: List<T>, default: T?, onChange: ((value: T?) -> Unit)?
     ) = store.nullListItemProperty(key.newKey, values, default, onChange)
-        .parent(this).listenStore().init()
+        .parent(this).listenLoad().init()
 
     override fun property(
         key: String, default: List<Int>, onChange: ArgFunc<List<Int>>?
     ) = CSIntListValueStoreProperty(store, key.newKey, default, onChange)
-        .parent(this).listenStore().init()
+        .parent(this).listenLoad().init()
 }
