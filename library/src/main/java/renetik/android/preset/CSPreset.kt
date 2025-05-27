@@ -15,6 +15,7 @@ import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.property
+import renetik.android.store.property.listenChange
 import renetik.android.store.property.listenLoad
 import renetik.android.store.type.CSJsonObjectStore.Companion.CSJsonObjectStore
 
@@ -49,7 +50,8 @@ class CSPreset<PresetListItem : CSPresetItem,
     val listItem = CSPresetListItem(this, notFoundItem, defaultItemId)
 
     val title = store.property("preset title",
-        default = { listItem.value.title.value }).listenLoad()
+        default = { listItem.value.title.value })
+        .listenLoad().listenChange()
     val properties = mutableListOf<CSPresetKeyData>()
     val presets = mutableListOf<CSPreset<*, *>>()
 
