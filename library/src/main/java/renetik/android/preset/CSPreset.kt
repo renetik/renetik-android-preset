@@ -10,13 +10,12 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.common.destruct
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.property.computed
 import renetik.android.event.registration.CSHasChange
+import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
-import renetik.android.store.extensions.property
-import renetik.android.store.property.listenChange
-import renetik.android.store.property.listenLoad
 import renetik.android.store.type.CSJsonObjectStore.Companion.CSJsonObjectStore
 
 class CSPreset<PresetListItem : CSPresetItem,
@@ -49,9 +48,11 @@ class CSPreset<PresetListItem : CSPresetItem,
     val store = CSPresetStore(this)
     val listItem = CSPresetListItem(this, notFoundItem, defaultItemId)
 
-    val title = store.property("preset title",
-        default = { listItem.value.title.value })
-        .listenLoad().listenChange()
+    //    val title = store.property("preset title",
+//        default = { listItem.value.title.value })
+//        .listenLoad().listenChange()  // We don't need this ?
+    val title = listItem.computed(child = { it.title })
+
     val properties = mutableListOf<CSPresetKeyData>()
     val presets = mutableListOf<CSPreset<*, *>>()
 
@@ -60,7 +61,7 @@ class CSPreset<PresetListItem : CSPresetItem,
         store.clearKeyData()
         listItem.clearKeyData()
         properties.toList().forEach { it.clear() }
-        title.clear()
+//        title.clear()  // We don't need this ?
     }
 
     fun destructClear() {
