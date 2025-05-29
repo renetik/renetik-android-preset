@@ -1,6 +1,8 @@
 package renetik.android.preset
 
-interface CSPresetItemList<PresetItem : CSPresetItem> {
+import renetik.android.core.lang.CSHasId
+
+interface CSPresetItemList<PresetItem : CSPresetItem> : CSHasId {
     companion object
 
     val defaultItems: List<PresetItem>

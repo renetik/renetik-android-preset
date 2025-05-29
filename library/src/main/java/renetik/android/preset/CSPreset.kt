@@ -12,7 +12,6 @@ import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.computed
 import renetik.android.event.registration.CSHasChange
-import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
