@@ -46,10 +46,14 @@ class CSPresetListItem<
 
     private var isFirstChange = true
     override fun value(newValue: PresetItem, fire: Boolean) {
-        val isPresetReload = isFirstChange || value != newValue
+        val isPresetReload = isFirstChange && value == newValue
         super.value(newValue, fire)
         isFirstChange = false
         if (isPresetReload) preset.reload(newValue)
+    }
+
+    init {
+        property.onChange { preset.reload(value) }
     }
 
     override fun toString() = "key:$key ${super.toString()}"
