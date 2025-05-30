@@ -38,7 +38,7 @@ class CSPresetStore(
         preset.onDestructed { if (pendingSave) saveNow() }
     }
 
-    val isNotStoredInParent get() = parentStore.getMap(key) == null
+    val isNotStored get() = parentStore.getMap(key) == null
 
     override fun onStoreLoaded() {
         if (preset.isFollowStore.isFalse) saveToParentStore()

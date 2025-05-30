@@ -45,7 +45,7 @@ class CSPresetListItem<
             ?: preset.list.defaultItems[0]
 
     //TODO: Sadly I totally not understand how this works now..
-    private var isFirstSet = true
+    private var isFirstSet = false // TODO!!! disabled now, where we have issues in app ?
     override fun value(newValue: PresetItem, fire: Boolean) {
         val isPresetReload = isFirstSet || value != newValue
         super.value(newValue, fire)
@@ -55,8 +55,8 @@ class CSPresetListItem<
 
     //TODO: Sadly I totally not understand how this works now..
     init {
-        property.onValueChange.onChange {
-            if (preset.store.isNotStoredInParent) {
+        property.onChange {
+            if (preset.store.isNotStored) {
                 isFirstSet = false
                 preset.reload(value)
             }
