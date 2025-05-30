@@ -44,17 +44,24 @@ class CSPresetListItem<
         preset.list.defaultItems.find { it.id == defaultItemId }
             ?: preset.list.defaultItems[0]
 
-    private var isFirstChange = true
+    //TODO: Sadly I totally not understand how this works now..
+    private var isFirstSet = true
     override fun value(newValue: PresetItem, fire: Boolean) {
-        val isPresetReload = isFirstChange && value == newValue
+        val isPresetReload = isFirstSet || value != newValue
         super.value(newValue, fire)
-        isFirstChange = false
+        isFirstSet = false
         if (isPresetReload) preset.reload(newValue)
     }
 
+    //TODO: Sadly I totally not understand how this works now..
     init {
-        property.onChange { preset.reload(value) }
+        property.onValueChange.onChange {
+            if (preset.store.isNotStoredInParent) {
+                isFirstSet = false
+                preset.reload(value)
+            }
+        }
     }
 
-    override fun toString() = "key:$key ${super.toString()}"
+    override fun toString() = "key:$key this:${super.toString()}"
 }

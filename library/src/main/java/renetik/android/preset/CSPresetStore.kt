@@ -10,7 +10,7 @@ import renetik.android.store.type.CSJsonObjectStore
 class CSPresetStore(
     override val preset: CSPreset<*, *>,
 ) : CSJsonObjectStore(), CSPresetKeyData {
-    private val parentStore: CSStore = preset.parentStore
+    internal val parentStore: CSStore = preset.parentStore
     override val key = "${preset.id} store"
     override fun saveTo(store: CSStore) = store.set(key, data)
 
@@ -38,6 +38,8 @@ class CSPresetStore(
         preset.onDestructed { if (pendingSave) saveNow() }
     }
 
+    val isNotStoredInParent get() = parentStore.getMap(key) == null
+
     override fun onStoreLoaded() {
         if (preset.isFollowStore.isFalse) saveToParentStore()
         else {
@@ -59,5 +61,5 @@ class CSPresetStore(
 
     override fun hashCode() = 31 * key.hashCode() + super.hashCode()
 
-    override fun toString() = "key:$key ${super.toString()}"
+    override fun toString() = "key:$key this:${super.toString()}"
 }
