@@ -20,7 +20,7 @@ import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.event.common.CSModel
 import renetik.android.preset.CSPreset
 import renetik.android.preset.init
-import renetik.android.preset.model.CSPresetTestPresetItemList
+import renetik.android.preset.model.TestCSPresetItemList
 import renetik.android.preset.model.ClearPresetItemId
 import renetik.android.preset.model.NotFoundPresetItem
 import renetik.android.preset.model.manageItems
@@ -43,7 +43,7 @@ class CSPresetCSStoreContextTest {
     fun tearDown() = Dispatchers.resetMain()
 
     private val parent = CSModel()
-    private val presetList = CSPresetTestPresetItemList(ClearPresetItemId)
+    private val presetList = TestCSPresetItemList(ClearPresetItemId)
     private val testFile = app.temporaryFile()
     private val fileStore = CSFileJsonStore(
         testFile, isJsonPretty = false, isImmediateWrite = false
