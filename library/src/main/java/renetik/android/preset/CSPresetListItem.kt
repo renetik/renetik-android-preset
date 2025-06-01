@@ -6,6 +6,7 @@ import renetik.android.event.property.CSPropertyWrapper
 import renetik.android.event.property.computed
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
+import renetik.android.store.extensions.isEmpty
 import renetik.android.store.extensions.property
 import renetik.android.store.property.save
 
@@ -14,15 +15,15 @@ class CSPresetListItem<
         PresetList : CSPresetItemList<PresetItem>,
         >(
     override val preset: CSPreset<PresetItem, PresetList>,
-    private val notFoundPresetItem: () -> PresetItem,
+    private val notFoundPresetItem: (CSStore) -> PresetItem,
     private val defaultItemId: String? = null,
 ) : CSPropertyWrapper<PresetItem>(preset), CSPresetKeyData {
     private val parentStore: CSStore = preset.parentStore
     override val key = "${preset.id} current"
-
+    private val notFoundItem by lazy { notFoundPresetItem(preset.store) }
     override val property = parentStore.property(
         this, key, preset.list::items, getDefault = {
-            if (parentStore.has(key)) notFoundPresetItem()
+            if (parentStore.has(key) && !preset.store.isEmpty) notFoundItem
             else getDefaultItem()
         }
     ).also { it.save() }
@@ -30,7 +31,7 @@ class CSPresetListItem<
     override fun saveTo(store: CSStore) = store.set(key, property.value.toId())
 
     val currentId: CSProperty<String> = computed(from = { it.id }, to = { presetId ->
-        preset.list.items.find { it.id == presetId } ?: notFoundPresetItem()
+        preset.list.items.find { it.id == presetId } ?: notFoundPresetItem(preset.store)
     })
 
     override fun onStoreLoaded() = property.save()

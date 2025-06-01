@@ -21,7 +21,7 @@ class CSPreset<PresetListItem : CSPresetItem,
         PresetList : CSPresetItemList<PresetListItem>>(
     parent: CSHasDestruct, val parentStore: CSStore,
     key: String, val list: PresetList,
-    notFoundItem: () -> PresetListItem, defaultItemId: String? = null,
+    notFoundItem: (CSStore) -> PresetListItem, defaultItemId: String? = null,
 ) : CSModel(parent), CSHasChange<Unit> {
 
     companion object {
@@ -29,7 +29,7 @@ class CSPreset<PresetListItem : CSPresetItem,
                 PresetList : CSPresetItemList<PresetItem>> CSPreset(
             parent: CSHasDestruct, parentPreset: CSPreset<*, *>,
             key: String, list: PresetList,
-            notFoundItem: () -> PresetItem, defaultItemId: String? = null,
+            notFoundItem: (CSStore) -> PresetItem, defaultItemId: String? = null,
         ): CSPreset<PresetItem, PresetList> = CSPreset(
             parent, parentPreset.store, key, list, notFoundItem, defaultItemId
         ).also(parentPreset::add)
