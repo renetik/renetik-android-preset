@@ -21,7 +21,10 @@ class CSPresetListItem<
     override val key = "${preset.id} current"
 
     override val property = parentStore.property(
-        this, key, preset.list::items, getDefault = ::getDefaultItem
+        this, key, preset.list::items, getDefault = {
+            if (parentStore.has(key)) notFoundPresetItem()
+            else getDefaultItem()
+        }
     ).also { it.save() }
 
     override fun saveTo(store: CSStore) = store.set(key, property.value.toId())
@@ -44,7 +47,7 @@ class CSPresetListItem<
         preset.list.defaultItems.find { it.id == defaultItemId }
             ?: preset.list.defaultItems[0]
 
-//        var isFirstLoad = true
+    //        var isFirstLoad = true
     override fun value(newValue: PresetItem, fire: Boolean) {
 //        val isPresetReload = isFirstLoad || value != newValue
         val isPresetReload = value != newValue
