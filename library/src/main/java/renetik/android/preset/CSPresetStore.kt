@@ -10,14 +10,17 @@ import renetik.android.store.type.CSJsonObjectStore
 class CSPresetStore(
     override val preset: CSPreset<*, *>,
 ) : CSJsonObjectStore(), CSPresetKeyData {
-    internal val parentStore: CSStore = preset.parentStore
     override val key = "${preset.id} store"
-    override fun saveTo(store: CSStore) = store.set(key, data)
+
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.destruct()
-    fun save() = saveTo(parentStore)
+
+    private val parentStore: CSStore = preset.parentStore
     override fun clearKeyData() = parentStore.clear(key)
+
+    override fun saveTo(store: CSStore) = store.set(key, data)
+    fun save() = saveTo(parentStore)
 //    val isNotStored get() = parentStore.getMap(key).isNullOrEmpty()
 
     init {
