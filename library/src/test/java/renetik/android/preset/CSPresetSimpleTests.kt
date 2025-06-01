@@ -89,11 +89,11 @@ class CSPresetSimpleTests {
             CSPresetTestPresetItemList(firstItemId = "clear preset item"),
             ::NotFoundPresetItem
         ).manageItems().init()
-        val defaultItemId = "clear childPreset item"
+        val firstItemId = "clear childPreset item"
         val childPreset = CSPreset(
             parent, preset, "childPreset",
-            CSPresetTestPresetItemList(firstItemId = defaultItemId),
-            ::NotFoundPresetItem, defaultItemId
+            CSPresetTestPresetItemList(firstItemId = firstItemId),
+            ::NotFoundPresetItem, defaultItemId = firstItemId
         ).manageItems().init()
         val childPresetProperty = childPreset.property(parent, "childPresetProperty", 5)
         assertEquals(5, childPresetProperty.value)
