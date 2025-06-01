@@ -47,9 +47,6 @@ class CSPreset<PresetListItem : CSPresetItem,
     val store = CSPresetStore(this)
     val listItem = CSPresetListItem(this, notFoundItem, defaultItemId)
 
-    //    val title = store.property("preset title",
-//        default = { listItem.value.title.value })
-//        .listenLoad().listenChange()  // We don't need this ?
     val title = listItem.computed(child = { it.title })
 
     val properties = mutableListOf<CSPresetKeyData>()
@@ -60,7 +57,6 @@ class CSPreset<PresetListItem : CSPresetItem,
         store.clearKeyData()
         listItem.clearKeyData()
         properties.toList().forEach { it.clear() }
-//        title.clear()  // We don't need this ?
     }
 
     fun destructClear() {
