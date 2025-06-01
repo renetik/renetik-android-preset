@@ -51,7 +51,7 @@ class CSPresetListItem<
     }
 
     init {
-        property.onChange { if (preset.store.isNotStored) preset.reload(value) }
+        onChange { if (preset.store.isNotStored) preset.reload(value) }
     }
 
     override fun toString() = "key:$key this:${super.toString()}"
