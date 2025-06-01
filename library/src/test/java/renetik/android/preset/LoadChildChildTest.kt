@@ -25,48 +25,20 @@ class LoadChildChildTest {
         CSJson.isJsonPretty = true
     }
 
-    val preset = CSPreset(
-        CSModel(), CSJsonObjectStore(), "preset",
-        TestCSPresetItemList(firstItemId = "clear preset item"),
-        ::NotFoundPresetItem
-    ).manageItems().init()
-
-    val childPresetList = TestCSPresetItemList(firstItemId = "clear childPreset item")
-    val secondChildPresetListItem = childPresetList.createItem(
-        "second childPreset item", isDefault = true).also {
-        it.store.reload("""{
+    val secondChildPresetItemJson = """{
     "childChildPreset preset current": "second childChildPreset item"
-  }""")
-    }
-    val thirdChildPresetListItem = childPresetList.createItem(
-        "third childPreset item", isDefault = true).also {
-        it.store.reload("""{
+  }"""
+
+    val thirdChildPresetItemJson = """{
     "childChildPreset preset current": "second childChildPreset item",
     "childChildPreset preset store": {
       "childChildPresetProperty": 10
     }
-  }""")
-    }
-    val childPreset = CSPreset(
-        CSModel(), preset, "childPreset", childPresetList, ::NotFoundPresetItem,
-    ).manageItems().init()
+  }"""
 
-    val childChildPresetList = TestCSPresetItemList(
-        firstItemId = "clear childChildPreset item")
-
-    val secondChildChildPresetListItem = childChildPresetList.createItem(
-        "second childChildPreset item", isDefault = true).also {
-        it.store.reload("""{
+    val secondChildChildPresetItemJson = """{
       "childChildPresetProperty": 10
-    }""")
-    }
-
-    val childChildPreset = CSPreset(
-        CSModel(), childPreset, "childChildPreset", childChildPresetList, ::NotFoundPresetItem,
-    ).manageItems().init()
-
-    val childChildPresetProperty = childChildPreset.property(CSModel(),
-        "childChildPresetProperty", 5)
+    }"""
 
     val initialStoreJson = """{
   "childPreset preset current": "clear childPreset item",
@@ -75,7 +47,7 @@ class LoadChildChildTest {
     "childChildPreset preset store": {}
   }
 }"""
-    val clearChildSecondChildChildStoreChason = """{
+    val clearChildSecondChildChildStoreJson = """{
   "childPreset preset current": "clear childPreset item",
   "childPreset preset store": {
     "childChildPreset preset current": "second childChildPreset item",
@@ -85,7 +57,7 @@ class LoadChildChildTest {
   }
 }"""
 
-    val secondsChildStoreChason = """{
+    val secondChildStoreJson = """{
   "childPreset preset current": "second childPreset item",
   "childPreset preset store": {
     "childChildPreset preset current": "second childChildPreset item",
@@ -95,18 +67,48 @@ class LoadChildChildTest {
   }
 }"""
 
+    val preset = CSPreset(
+        CSModel(), CSJsonObjectStore(), "preset",
+        TestCSPresetItemList(firstItemId = "clear preset item"),
+        ::NotFoundPresetItem
+    ).manageItems().init()
+
+    val childPresetList = TestCSPresetItemList(firstItemId = "clear childPreset item")
+    val secondChildPresetItem = childPresetList.createItem(
+        "second childPreset item", isDefault = true)
+        .apply { store.reload(secondChildPresetItemJson) }
+    val thirdChildPresetItem = childPresetList.createItem(
+        "third childPreset item", isDefault = true)
+        .apply { store.reload(thirdChildPresetItemJson) }
+    val childPreset = CSPreset(
+        CSModel(), preset, "childPreset",
+        childPresetList, ::NotFoundPresetItem,
+    ).manageItems().init()
+
+    val childChildPresetList = TestCSPresetItemList(
+        firstItemId = "clear childChildPreset item")
+    val secondChildChildPresetItem = childChildPresetList.createItem(
+        "second childChildPreset item", isDefault = true)
+        .apply { store.reload(secondChildChildPresetItemJson) }
+    val childChildPreset = CSPreset(
+        CSModel(), childPreset, "childChildPreset",
+        childChildPresetList, ::NotFoundPresetItem,
+    ).manageItems().init()
+    val childChildPresetProperty = childChildPreset.property(CSModel(),
+        "childChildPresetProperty", 5)
+
     @Test
     fun loadSecondChildChildPresetListItem() {
         assertEquals(5, childChildPresetProperty.value)
         assertEquals(preset.store.data.toJson(), initialStoreJson)
-        childChildPreset.listItem assign secondChildChildPresetListItem
-        assertEquals(preset.store.data.toJson(), clearChildSecondChildChildStoreChason)
+        childChildPreset.listItem assign secondChildChildPresetItem
+        assertEquals(preset.store.data.toJson(), clearChildSecondChildChildStoreJson)
         assertEquals(10, childChildPresetProperty.value)
         childPreset.reload()
         assertEquals(preset.store.data.toJson(), initialStoreJson)
         assertEquals(5, childChildPresetProperty.value)
-        childChildPreset.listItem assign secondChildChildPresetListItem
-        assertEquals(preset.store.data.toJson(), clearChildSecondChildChildStoreChason)
+        childChildPreset.listItem assign secondChildChildPresetItem
+        assertEquals(preset.store.data.toJson(), clearChildSecondChildChildStoreJson)
         assertEquals(10, childChildPresetProperty.value)
         preset.reload()
         assertEquals(preset.store.data.toJson(), initialStoreJson)
@@ -117,7 +119,8 @@ class LoadChildChildTest {
     fun loadSecondChildPresetListItem() {
         assertEquals(5, childChildPresetProperty.value)
         assertEquals(preset.store.data.toJson(), initialStoreJson)
-        childPreset.listItem assign secondChildPresetListItem
-        assertEquals(preset.store.data.toJson(), secondsChildStoreChason)
+        childPreset.listItem assign secondChildPresetItem
+        assertEquals(preset.store.data.toJson(), secondChildStoreJson)
+        assertEquals(10, childChildPresetProperty.value)
     }
 }
