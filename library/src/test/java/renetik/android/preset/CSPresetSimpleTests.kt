@@ -19,9 +19,9 @@ import renetik.android.event.common.CSModel
 import renetik.android.json.toJson
 import renetik.android.preset.CSPreset.Companion.CSPreset
 import renetik.android.preset.extensions.property
-import renetik.android.preset.model.TestCSPresetItemList
 import renetik.android.preset.model.ClearPresetItemId
 import renetik.android.preset.model.NotFoundPresetItem
+import renetik.android.preset.model.TestCSPresetItemList
 import renetik.android.preset.model.manageItems
 import renetik.android.preset.property.max
 import renetik.android.store.extensions.reload
@@ -157,5 +157,4 @@ class CSPresetSimpleTests {
         val property = preset.property(parent, "key", 5)
         assertEquals(100, property.value)
     }
-
 }
