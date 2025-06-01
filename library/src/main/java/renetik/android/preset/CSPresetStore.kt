@@ -13,7 +13,6 @@ class CSPresetStore(
     internal val parentStore: CSStore = preset.parentStore
     override val key = "${preset.id} store"
     override fun saveTo(store: CSStore) = store.set(key, data)
-
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.destruct()
