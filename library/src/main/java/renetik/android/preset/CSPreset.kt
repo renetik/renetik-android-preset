@@ -106,7 +106,7 @@ class CSPreset<PresetListItem : CSPresetItem,
 //        val isAlreadyReloading = isReload.isTrue
 //        if (!isAlreadyReloading) isReload.setTrue()
         store.reload(data)
-        store.saveToParentStore()
+        store.save()
         properties.toList().forEach { if (!it.isDestructed) it.onStoreLoaded() }
         presets.toList().forEach {
             if (!it.isDestructed) it.store.onStoreLoaded()

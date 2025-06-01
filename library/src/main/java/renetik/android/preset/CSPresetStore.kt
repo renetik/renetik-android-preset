@@ -17,31 +17,17 @@ class CSPresetStore(
     override val isDestructed: Boolean get() = preset.isDestructed
     override val eventDestruct get() = preset.eventDestruct
     override fun onDestruct() = preset.destruct()
-
-//    private val saveLater: CSFunc = preset.laterOnceFunc(::saveNow)
-
-    private var pendingSave: Boolean = false
-
-    fun saveToParentStore() {
-//        pendingSave = true; saveLater() //Temporary to find cause of issues ?
-        saveNow()
-    }
-
-    private fun saveNow() {
-        pendingSave = false; saveTo(parentStore)
-    }
-
+    fun save() = saveTo(parentStore)
     override fun clearKeyData() = parentStore.clear(key)
+//    val isNotStored get() = parentStore.getMap(key).isNullOrEmpty()
 
     init {
         parentStore.getMap(key)?.let(::load)
-        preset.onDestructed { if (pendingSave) saveNow() }
+        preset.onDestructed { save() }
     }
 
-//    val isNotStored get() = parentStore.getMap(key).isNullOrEmpty()
-
     override fun onStoreLoaded() {
-        if (preset.isFollowStore.isFalse) saveToParentStore()
+        if (preset.isFollowStore.isFalse) save()
         else {
             val data = parentStore.getMap(key)
             if (this.data == data) return
@@ -52,14 +38,12 @@ class CSPresetStore(
 
     override fun onChanged() {
         super.onChanged()
-        if (preset.isReload.isFalse) saveToParentStore()
+        if (preset.isReload.isFalse) save()
     }
 
-    override fun equals(other: Any?) =
-        (other as? CSPresetStore)?.let { it.key == key && super.equals(other) }
-            ?: super.equals(other)
-
-    override fun hashCode() = 31 * key.hashCode() + super.hashCode()
-
     override fun toString() = "key:$key this:${super.toString()}"
+    override fun hashCode() = 31 * key.hashCode() + super.hashCode()
+    override fun equals(other: Any?) = (other as? CSPresetStore)?.let {
+        it.key == key && super.equals(other)
+    } ?: super.equals(other)
 }
