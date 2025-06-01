@@ -1,11 +1,6 @@
 package renetik.android.preset
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -13,6 +8,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import renetik.android.core.lang.variable.assign
 import renetik.android.event.common.CSModel
+import renetik.android.json.CSJson
 import renetik.android.json.toJson
 import renetik.android.preset.CSPreset.Companion.CSPreset
 import renetik.android.preset.extensions.property
@@ -24,8 +20,9 @@ import renetik.android.store.type.CSJsonObjectStore
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 class LoadChildChildTest {
-    @Before fun setUp() = Dispatchers.setMain(StandardTestDispatcher())
-    @After fun tearDown() = Dispatchers.resetMain()
+    @Before fun setUp() {
+        CSJson.isJsonPretty = true
+    }
 
     val preset = CSPreset(
         CSModel(), CSJsonObjectStore(), "preset",
@@ -51,7 +48,7 @@ class LoadChildChildTest {
     @Test
     fun loadChildChildTest() {
         assertEquals(5, childChildPresetProperty.value)
-        assertEquals(preset.store.data.toJson(formatted = true), """{
+        assertEquals(preset.store.data.toJson(), """{
   "childPreset preset current": "clear childPreset item",
   "childPreset preset store": {
     "childChildPreset preset current": "clear childChildPreset item",
@@ -59,7 +56,7 @@ class LoadChildChildTest {
   }
 }""")
         childChildPresetProperty assign 10
-        assertEquals(preset.store.data.toJson(formatted = true), """{
+        assertEquals(preset.store.data.toJson(), """{
   "childPreset preset current": "clear childPreset item",
   "childPreset preset store": {
     "childChildPreset preset current": "clear childChildPreset item",
