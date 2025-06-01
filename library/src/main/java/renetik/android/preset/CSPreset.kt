@@ -89,6 +89,7 @@ class CSPreset<PresetListItem : CSPresetItem,
         if (preset in presets) unexpected()
         preset + isReload.onChange { preset.isReload.value = it }
         add(preset.listItem)
+//        add(preset.store)
         presets += preset
         preset.eventDestruct.listenOnce { presets -= preset }
     }
@@ -98,6 +99,7 @@ class CSPreset<PresetListItem : CSPresetItem,
     fun reload(item: PresetListItem) {
         val isAlreadyReloading = isReload.isTrue
         if (!isAlreadyReloading) isReload.setTrue()
+        isReload.setTrue()
         eventLoad.fire(item)
         reload(item.store.data)
         eventChange.fire(item)
@@ -105,13 +107,15 @@ class CSPreset<PresetListItem : CSPresetItem,
     }
 
     fun reload(data: Map<String, Any?>) {
+//        val isAlreadyReloading = isReload.isTrue
+//        if (!isAlreadyReloading) isReload.setTrue()
         store.reload(data)
-        properties.toList().forEach {
-            if (!it.isDestructed) it.onStoreLoaded()
-        }
+        store.saveToParentStore()
+        properties.toList().forEach { if (!it.isDestructed) it.onStoreLoaded() }
         presets.toList().forEach {
             if (!it.isDestructed) it.store.onStoreLoaded()
         }
+//        if (!isAlreadyReloading) isReload.setFalse()
     }
 
     fun save(item: PresetListItem) = eventSave.fire(item)

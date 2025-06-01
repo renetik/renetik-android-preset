@@ -44,15 +44,18 @@ class CSPresetListItem<
         preset.list.defaultItems.find { it.id == defaultItemId }
             ?: preset.list.defaultItems[0]
 
+//        var isFirstLoad = true
     override fun value(newValue: PresetItem, fire: Boolean) {
+//        val isPresetReload = isFirstLoad || value != newValue
         val isPresetReload = value != newValue
+//        isFirstLoad = false
         super.value(newValue, fire)
         if (isPresetReload) preset.reload(newValue)
     }
 
-    init {
-        onChange { if (preset.store.isNotStored) preset.reload(value) }
-    }
+//    init {
+//        onChange { if (preset.store.isNotStored) preset.reload(value) }
+//    }
 
     override fun toString() = "key:$key this:${super.toString()}"
 }

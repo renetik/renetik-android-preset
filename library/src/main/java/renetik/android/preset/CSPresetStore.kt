@@ -22,7 +22,7 @@ class CSPresetStore(
 
     private var pendingSave: Boolean = false
 
-    private fun saveToParentStore() {
+    fun saveToParentStore() {
 //        pendingSave = true; saveLater() //Temporary to find cause of issues ?
         saveNow()
     }
@@ -38,7 +38,7 @@ class CSPresetStore(
         preset.onDestructed { if (pendingSave) saveNow() }
     }
 
-    val isNotStored get() = parentStore.getMap(key) == null
+//    val isNotStored get() = parentStore.getMap(key).isNullOrEmpty()
 
     override fun onStoreLoaded() {
         if (preset.isFollowStore.isFalse) saveToParentStore()
@@ -52,7 +52,7 @@ class CSPresetStore(
 
     override fun onChanged() {
         super.onChanged()
-        saveToParentStore()
+        if (preset.isReload.isFalse) saveToParentStore()
     }
 
     override fun equals(other: Any?) =
