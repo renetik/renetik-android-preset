@@ -28,16 +28,14 @@ class CSPresetListItem<
         }
     ).also { it.save() }
 
-    override fun saveTo(store: CSStore) = store.set(key, property.value.toId())
+    override fun saveTo(store: CSStore) = store.set(key, value.toId())
 
     val currentId: CSProperty<String> = computed(from = { it.id }, to = { presetId ->
         preset.list.items.find { it.id == presetId } ?: notFoundPresetItem(preset.store)
     })
 
     override fun onStoreLoaded() = property.save()
-
     override fun clearKeyData() = property.clear()
-
     override fun clear() = property.clear()
 
     override fun isTrackedModifiedIn(store: CSStore) =
