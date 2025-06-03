@@ -1,14 +1,19 @@
 package renetik.android.preset
 
 import renetik.android.core.kotlin.toId
+import renetik.android.core.lang.value.isFalse
+import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSPropertyWrapper
 import renetik.android.event.property.computed
+import renetik.android.event.registration.invoke
+import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.isEmpty
 import renetik.android.store.extensions.property
 import renetik.android.store.property.save
+import renetik.android.store.property.saveTo
 
 class CSPresetListItem<
         PresetItem : CSPresetItem,
@@ -21,22 +26,31 @@ class CSPresetListItem<
     private val parentStore: CSStore = preset.parentStore
     override val key = "${preset.id} current"
     private val notFoundItem by lazy { notFoundPresetItem(preset.store) }
+
     override val property = parentStore.property(
-        this, key, preset.list::items, getDefault = {
+        key, preset.list::items, getDefault = {
             if (parentStore.has(key) && !preset.store.isEmpty) notFoundItem
             else getDefaultItem()
         }
-    ).also { it.save() }
+    )
+
+    init {
+        property.save()
+        this + property.store.eventLoaded {
+            if (preset.isFollowStore.isFalse)
+                it.eventChanged.paused { property.saveTo(it) }
+            else property.update()
+        }
+    }
 
     override fun saveTo(store: CSStore) = store.set(key, value.toId())
+    override fun clearKeyData() = property.clear()
+    override fun clear() = property.clear()
+    override fun onStoreLoaded() = property.save()
 
     val currentId: CSProperty<String> = computed(from = { it.id }, to = { presetId ->
         preset.list.items.find { it.id == presetId } ?: notFoundPresetItem(preset.store)
     })
-
-    override fun onStoreLoaded() = property.save()
-    override fun clearKeyData() = property.clear()
-    override fun clear() = property.clear()
 
     override fun isTrackedModifiedIn(store: CSStore) =
         if (store.has(key)) currentId.value != store.get(key)
@@ -46,18 +60,11 @@ class CSPresetListItem<
         preset.list.defaultItems.find { it.id == defaultItemId }
             ?: preset.list.defaultItems[0]
 
-    //        var isFirstLoad = true
     override fun value(newValue: PresetItem, fire: Boolean) {
-//        val isPresetReload = isFirstLoad || value != newValue
         val isPresetReload = value != newValue
-//        isFirstLoad = false
         super.value(newValue, fire)
         if (isPresetReload) preset.reload(newValue)
     }
-
-//    init {
-//        onChange { if (preset.store.isNotStored) preset.reload(value) }
-//    }
 
     override fun toString() = "key:$key this:${super.toString()}"
 }
