@@ -3,7 +3,6 @@ package renetik.android.preset.extensions
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
-import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset
 import renetik.android.preset.property.value.CSBooleanValuePresetProperty
 import renetik.android.preset.property.value.CSDoubleValuePresetProperty
@@ -14,7 +13,12 @@ import renetik.android.preset.property.value.CSIntValuePresetProperty
 import renetik.android.preset.property.value.CSListItemValuePresetProperty
 import renetik.android.preset.property.value.CSStringValuePresetProperty
 
-fun CSPreset<*, *>.property(
+fun Preset.property(
+    parent: CSHasDestruct, key: String,
+    getDefault: () -> String, onChange: ArgFunc<String>? = null
+) = add(CSStringValuePresetProperty(parent, this, key, getDefault, onChange))
+
+fun Preset.property(
     parent: CSHasDestruct, key: String,
     default: String, onChange: ArgFunc<String>? = null
 ) = add(CSStringValuePresetProperty(parent, this, key, default, onChange))
