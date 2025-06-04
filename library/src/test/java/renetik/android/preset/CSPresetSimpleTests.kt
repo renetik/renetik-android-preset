@@ -46,7 +46,7 @@ class CSPresetSimpleTests {
 
         val store = CSJsonObjectStore()
         val preset = CSPreset(
-            parent, store, "preset1", presetList, ::NotFoundPresetItem
+            parent, store, "preset1", presetList, { NotFoundPresetItem() }
         ).manageItems().init()
         val property = preset.property(parent, "preset1 property", 5)
 
@@ -65,10 +65,10 @@ class CSPresetSimpleTests {
         val presetList = TestCSPresetItemList(ClearPresetItemId)
 
         val preset = CSPreset(
-            parent, CSJsonObjectStore(), "preset", presetList, ::NotFoundPresetItem
+            parent, CSJsonObjectStore(), "preset", presetList, { NotFoundPresetItem() }
         ).manageItems().init()
         val childPreset = CSPreset(
-            parent, preset, "childPreset", presetList, ::NotFoundPresetItem
+            parent, preset, "childPreset", presetList, { NotFoundPresetItem() }
         ).manageItems().init()
         val childPresetProperty = childPreset.property(parent, "preset1 property", 5)
         assertEquals(5, childPresetProperty.value)
@@ -87,13 +87,13 @@ class CSPresetSimpleTests {
         val preset = CSPreset(
             parent, CSJsonObjectStore(), "preset",
             TestCSPresetItemList(firstItemId = "clear preset item"),
-            ::NotFoundPresetItem
+            { NotFoundPresetItem() }
         ).manageItems().init()
         val firstItemId = "clear childPreset item"
         val childPreset = CSPreset(
             parent, preset, "childPreset",
             TestCSPresetItemList(firstItemId = firstItemId),
-            ::NotFoundPresetItem, defaultItemId = firstItemId
+            { NotFoundPresetItem() }, defaultItemId = firstItemId
         ).manageItems().init()
         val childPresetProperty = childPreset.property(parent, "childPresetProperty", 5)
         assertEquals(5, childPresetProperty.value)
@@ -137,7 +137,7 @@ class CSPresetSimpleTests {
         val store = CSJsonObjectStore()
         store.reload("""{"test preset store":{"key":10}}""")
         val preset = CSPreset(
-            parent, store, "test", presetList, ::NotFoundPresetItem
+            parent, store, "test", presetList, { NotFoundPresetItem() }
         ).manageItems().init()
         val property = preset.property(parent, "key", 5)
         assertEquals(10, property.value)
@@ -152,7 +152,7 @@ class CSPresetSimpleTests {
         val presetList = TestCSPresetItemList("DefaultItemId")
         presetList.defaultItems.first!!.store.reload("""{"key":100}""")
         val preset = CSPreset(
-            parent, CSJsonObjectStore(), "test", presetList, ::NotFoundPresetItem
+            parent, CSJsonObjectStore(), "test", presetList, { NotFoundPresetItem() }
         ).manageItems().init()
         val property = preset.property(parent, "key", 5)
         assertEquals(100, property.value)

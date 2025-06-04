@@ -16,7 +16,7 @@ class CSPresetTestParentClass(store: CSStore) : CSModel() {
 
     val parentPreset: CSPreset<CSPresetItem, CSPresetTestPresetItemList> = CSPreset(
         parent = this, parentStore = store, "parentClass parent",
-        presetList, notFoundItem = ::NotFoundPresetItem,
+        presetList, notFoundItem = { NotFoundPresetItem() },
     )
     val property1 = parentPreset.nullIntProperty(this, "property1", 1)
     val property2 = parentPreset.nullIntProperty(this, "property2", 2)

@@ -20,9 +20,9 @@ import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.event.common.CSModel
 import renetik.android.preset.CSPreset
 import renetik.android.preset.init
-import renetik.android.preset.model.TestCSPresetItemList
 import renetik.android.preset.model.ClearPresetItemId
 import renetik.android.preset.model.NotFoundPresetItem
+import renetik.android.preset.model.TestCSPresetItemList
 import renetik.android.preset.model.manageItems
 import renetik.android.store.context.CSHasStoreContext
 import renetik.android.store.context.CSHasStoreContext.Companion.destructClear
@@ -49,7 +49,7 @@ class CSPresetCSStoreContextTest {
         testFile, isJsonPretty = false, isImmediateWrite = false
     )
     private val preset = CSPreset(
-        parent, fileStore, "preset1", presetList, ::NotFoundPresetItem
+        parent, fileStore, "preset1", presetList, { NotFoundPresetItem() }
     ).manageItems().init()
     private val storeParent = object : CSModel(parent), CSHasStoreContext {
         override val store = PresetStoreContext(

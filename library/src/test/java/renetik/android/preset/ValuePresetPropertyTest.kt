@@ -6,9 +6,9 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import renetik.android.event.common.CSModel
 import renetik.android.preset.extensions.property
-import renetik.android.preset.model.TestCSPresetItemList
 import renetik.android.preset.model.ClearPresetItemId
 import renetik.android.preset.model.NotFoundPresetItem
+import renetik.android.preset.model.TestCSPresetItemList
 import renetik.android.preset.model.manageItems
 import renetik.android.store.type.CSJsonObjectStore
 
@@ -18,7 +18,7 @@ class ValuePresetPropertyTest {
     private val itemList = TestCSPresetItemList(ClearPresetItemId)
     private val store = CSJsonObjectStore()
     private val preset = CSPreset(
-        parent, store, "preset1", itemList, ::NotFoundPresetItem
+        parent, store, "preset1", itemList, { NotFoundPresetItem() }
     ).manageItems().init()
 
     @Test
