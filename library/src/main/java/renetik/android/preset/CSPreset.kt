@@ -10,9 +10,10 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.common.destruct
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.property.computed
 import renetik.android.event.registration.CSHasChange
+import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.plus
+import renetik.android.preset.extensions.property
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore.Companion.CSJsonObjectStore
@@ -38,19 +39,18 @@ class CSPreset<PresetListItem : CSPresetItem,
     val id = "$key preset"
     val isFollowStore = property(true)
     val isReload = property(false)
-
     val eventLoad = event<PresetListItem>()
     val eventSave = event<PresetListItem>()
     val eventChange = event<PresetListItem>()
     val eventDelete = event<PresetListItem>()
+    val properties = mutableListOf<CSPresetKeyData>()
+    val presets = mutableListOf<CSPreset<*, *>>()
 
     val store = CSPresetStore(this)
     val listItem = CSPresetListItem(this, notFoundItem, defaultItemId)
-
-    val title = listItem.computed(child = { it.title })
-
-    val properties = mutableListOf<CSPresetKeyData>()
-    val presets = mutableListOf<CSPreset<*, *>>()
+    val title = property(this, "preset title", getDefault = { listItem.value.title.value })
+        .trackModified()
+    val itemTitle = listItem.delegate(child = { it.title })
 
     fun clear() {
         store.clear()
@@ -108,9 +108,7 @@ class CSPreset<PresetListItem : CSPresetItem,
         store.reload(data)
         store.save()
         properties.toList().forEach { if (!it.isDestructed) it.onStoreLoaded() }
-        presets.toList().forEach {
-            if (!it.isDestructed) it.store.onStoreLoaded()
-        }
+        presets.toList().forEach { if (!it.isDestructed) it.store.onStoreLoaded() }
 //        if (!isAlreadyReloading) isReload.setFalse()
     }
 

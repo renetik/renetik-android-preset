@@ -4,8 +4,8 @@ import renetik.android.core.kotlin.changeIf
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.tuples.to
 import renetik.android.core.lang.value.isTrue
-import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.CSDebouncer.Companion.debouncer
+import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.common.onDestructed
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
@@ -176,6 +176,21 @@ fun Preset.isModified(
     this + parent.onDestructed { registrations.cancel() }
     return property
 }
+
+fun Preset.itemTitle(
+    parent: CSHasRegistrationsHasDestruct, withModified: Boolean = false
+): CSHasChangeValue<String> = if (withModified) itemTitleWithModified(parent) else title
+
+fun Preset.itemTitleWithModified(
+    parent: CSHasRegistrationsHasDestruct
+): CSHasChangeValue<String> = itemTitleWithModified(isModified(parent))
+
+fun Preset.itemTitleWithModified(
+    isModified: CSHasChangeValue<Boolean>
+): CSHasChangeValue<String> = (itemTitle to isModified).hasChangeValue(
+    this, from = { title, modified ->
+        title.changeIf(String::isNotBlank) { "$it${if (modified) " *" else ""}" }
+    })
 
 fun Preset.title(
     parent: CSHasRegistrationsHasDestruct, withModified: Boolean = false
