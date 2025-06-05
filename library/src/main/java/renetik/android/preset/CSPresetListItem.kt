@@ -2,6 +2,7 @@ package renetik.android.preset
 
 import renetik.android.core.kotlin.toId
 import renetik.android.core.lang.value.isFalse
+import renetik.android.event.common.parent
 import renetik.android.event.paused
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSPropertyWrapper
@@ -35,7 +36,7 @@ class CSPresetListItem<
     )
 
     init {
-        property.save()
+        property.parent(this).save()
         this + property.store.eventLoaded {
             if (preset.isFollowStore.isFalse)
                 it.eventChanged.paused { property.saveTo(it) }
