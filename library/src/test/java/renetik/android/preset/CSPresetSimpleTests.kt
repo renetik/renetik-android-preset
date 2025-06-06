@@ -110,11 +110,14 @@ class CSPresetSimpleTests {
         childPreset.save(item)
         childPreset.listItem assign item
         advanceUntilIdle()
-        assertContains(
-            preset.store.data.toJson(),
-            """"childPreset preset current":"childPresetProperty item"""",
-            """"childPreset preset store":{"childPresetProperty":10}}"""
-        )
+        assertEquals("""{
+  "childPreset preset current": "childPresetProperty item",
+  "childPreset preset store": {
+    "childPresetProperty": 10,
+    "preset title": "title"
+  }
+}""", preset.store.data.toJson(formatted = true))
+
         preset.reload()
         advanceUntilIdle()
         assert(expected = 2, preset.store.data.size)
