@@ -111,10 +111,10 @@ fun <T> Preset.property(
 
 fun <T : CSHasId> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,
-    default: List<T>, onChange: ArgFunc<List<T>>? = null
+    default: List<T> = emptyList(), onChange: ArgFunc<List<T>>? = null
 ) = add(CSHasIdListValuePresetProperty(parent, this, key, values, default, onChange))
 
 fun <T : CSHasId> Preset.property(
     parent: CSHasDestruct, key: String, values: Array<T>,
-    default: List<T>, onChange: ArgFunc<List<T>>? = null
+    default: List<T> = emptyList(), onChange: ArgFunc<List<T>>? = null
 ) = property(parent, key, values.asList(), default, onChange)
