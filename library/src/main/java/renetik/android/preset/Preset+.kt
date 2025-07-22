@@ -143,7 +143,7 @@ fun <T : Preset> T.onChange(
 
 fun <T : Preset> T.onChange(
     paused: List<CSRegistration>,
-    before: Func,
+    before: Func = {},
     onChange: Func
 ): CSRegistration = CSRegistration(
     onBeforeChange {
