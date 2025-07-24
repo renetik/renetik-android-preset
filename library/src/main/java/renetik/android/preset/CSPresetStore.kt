@@ -2,7 +2,6 @@ package renetik.android.preset
 
 import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.destruct
-import renetik.android.event.common.onDestructed
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore
@@ -25,7 +24,8 @@ class CSPresetStore(
 
     init {
         parentStore.getMap(key)?.let(::load)
-        preset.onDestructed { save() }
+// This caused track to save sequences on preset change, not user why it was here at all
+// preset.onDestructed(::save)
     }
 
     override fun onStoreLoaded() {
