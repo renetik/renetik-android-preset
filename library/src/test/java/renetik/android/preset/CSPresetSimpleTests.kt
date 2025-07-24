@@ -100,7 +100,8 @@ class CSPresetSimpleTests {
         advanceUntilIdle()
         assertContains(
             preset.store.data.toJson(),
-            """"childPreset preset current":"clear childPreset item"""",
+            // Change: Not saving preset item on load and store load
+//            """"childPreset preset current":"clear childPreset item"""",
             """"childPreset preset store":{}}""",
         )
 
@@ -120,11 +121,12 @@ class CSPresetSimpleTests {
 
         preset.reload()
         advanceUntilIdle()
-        assert(expected = 2, preset.store.data.size)
-        assert(
-            expected = "clear childPreset item",
-            actual = preset.store.data["childPreset preset current"]
-        )
+        assert(expected = 1, preset.store.data.size)
+        // Change: Not saving preset item on load and store load
+//        assert(
+//            expected = "clear childPreset item",
+//            actual = preset.store.data["childPreset preset current"]
+//        )
         assert(
             expected = """{}""",
             actual = preset.store.data["childPreset preset store"]?.toJson()

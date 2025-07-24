@@ -13,7 +13,6 @@ import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.extensions.isNotEmpty
 import renetik.android.store.extensions.property
-import renetik.android.store.property.save
 import renetik.android.store.property.saveTo
 
 class CSPresetListItem<
@@ -36,7 +35,8 @@ class CSPresetListItem<
     )
 
     init {
-        property.parent(this).save()
+        property.parent(this)
+//            .save() // Change: Not saving preset item on load and store load
         this + property.store.eventLoaded {
             if (preset.isFollowStore.isFalse)
                 it.eventChanged.paused { property.saveTo(it) }
@@ -47,7 +47,8 @@ class CSPresetListItem<
     override fun saveTo(store: CSStore) = store.set(key, value.toId())
     override fun clearKeyData() = property.clear()
     override fun clear() = property.clear()
-    override fun onStoreLoaded() = property.save()
+    override fun onStoreLoaded() = Unit
+//        property.save() // Change: Not saving preset item on load and store load
 
     val currentId: CSProperty<String> = computed(from = { it.id }, to = { presetId ->
         preset.list.items.find { it.id == presetId } ?: notFoundPresetItem(preset.store)
