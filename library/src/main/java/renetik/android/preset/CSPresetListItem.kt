@@ -11,7 +11,7 @@ import renetik.android.event.registration.invoke
 import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
-import renetik.android.store.extensions.isEmpty
+import renetik.android.store.extensions.isNotEmpty
 import renetik.android.store.extensions.property
 import renetik.android.store.property.save
 import renetik.android.store.property.saveTo
@@ -30,7 +30,7 @@ class CSPresetListItem<
 
     override val property = parentStore.property(
         key, preset.list::items, getDefault = {
-            if (parentStore.has(key) && !preset.store.isEmpty) notFoundItem
+            if (parentStore.has(key) && preset.store.isNotEmpty) notFoundItem
             else getDefaultItem()
         }
     )
