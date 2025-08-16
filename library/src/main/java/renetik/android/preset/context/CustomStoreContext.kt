@@ -7,6 +7,7 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.common.onDestructed
 import renetik.android.event.common.parent
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.invoke
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 import renetik.android.store.context.CSStoreContext
@@ -30,7 +31,7 @@ class CustomStoreContext(
     private val childContexts = mutableListOf<CSStoreContext>()
 
     private fun <T : CSStoreContext> T.init() = apply {
-        childContexts += this; onDestructed { childContexts -= this }
+        childContexts += this; eventDestruct { childContexts -= this }
     }
 
     override fun context(parent: CSHasDestruct, key: String?) =
@@ -49,13 +50,13 @@ class CustomStoreContext(
 
     private val properties = mutableListOf<CSStoreProperty<*>>()
     private fun <T : CSStoreProperty<*>> T.init() = apply {
-        properties += this; onDestructed { properties -= this }
+        properties += this; eventDestruct { properties -= this }
     }
 
     private val presets = mutableListOf<CSPreset<*, *>>()
 
     fun add(preset: CSPreset<*, *>) {
-        presets += preset; preset.onDestructed { presets -= preset }
+        presets += preset; preset.eventDestruct { presets -= preset }
     }
 
     override fun clear() = store.operation {

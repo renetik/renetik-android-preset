@@ -5,7 +5,7 @@ import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
-import renetik.android.event.common.onDestructed
+import renetik.android.event.registration.invoke
 import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset
 import renetik.android.preset.extensions.nullFloatProperty
@@ -38,7 +38,7 @@ class PresetStoreContext(
 
     private fun <T : CSStoreContext> T.init(parent: PresetStoreContext) = apply {
         parent.childContexts += this
-        onDestructed { if (!parent.isDestructed) parent.childContexts -= this }
+        eventDestruct { if (!parent.isDestructed) parent.childContexts -= this }
     }
 
     override fun context(parent: CSHasDestruct, key: String?): PresetStoreContext =
@@ -76,7 +76,7 @@ class PresetStoreContext(
 
     fun add(preset: CSPreset<*, *>) {
         presets += preset
-        preset.onDestructed { if (!isDestructed) presets -= preset }
+        preset.eventDestruct { if (!isDestructed) presets -= preset }
     }
 
     override fun clear(): Unit = preset.store.operation {
@@ -113,7 +113,7 @@ class PresetStoreContext(
     ).init(key)
 
     override fun property(
-        key: String, default: ()->Int, onChange: ArgFunc<Int>?
+        key: String, default: () -> Int, onChange: ArgFunc<Int>?
     ) = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
