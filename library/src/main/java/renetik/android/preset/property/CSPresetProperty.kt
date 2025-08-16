@@ -15,7 +15,3 @@ interface CSPresetProperty<T> : CSStoreProperty<T>, CSPresetKeyData {
 fun <T : CSPresetProperty<*>> T.isModifiedIn(store: CSStore) = if (store.has(key))
     value != get(store) else value != default
 
-fun <T : CSPresetProperty<*>> T.isModified() = isModifiedIn(store)
-
-
-
