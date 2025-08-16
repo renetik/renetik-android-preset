@@ -16,6 +16,7 @@ import org.robolectric.RobolectricTestRunner
 import renetik.android.core.kotlin.collections.first
 import renetik.android.core.lang.variable.assign
 import renetik.android.event.common.CSModel
+import renetik.android.event.common.destruct
 import renetik.android.json.toJson
 import renetik.android.preset.CSPreset.Companion.CSPreset
 import renetik.android.preset.extensions.property
@@ -161,5 +162,34 @@ class CSPresetSimpleTests {
         ).manageItems().init()
         val property = preset.property(parent, "key", 5)
         assertEquals(100, property.value)
+    }
+
+
+    @Test
+    fun presetIsModifiedTest() = runTest {
+        val parent = CSModel()
+        val store = CSJsonObjectStore()
+        val presetList = TestCSPresetItemList(ClearPresetItemId)
+        val preset = CSPreset(parent, store, "test", presetList, { NotFoundPresetItem() })
+            .manageItems().init()
+        assertEquals(1, preset.registrations.size)
+
+        val propertyParent = CSModel()
+        val property = preset.property(propertyParent, "key", 10).trackModified()
+
+        val isModifiedParent = CSModel()
+        val isModified = preset.isModified(parent = isModifiedParent)
+        assertEquals(3, preset.registrations.size)
+
+        assertEquals(false, isModified.value)
+        property assign 6
+        advanceUntilIdle()
+        assertEquals(true, isModified.value)
+        property assign 10
+        advanceUntilIdle()
+        assertEquals(false, isModified.value)
+
+        isModifiedParent.destruct()
+        assertEquals(1, preset.registrations.size)
     }
 }
