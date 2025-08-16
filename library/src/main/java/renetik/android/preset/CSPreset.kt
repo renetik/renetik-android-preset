@@ -12,6 +12,7 @@ import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
+import renetik.android.event.registration.invoke
 import renetik.android.event.registration.plus
 import renetik.android.preset.extensions.property
 import renetik.android.preset.property.CSPresetKeyData
@@ -77,7 +78,7 @@ class CSPreset<PresetListItem : CSPresetItem,
     fun <T : CSPresetKeyData> add(property: T): T {
         if (property in properties) unexpected()
         properties += property
-        property.eventDestruct.listenOnce { properties -= property }
+        property.eventDestruct { properties -= property }
         return property
     }
 
@@ -87,7 +88,7 @@ class CSPreset<PresetListItem : CSPresetItem,
         add(preset.listItem)
 //        add(preset.store)
         presets += preset
-        preset.eventDestruct.listenOnce { presets -= preset }
+        preset.eventDestruct { presets -= preset }
     }
 
     fun reload() = reload(listItem.value)
