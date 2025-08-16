@@ -18,6 +18,7 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.event.registration.action
+import renetik.android.event.registration.invoke
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.pause
 import renetik.android.event.registration.plus
@@ -155,25 +156,21 @@ fun <T : Preset> T.onChange(
     }
 )
 
-//TODO: write test to prove why it has to be like this to avoid leaks
-// and why it has to be so complicated...
-// also if this shell be used in the future as general solution it has to be
-// reused for all clients of preset but calculated just when used
 fun Preset.isModified(
     parent: CSHasRegistrationsHasDestruct
 ): CSHasChangeValue<Boolean> {
     val property = property(isModified)
-    val registrations = CSRegistrationsMap(this)
-    val update = registrations.debouncer(500.milliseconds) {
-        property.value(isModified)
+    val registration = this + CSRegistrationsMap(this).apply {
+        val update = debouncer(500.milliseconds) {
+            property.value(isModified)
+        }
+        val storeOnChange = this + store.onChange { update() }
+        this + onBeforeChange { storeOnChange.pause() }
+        this + onChange { storeOnChange.resume(); update() }
+        this + (listItem to listItem.value.store.eventLoaded to eventSave)
+            .onChange { update() }
     }
-    val storeOnChange = registrations + store.onChange { update() }
-    registrations + onBeforeChange { storeOnChange.pause() }
-    registrations + onChange { storeOnChange.resume(); update() }
-    registrations + (listItem to listItem.value.store.eventLoaded to eventSave)
-        .onChange { update() }
-    this + registrations
-    this + parent.onDestructed { registrations.cancel() }
+    parent.onDestructed(this, registration::cancel)
     return property
 }
 
