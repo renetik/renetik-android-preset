@@ -5,10 +5,10 @@ import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.CSSuspendEvent.Companion.suspendEvent
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
 import renetik.android.event.common.destruct
-import renetik.android.event.listenOnce
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
@@ -41,9 +41,9 @@ class CSPreset<PresetListItem : CSPresetItem,
     val isFollowStore = property(true)
     val isReload = property(false)
     val eventLoad = event<PresetListItem>()
-    val eventSave = event<PresetListItem>()
+    val eventSave = suspendEvent<PresetListItem>()
     val eventChange = event<PresetListItem>()
-    val eventDelete = event<PresetListItem>()
+    val eventDelete = suspendEvent<PresetListItem>()
     val properties = mutableListOf<CSPresetKeyData>()
     val presets = mutableListOf<CSPreset<*, *>>()
 
@@ -113,9 +113,9 @@ class CSPreset<PresetListItem : CSPresetItem,
 //        if (!isAlreadyReloading) isReload.setFalse()
     }
 
-    fun save(item: PresetListItem) = eventSave.fire(item)
+    suspend fun save(item: PresetListItem) = eventSave.fire(item)
 
-    fun delete(item: PresetListItem) {
+    suspend fun delete(item: PresetListItem) {
         list.remove(item)
         eventDelete.fire(item)
     }
@@ -127,7 +127,7 @@ class CSPreset<PresetListItem : CSPresetItem,
     override fun onChange(function: (Unit) -> Unit) =
         eventChange.listen { function(Unit) }
 
-    fun saveAsCurrent() = eventSave.fire(listItem.value)
+    suspend fun saveAsCurrent() = eventSave.fire(listItem.value)
 
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     var onSaveToParentPresetItemStore: (Boolean, CSStore) -> Unit =
