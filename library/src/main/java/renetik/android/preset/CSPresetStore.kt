@@ -32,7 +32,7 @@ class CSPresetStore(
         if (preset.isFollowStore.isFalse) save()
         else {
             val data = parentStore.getMap(key)
-            if (this.data == data) return
+//            if (this.data == data) return
             if (data.isNullOrEmpty()) preset.reload()
             else preset.reload(data)
         }

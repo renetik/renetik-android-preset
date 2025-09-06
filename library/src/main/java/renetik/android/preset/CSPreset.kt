@@ -8,7 +8,7 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.CSSuspendEvent.Companion.suspendEvent
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
-import renetik.android.event.common.destruct
+import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
@@ -41,6 +41,7 @@ class CSPreset<PresetListItem : CSPresetItem,
     val isFollowStore = property(true)
     val isReload = property(false)
     val eventLoad = event<PresetListItem>()
+    val eventLoadData = event<PresetListItem>()
     val eventSave = suspendEvent<PresetListItem>()
     val eventChange = event<PresetListItem>()
     val eventDelete = suspendEvent<PresetListItem>()
@@ -58,12 +59,6 @@ class CSPreset<PresetListItem : CSPresetItem,
         store.clearKeyData()
         listItem.clearKeyData()
         properties.toList().forEach { it.clear() }
-    }
-
-    fun destructClear() {
-        destruct()
-        listItem.clearKeyData()
-        store.clearKeyData()
     }
 
     val isModified: Boolean get() = isModifiedIn(listItem.value.store)
@@ -96,21 +91,18 @@ class CSPreset<PresetListItem : CSPresetItem,
     internal fun reload(item: PresetListItem) {
         val isAlreadyReloading = isReload.isTrue
         if (!isAlreadyReloading) isReload.setTrue()
-        isReload.setTrue()
-        eventLoad.fire(item)
+        eventLoad(item)
         reload(item.store.data)
-        eventChange.fire(item)
+        eventChange(item)
         if (!isAlreadyReloading) isReload.setFalse()
     }
 
     fun reload(data: Map<String, Any?>) {
-//        val isAlreadyReloading = isReload.isTrue
-//        if (!isAlreadyReloading) isReload.setTrue()
+        eventLoadData(listItem.value)
         store.reload(data)
         store.save()
         properties.toList().forEach { if (!it.isDestructed) it.onStoreLoaded() }
         presets.toList().forEach { if (!it.isDestructed) it.store.onStoreLoaded() }
-//        if (!isAlreadyReloading) isReload.setFalse()
     }
 
     suspend fun save(item: PresetListItem) = eventSave.fire(item)
