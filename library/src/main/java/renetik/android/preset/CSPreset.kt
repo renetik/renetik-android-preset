@@ -11,7 +11,7 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
-import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
+import renetik.android.event.registration.CSHasChangeValue.Companion.delegateValue
 import renetik.android.event.registration.invoke
 import renetik.android.event.registration.plus
 import renetik.android.preset.extensions.property
@@ -52,7 +52,7 @@ class CSPreset<PresetListItem : CSPresetItem,
     val listItem = CSPresetListItem(this, notFoundItem, defaultItemId)
     val title = property(this, "preset title", getDefault = { listItem.value.title.value })
         .trackModified()
-    val itemTitle = listItem.delegate(this, child = { it.title })
+    val itemTitle = listItem.delegateValue(this, child = { it.title })
 
     fun clear() {
         store.clear()
