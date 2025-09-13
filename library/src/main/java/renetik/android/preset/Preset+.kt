@@ -131,7 +131,7 @@ fun <T : Preset> T.onReloadPause(
 
 fun <T : Preset> T.onChange(
     paused: CSRegistration,
-    before: Func,
+    before: Func = {},
     onChange: Func
 ): CSRegistration = CSRegistration(
     onBeforeChange {
