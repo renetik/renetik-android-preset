@@ -1,7 +1,7 @@
 package renetik.android.preset.context
 
 import renetik.android.core.kotlin.primitives.joinToString
-import renetik.android.core.lang.ArgFunc
+import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
@@ -89,37 +89,37 @@ class PresetStoreContext(
         get() = presetId?.let { "$it $this" } ?: this
 
     override fun property(
-        key: String, default: String, onChange: ArgFunc<String>?,
+        key: String, default: String, onChange: ArgFun<String>?,
     ) = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun property(
-        key: String, default: Boolean, onChange: ArgFunc<Boolean>?,
+        key: String, default: Boolean, onChange: ArgFun<Boolean>?,
     ) = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun property(
-        key: String, default: Float, onChange: ArgFunc<Float>?,
+        key: String, default: Float, onChange: ArgFun<Float>?,
     ) = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun property(
-        key: String, default: Int, onChange: ArgFunc<Int>?
+        key: String, default: Int, onChange: ArgFun<Int>?
     ) = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun property(
-        key: String, default: () -> Int, onChange: ArgFunc<Int>?
+        key: String, default: () -> Int, onChange: ArgFun<Int>?
     ) = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun <T> property(
-        key: String, values: () -> List<T>, default: () -> T, onChange: ArgFunc<T>?
+        key: String, values: () -> List<T>, default: () -> T, onChange: ArgFun<T>?
     ) = preset.property(
         this, key.newKey, values, default, onChange
     ).init(key)
@@ -149,7 +149,7 @@ class PresetStoreContext(
     ).init(key)
 
     override fun property(
-        key: String, default: List<Int>, onChange: ArgFunc<List<Int>>?
+        key: String, default: List<Int>, onChange: ArgFun<List<Int>>?
     ) = preset.property(
         this, key.newKey, default, onChange
     ).init(key)

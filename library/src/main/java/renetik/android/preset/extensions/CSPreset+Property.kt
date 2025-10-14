@@ -1,6 +1,6 @@
 package renetik.android.preset.extensions
 
-import renetik.android.core.lang.ArgFunc
+import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.preset.Preset
@@ -15,52 +15,52 @@ import renetik.android.preset.property.value.CSStringValuePresetProperty
 
 fun Preset.property(
     parent: CSHasDestruct, key: String,
-    getDefault: () -> String, onChange: ArgFunc<String>? = null
+    getDefault: () -> String, onChange: ArgFun<String>? = null
 ) = add(CSStringValuePresetProperty(parent, this, key, getDefault, onChange))
 
 fun Preset.property(
     parent: CSHasDestruct, key: String,
-    default: String, onChange: ArgFunc<String>? = null
+    default: String, onChange: ArgFun<String>? = null
 ) = add(CSStringValuePresetProperty(parent, this, key, default, onChange))
 
 fun Preset.property(
     parent: CSHasDestruct, key: String,
-    default: Boolean, onChange: ArgFunc<Boolean>? = null
+    default: Boolean, onChange: ArgFun<Boolean>? = null
 ) = add(CSBooleanValuePresetProperty(parent, this, key, default, onChange))
 
 fun Preset.property(
     parent: CSHasDestruct, key: String,
-    default: Int, onChange: ArgFunc<Int>? = null
+    default: Int, onChange: ArgFun<Int>? = null
 ) = add(CSIntValuePresetProperty(parent, this, key, default, onChange))
 
 fun Preset.property(
     parent: CSHasDestruct, key: String,
-    default: () -> Int, onChange: ArgFunc<Int>? = null
+    default: () -> Int, onChange: ArgFun<Int>? = null
 ) = add(CSIntValuePresetProperty(parent, this, key, default, onChange))
 
 fun Preset.property(
     parent: CSHasDestruct, key: String,
-    default: Float, onChange: ArgFunc<Float>? = null
+    default: Float, onChange: ArgFun<Float>? = null
 ) = add(CSFloatValuePresetProperty(parent, this, key, default, onChange))
 
 fun Preset.property(
     parent: CSHasDestruct, key: String,
-    default: Double, onChange: ArgFunc<Double>? = null
+    default: Double, onChange: ArgFun<Double>? = null
 ) = add(CSDoubleValuePresetProperty(parent, this, key, default, onChange))
 
 fun Preset.property(
     parent: CSHasDestruct, key: String,
-    default: List<Int>, onChange: ArgFunc<List<Int>>? = null
+    default: List<Int>, onChange: ArgFun<List<Int>>? = null
 ) = add(CSIntListValuePresetProperty(parent, this, key, default, onChange))
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,
-    default: T, onChange: ArgFunc<T>? = null
+    default: T, onChange: ArgFun<T>? = null
 ) = add(CSListItemValuePresetProperty(parent, this, key, values, default, onChange))
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,
-    getDefault: () -> T, onChange: ArgFunc<T>? = null
+    getDefault: () -> T, onChange: ArgFun<T>? = null
 ) = add(
     CSListItemValuePresetProperty(
         parent, this, key, { values }, getDefault, onChange
@@ -69,7 +69,7 @@ fun <T> Preset.property(
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: () -> Collection<T>,
-    getDefault: () -> T, onChange: ArgFunc<T>? = null
+    getDefault: () -> T, onChange: ArgFun<T>? = null
 ) = add(
     CSListItemValuePresetProperty(
         parent, this, key, values, getDefault, onChange
@@ -78,7 +78,7 @@ fun <T> Preset.property(
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, getValues: () -> List<T>,
-    defaultIndex: Int, onChange: ArgFunc<T>? = null
+    defaultIndex: Int, onChange: ArgFun<T>? = null
 ) = add(
     CSListItemValuePresetProperty(
         parent, this, key, getValues, { getValues()[defaultIndex] }, onChange
@@ -87,7 +87,7 @@ fun <T> Preset.property(
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, getValues: () -> List<T>,
-    default: T, onChange: ArgFunc<T>? = null
+    default: T, onChange: ArgFun<T>? = null
 ) = add(
     CSListItemValuePresetProperty(
         parent, this, key, getValues, { default }, onChange
@@ -96,25 +96,25 @@ fun <T> Preset.property(
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,
-    defaultIndex: Int, onChange: ArgFunc<T>? = null
+    defaultIndex: Int, onChange: ArgFun<T>? = null
 ) = property(parent, key, values, values[defaultIndex], onChange)
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: Array<T>,
-    default: T, onChange: ArgFunc<T>? = null
+    default: T, onChange: ArgFun<T>? = null
 ) = property(parent, key, values.asList(), default, onChange)
 
 fun <T> Preset.property(
     parent: CSHasDestruct, key: String, values: Array<T>,
-    defaultIndex: Int, onChange: ArgFunc<T>? = null
+    defaultIndex: Int, onChange: ArgFun<T>? = null
 ) = property(parent, key, values.asList(), values[defaultIndex], onChange)
 
 fun <T : CSHasId> Preset.property(
     parent: CSHasDestruct, key: String, values: List<T>,
-    default: List<T> = emptyList(), onChange: ArgFunc<List<T>>? = null
+    default: List<T> = emptyList(), onChange: ArgFun<List<T>>? = null
 ) = add(CSHasIdListValuePresetProperty(parent, this, key, values, default, onChange))
 
 fun <T : CSHasId> Preset.property(
     parent: CSHasDestruct, key: String, values: Array<T>,
-    default: List<T> = emptyList(), onChange: ArgFunc<List<T>>? = null
+    default: List<T> = emptyList(), onChange: ArgFun<List<T>>? = null
 ) = property(parent, key, values.asList(), default, onChange)

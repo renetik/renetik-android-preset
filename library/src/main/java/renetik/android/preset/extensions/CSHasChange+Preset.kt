@@ -1,6 +1,6 @@
 package renetik.android.preset.extensions
 
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.Fun
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
@@ -8,7 +8,7 @@ import renetik.android.event.registration.action
 import renetik.android.preset.Preset
 
 inline fun CSHasChange<*>.onChange(
-    preset: Preset, crossinline function: Func
+    preset: Preset, crossinline function: Fun
 ): CSRegistration {
     val registration = onChange { function() }
     return CSRegistration(

@@ -1,6 +1,6 @@
 package renetik.android.preset.extensions
 
-import renetik.android.core.lang.ArgFunc
+import renetik.android.core.lang.ArgFun
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.preset.Preset
 import renetik.android.preset.property.CSPresetProperty
@@ -13,19 +13,19 @@ import kotlin.reflect.KClass
 fun <T : CSJsonObjectStore> Preset.property(
     parent: CSHasDestruct, key: String, listType: KClass<T>,
     default: List<T> = emptyList(),
-    onChange: ArgFunc<List<T>>? = null): CSPresetProperty<List<T>> =
+    onChange: ArgFun<List<T>>? = null): CSPresetProperty<List<T>> =
     add(CSJsonListValuePresetProperty(parent, this, key, listType, default, onChange))
 
 inline fun <reified T : CSJsonObjectStore> Preset.property(
     parent: CSHasDestruct, key: String, default: List<T> = emptyList(),
-    noinline onChange: ArgFunc<List<T>>? = null): CSPresetProperty<List<T>> =
+    noinline onChange: ArgFun<List<T>>? = null): CSPresetProperty<List<T>> =
     property(parent, key, T::class, default, onChange)
 
 @JvmName("propertyMutableList")
 fun <T : CSJsonObjectStore> Preset.property(
     parent: CSHasDestruct, key: String, listType: KClass<T>,
     default: MutableList<T> = mutableListOf(),
-    onChange: ArgFunc<MutableList<T>>? = null): CSPresetProperty<MutableList<T>> =
+    onChange: ArgFun<MutableList<T>>? = null): CSPresetProperty<MutableList<T>> =
     add(CSJsonMutableListValuePresetProperty(parent, this, key,
         listType, default, onChange))
 
@@ -33,17 +33,17 @@ fun <T : CSJsonObjectStore> Preset.property(
 inline fun <reified T : CSJsonObjectStore> Preset.property(
     parent: CSHasDestruct, key: String,
     default: MutableList<T> = mutableListOf(),
-    noinline onChange: ArgFunc<MutableList<T>>? = null)
+    noinline onChange: ArgFun<MutableList<T>>? = null)
         : CSPresetProperty<MutableList<T>> =
     property(parent, key, T::class, default, onChange)
 
 fun <T : CSJsonObjectStore> Preset.property(
     parent: CSHasDestruct, key: String, type: KClass<T>,
-    onChange: ArgFunc<T>? = null): CSPresetProperty<T> =
+    onChange: ArgFun<T>? = null): CSPresetProperty<T> =
     add(CSJsonValuePresetProperty(parent, this, key, type, onChange))
 
 inline fun <reified T : CSJsonObjectStore> Preset.property(
     parent: CSHasDestruct, key: String,
-    noinline onChange: ArgFunc<T>? = null): CSPresetProperty<T> =
+    noinline onChange: ArgFun<T>? = null): CSPresetProperty<T> =
     add(CSJsonValuePresetProperty(parent, this, key, T::class, onChange))
 

@@ -2,7 +2,7 @@ package renetik.android.preset
 
 import renetik.android.core.kotlin.changeIf
 import renetik.android.core.kotlin.className
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.Fun
 import renetik.android.core.lang.tuples.to
 import renetik.android.core.lang.value.isTrue
 import renetik.android.event.common.CSDebouncer.Companion.debouncer
@@ -37,8 +37,8 @@ fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) =
     isFollowStore.connect(property)
 
 fun <T : Preset> T.onChange(
-    before: Func,
-    onChange: Func
+    before: Fun,
+    onChange: Fun
 ): CSRegistration = CSRegistration(
     onBeforeChange { before() },
     onChange { onChange() }
@@ -46,7 +46,7 @@ fun <T : Preset> T.onChange(
 
 fun <T : Preset> T.paused(
     vararg registrations: CSRegistration,
-    onChange: Func
+    onChange: Fun
 ): CSRegistration = CSRegistration(
     onBeforeChange { registrations.pause() },
     onChange {
@@ -58,7 +58,7 @@ fun <T : Preset> T.paused(
 fun <T : Preset> T.onChange(
     parent: CSHasRegistrations,
     hasChange: CSHasChange<*>,
-    onChange: Func
+    onChange: Fun
 ): CSRegistration = paused(
     parent + hasChange.onChange { onChange() },
     onChange = { onChange() }
@@ -67,7 +67,7 @@ fun <T : Preset> T.onChange(
 fun <T : Preset> T.action(
     parent: CSHasRegistrations,
     hasChange: CSHasChange<*>,
-    onChange: Func
+    onChange: Fun
 ): CSRegistration = paused(
     parent + hasChange.action { onChange() },
     onChange = { onChange() }
@@ -131,8 +131,8 @@ fun <T : Preset> T.onReloadPause(
 
 fun <T : Preset> T.onChange(
     paused: CSRegistration,
-    before: Func = {},
-    onChange: Func
+    before: Fun = {},
+    onChange: Fun
 ): CSRegistration = CSRegistration(
     onBeforeChange {
         paused.pause()
@@ -145,8 +145,8 @@ fun <T : Preset> T.onChange(
 
 fun <T : Preset> T.onChange(
     paused: List<CSRegistration>,
-    before: Func = {},
-    onChange: Func
+    before: Fun = {},
+    onChange: Fun
 ): CSRegistration = CSRegistration(
     onBeforeChange {
         paused.pause()

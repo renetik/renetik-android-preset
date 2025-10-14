@@ -1,6 +1,6 @@
 package renetik.android.preset.extensions
 
-import renetik.android.core.lang.ArgFunc
+import renetik.android.core.lang.ArgFun
 import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.preset.Preset
 import renetik.android.preset.property.nullable.CSBooleanNullablePresetProperty
@@ -15,7 +15,7 @@ fun Preset.nullStringProperty(
 
 fun Preset.nullBoolProperty(
     parent: CSHasRegistrationsHasDestruct, key: String, default: Boolean? = null,
-    onChange: ArgFunc<Boolean?>? = null
+    onChange: ArgFun<Boolean?>? = null
 ) = add(CSBooleanNullablePresetProperty(parent, this, key, default, onChange))
 
 fun Preset.nullIntProperty(
