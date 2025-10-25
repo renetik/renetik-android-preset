@@ -14,6 +14,7 @@ import renetik.android.event.property.connect
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChange.Companion.action
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.delegateValue
 import renetik.android.event.registration.CSHasChangeValue.Companion.hasChangeValue
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
@@ -176,18 +177,25 @@ fun Preset.isModified(
 }
 
 fun Preset.itemTitle(
-    parent: CSHasRegistrationsHasDestruct, withModified: Boolean = false
-): CSHasChangeValue<String> = if (withModified) itemTitleWithModified(parent) else title
+    parent: CSHasRegistrationsHasDestruct, withModified: Boolean = false,
+    process: (String) -> String = { it }
+): CSHasChangeValue<String> =
+    if (withModified) itemTitleWithModified(parent, process)
+    else title.delegateValue(from = { process(it) })
 
 fun Preset.itemTitleWithModified(
-    parent: CSHasRegistrationsHasDestruct
-): CSHasChangeValue<String> = itemTitleWithModified(isModified(parent))
+    parent: CSHasRegistrationsHasDestruct,
+    process: (String) -> String = { it }
+): CSHasChangeValue<String> = itemTitleWithModified(isModified(parent), process)
 
 fun Preset.itemTitleWithModified(
-    isModified: CSHasChangeValue<Boolean>
+    isModified: CSHasChangeValue<Boolean>,
+    process: (String) -> String = { it }
 ): CSHasChangeValue<String> = (itemTitle to isModified).hasChangeValue(
     this, from = { title, modified ->
-        title.changeIf(String::isNotBlank) { "$it${if (modified) " *" else ""}" }
+        title.changeIf(String::isNotBlank) {
+            "${process(it)}${if (modified) " *" else ""}"
+        }
     })
 
 fun Preset.title(
