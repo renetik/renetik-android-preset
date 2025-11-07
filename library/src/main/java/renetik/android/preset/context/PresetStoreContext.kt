@@ -16,6 +16,7 @@ import renetik.android.preset.extensions.property
 import renetik.android.preset.property.CSPresetProperty
 import renetik.android.store.context.CSStoreContext
 import renetik.android.store.extensions.operation
+import renetik.android.store.property.CSStoreProperty
 
 class PresetStoreContext(
     parent: CSHasDestruct,
@@ -152,5 +153,12 @@ class PresetStoreContext(
         key: String, default: List<Int>, onChange: ArgFun<List<Int>>?
     ) = preset.property(
         this, key.newKey, default, onChange
+    ).init(key)
+
+    override fun <T : CSHasId> property(
+        key: String, values: List<T>,
+        default: List<T>, onChange: ArgFun<List<T>>?
+    ) = preset.property(
+        this, key.newKey, default, values, onChange
     ).init(key)
 }

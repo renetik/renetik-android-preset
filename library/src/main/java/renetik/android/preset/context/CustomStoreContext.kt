@@ -18,6 +18,7 @@ import renetik.android.store.extensions.operation
 import renetik.android.store.extensions.property
 import renetik.android.store.property.CSStoreProperty
 import renetik.android.store.property.listenLoad
+import renetik.android.store.property.value.CSHasIdListValueStoreProperty
 import renetik.android.store.property.value.CSIntListValueStoreProperty
 
 class CustomStoreContext(
@@ -110,5 +111,11 @@ class CustomStoreContext(
     override fun property(
         key: String, default: List<Int>, onChange: ArgFun<List<Int>>?
     ) = CSIntListValueStoreProperty(store, key.newKey, default, onChange)
+        .parent(this).listenLoad().init()
+
+    override fun <T : CSHasId> property(
+        key: String, values: List<T>,
+        default: List<T>, onChange: ArgFun<List<T>>?
+    ) = CSHasIdListValueStoreProperty(store, key.newKey, default, onChange = onChange)
         .parent(this).listenLoad().init()
 }
