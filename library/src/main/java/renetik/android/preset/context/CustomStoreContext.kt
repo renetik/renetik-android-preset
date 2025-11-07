@@ -88,7 +88,7 @@ class CustomStoreContext(
     ) = store.property(this, key.newKey, default, onChange).init()
 
     override fun <T> property(
-        key: String, values: () -> List<T>, default: () -> T, onChange: ArgFun<T>?
+        key: String, values: () -> Collection<T>, default: () -> T, onChange: ArgFun<T>?
     ) = store.property(this, key.newKey, values, default, onChange).init()
 
     override fun nullIntProperty(
