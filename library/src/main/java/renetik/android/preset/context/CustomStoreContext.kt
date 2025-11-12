@@ -7,6 +7,7 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.common.parent
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.invoke
+import renetik.android.json.obj.CSJsonObjectInterface
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 import renetik.android.store.context.CSStoreContext
@@ -27,6 +28,7 @@ class CustomStoreContext(
     private val hasId: CSHasId? = null,
     override val key: String? = null,
 ) : CSModel(parent), CSStoreContext {
+    override val data: CSJsonObjectInterface = store
     override val id = hasId?.let { "${it.id} $key" } ?: key ?: ""
     private val childContexts = mutableListOf<CSStoreContext>()
 
