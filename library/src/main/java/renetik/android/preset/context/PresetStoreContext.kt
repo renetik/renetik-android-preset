@@ -6,6 +6,7 @@ import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
 import renetik.android.event.registration.invoke
+import renetik.android.json.obj.CSJsonObjectInterface
 import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset
 import renetik.android.preset.extensions.nullFloatProperty
@@ -16,7 +17,6 @@ import renetik.android.preset.extensions.property
 import renetik.android.preset.property.CSPresetProperty
 import renetik.android.store.context.CSStoreContext
 import renetik.android.store.extensions.operation
-import renetik.android.store.property.CSStoreProperty
 
 class PresetStoreContext(
     parent: CSHasDestruct,
@@ -34,6 +34,8 @@ class PresetStoreContext(
             preset, presetId = key, key
         )
     }
+
+    override val data: CSJsonObjectInterface = preset.store
 
     private val childContexts = mutableListOf<CSStoreContext>()
 
