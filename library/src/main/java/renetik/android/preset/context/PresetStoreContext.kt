@@ -1,6 +1,7 @@
 package renetik.android.preset.context
 
 import renetik.android.core.kotlin.primitives.joinToString
+import renetik.android.core.kotlin.primitives.prefix
 import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
@@ -89,7 +90,7 @@ class PresetStoreContext(
     }
 
     private val String.newKey: String
-        get() = presetId?.let { "$it $this" } ?: this
+        get() = presetId?.let(::prefix) ?: this
 
     override fun property(
         key: String, default: String, onChange: ArgFun<String>?,

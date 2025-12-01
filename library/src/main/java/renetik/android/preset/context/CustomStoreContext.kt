@@ -1,5 +1,7 @@
 package renetik.android.preset.context
 
+import renetik.android.core.kotlin.changeIf
+import renetik.android.core.kotlin.primitives.prefix
 import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
@@ -67,7 +69,8 @@ class CustomStoreContext(
         presets.toList().onEach { it.clear() }
     }
 
-    private val String.newKey get() = "$id $this"
+    private val String.newKey
+        get() =  if (id.isNotBlank()) prefix(id) else this
 
     override fun property(
         key: String, default: String, onChange: ArgFun<String>?,
