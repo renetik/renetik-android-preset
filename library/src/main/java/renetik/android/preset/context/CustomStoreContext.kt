@@ -1,6 +1,5 @@
 package renetik.android.preset.context
 
-import renetik.android.core.kotlin.primitives.prefix
 import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.common.CSHasDestruct
@@ -30,7 +29,7 @@ class CustomStoreContext(
     override val key: String? = null,
 ) : CSModel(parent), CSStoreContext {
     override val data: CSJsonObjectInterface = store
-    override val id = hasId?.id?.let { id -> key?.prefix(id) ?: id } ?: key ?: ""
+    override val id = hasId?.id?.let { id -> key?.let { "$id $it" } ?: id } ?: key ?: ""
     private val childContexts = mutableListOf<CSStoreContext>()
 
     private fun <T : CSStoreContext> T.init() = apply {
@@ -69,7 +68,7 @@ class CustomStoreContext(
     }
 
     private val String.newKey
-        get() = if (id.isNotBlank()) prefix(id) else this
+        get() = if (id.isNotBlank()) "$id $this" else this
 
     override fun property(
         key: String, default: String, onChange: ArgFun<String>?,
