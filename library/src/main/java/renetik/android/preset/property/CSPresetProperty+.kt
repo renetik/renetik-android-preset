@@ -3,6 +3,9 @@ package renetik.android.preset.property
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.computedFrom
 
+fun <T : CSProperty<Int>> T.coerce(min: Int, max: Int) =
+    computedFrom(from = { it.coerceIn(min, max) })
+
 fun <T : CSProperty<Int>> T.coerce(range: ClosedRange<Int>) =
     computedFrom(from = { it.coerceIn(range) })
 
