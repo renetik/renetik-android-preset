@@ -12,7 +12,7 @@ class CSHasIdListValuePresetProperty<T : CSHasId>(
     override val default: List<T>, onChange: ((value: List<T>) -> Unit)?
 ) : CSValuePresetProperty<List<T>>(parent, preset, key, onChange) {
 
-    override fun get(store: CSStore) = store.get(key)?.split(",")
+    override fun get(store: CSStore) = store.getString(key)?.split(",")
         ?.mapNotNull { id -> values.find { it.id == id } } ?: default
 
     override fun set(store: CSStore, value: List<T>) =

@@ -55,7 +55,7 @@ class CSPresetListItem<
     })
 
     override fun isTrackedModifiedIn(store: CSStore) =
-        if (store.has(key)) currentId.value != store.get(key)
+        if (store.has(key)) currentId.value != store.getString(key)
         else currentId.value != getDefaultItem().id
 
     private fun getDefaultItem(): PresetItem =
