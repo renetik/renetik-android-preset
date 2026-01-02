@@ -162,6 +162,6 @@ class PresetStoreContext(
         key: String, values: List<T>,
         default: List<T>, onChange: ArgFun<List<T>>?
     ) = preset.property(
-        this, key.newKey, default, values, onChange
+        this, key.newKey, values, default, onChange
     ).init(key)
 }
