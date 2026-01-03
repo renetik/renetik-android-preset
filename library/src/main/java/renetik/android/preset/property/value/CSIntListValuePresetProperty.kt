@@ -11,9 +11,18 @@ class CSIntListValuePresetProperty(
     onChange: ((value: List<Int>) -> Unit)? = null
 ) : CSValuePresetProperty<List<Int>>(parent, preset, key, onChange) {
 
-    override fun get(store: CSStore) = store.getString(key)?.split(",")
-        ?.map { it.toInt() } ?: default
+    var onValueLoaded: ((List<Int>) -> List<Int>)? = null
+
+    override fun get(store: CSStore): List<Int> {
+        val loaded = store.getString(key)?.split(",")?.map { it.toInt() }
+        return loaded?.let { onValueLoaded?.invoke(it) ?: it } ?: default
+    }
 
     override fun set(store: CSStore, value: List<Int>) =
         store.set(key, value.joinToString(","))
+}
+
+fun CSIntListValuePresetProperty.onLoaded(
+    correct: (List<Int>) -> List<Int>) = apply {
+    onValueLoaded = correct
 }
