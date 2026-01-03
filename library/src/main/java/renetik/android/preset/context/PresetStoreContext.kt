@@ -15,6 +15,17 @@ import renetik.android.preset.extensions.nullListItemProperty
 import renetik.android.preset.extensions.nullStringProperty
 import renetik.android.preset.extensions.property
 import renetik.android.preset.property.CSPresetProperty
+import renetik.android.preset.property.nullable.CSFloatNullablePresetProperty
+import renetik.android.preset.property.nullable.CSIntNullablePresetProperty
+import renetik.android.preset.property.nullable.CSListItemNullablePresetProperty
+import renetik.android.preset.property.nullable.CSStringNullablePresetProperty
+import renetik.android.preset.property.value.CSBooleanValuePresetProperty
+import renetik.android.preset.property.value.CSFloatValuePresetProperty
+import renetik.android.preset.property.value.CSHasIdListValuePresetProperty
+import renetik.android.preset.property.value.CSIntListValuePresetProperty
+import renetik.android.preset.property.value.CSIntValuePresetProperty
+import renetik.android.preset.property.value.CSListItemValuePresetProperty
+import renetik.android.preset.property.value.CSStringValuePresetProperty
 import renetik.android.store.context.CSStoreContext
 import renetik.android.store.extensions.operation
 
@@ -93,75 +104,75 @@ class PresetStoreContext(
 
     override fun property(
         key: String, default: String, onChange: ArgFun<String>?,
-    ) = preset.property(
+    ): CSStringValuePresetProperty = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun property(
         key: String, default: Boolean, onChange: ArgFun<Boolean>?,
-    ) = preset.property(
+    ): CSBooleanValuePresetProperty = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun property(
         key: String, default: Float, onChange: ArgFun<Float>?,
-    ) = preset.property(
+    ): CSFloatValuePresetProperty = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun property(
         key: String, default: Int, onChange: ArgFun<Int>?
-    ) = preset.property(
+    ): CSIntValuePresetProperty = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun property(
         key: String, default: () -> Int, onChange: ArgFun<Int>?
-    ) = preset.property(
+    ): CSIntValuePresetProperty = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun <T> property(
         key: String, values: () -> Collection<T>,
         default: () -> T, onChange: ArgFun<T>?
-    ) = preset.property(
+    ): CSListItemValuePresetProperty<T> = preset.property(
         this, key.newKey, values, default, onChange
     ).init(key)
 
     override fun nullIntProperty(
         key: String, default: Int?, onChange: ((value: Int?) -> Unit)?
-    ) = preset.nullIntProperty(
+    ): CSIntNullablePresetProperty = preset.nullIntProperty(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun nullFloatProperty(
         key: String, default: Float?, onChange: ((value: Float?) -> Unit)?
-    ) = preset.nullFloatProperty(
+    ): CSFloatNullablePresetProperty = preset.nullFloatProperty(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun nullStringProperty(
         key: String, default: String?, onChange: ((value: String?) -> Unit)?
-    ) = preset.nullStringProperty(
+    ): CSStringNullablePresetProperty = preset.nullStringProperty(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun <T> nullListItemProperty(
         key: String, values: List<T>, default: T?, onChange: ((value: T?) -> Unit)?
-    ) = preset.nullListItemProperty(
+    ): CSListItemNullablePresetProperty<T?> = preset.nullListItemProperty(
         this, key.newKey, values, default, onChange
     ).init(key)
 
     override fun property(
         key: String, default: List<Int>, onChange: ArgFun<List<Int>>?
-    ) = preset.property(
+    ): CSIntListValuePresetProperty = preset.property(
         this, key.newKey, default, onChange
     ).init(key)
 
     override fun <T : CSHasId> property(
         key: String, values: List<T>,
         default: List<T>, onChange: ArgFun<List<T>>?
-    ) = preset.property(
+    ): CSHasIdListValuePresetProperty<T> = preset.property(
         this, key.newKey, values, default, onChange
     ).init(key)
 }
