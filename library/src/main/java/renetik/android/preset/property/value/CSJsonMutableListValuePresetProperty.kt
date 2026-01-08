@@ -18,7 +18,7 @@ class CSJsonMutableListValuePresetProperty<T : CSJsonObjectStore>(
 ) : CSValuePresetProperty<MutableList<T>>(parent, preset, key, onChange) {
 
     override fun get(store: CSStore) = store.getJsonObjectList(key, type)
-        ?.let { mutableListOf<T>().reload(it) } ?: default
+        ?.let { mutableListOf<T>().reload(it) }
 
     override fun set(store: CSStore, value: MutableList<T>) = store.setJsonObjectList(key, value)
 }

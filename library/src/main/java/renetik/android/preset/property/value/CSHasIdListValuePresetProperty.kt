@@ -13,7 +13,7 @@ class CSHasIdListValuePresetProperty<T : CSHasId>(
 ) : CSValuePresetProperty<List<T>>(parent, preset, key, onChange) {
 
     override fun get(store: CSStore) = store.getString(key)?.split(",")
-        ?.mapNotNull { id -> values.find { it.id == id } } ?: default
+        ?.mapNotNull { id -> values.find { it.id == id } }
 
     override fun set(store: CSStore, value: List<T>) =
         store.set(key, value.joinToString(",") { it.toId() })
