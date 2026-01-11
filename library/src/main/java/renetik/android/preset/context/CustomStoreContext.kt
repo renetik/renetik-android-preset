@@ -11,6 +11,7 @@ import renetik.android.json.obj.CSJsonObjectInterface
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 import renetik.android.store.context.CSStoreContext
+import renetik.android.store.extensions.nullDoubleProperty
 import renetik.android.store.extensions.nullFloatProperty
 import renetik.android.store.extensions.nullIntProperty
 import renetik.android.store.extensions.nullListItemProperty
@@ -101,6 +102,10 @@ class CustomStoreContext(
     override fun nullFloatProperty(
         key: String, default: Float?, onChange: ((value: Float?) -> Unit)?
     ) = store.nullFloatProperty(this, key.newKey, default, onChange).init()
+
+    override fun nullDoubleProperty(
+        key: String, default: Double?, onChange: ((value: Double?) -> Unit)?
+    ) = store.nullDoubleProperty(this, key.newKey, default, onChange).init()
 
     override fun nullStringProperty(
         key: String, default: String?, onChange: ((value: String?) -> Unit)?

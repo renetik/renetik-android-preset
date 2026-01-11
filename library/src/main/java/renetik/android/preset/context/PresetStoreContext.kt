@@ -9,12 +9,14 @@ import renetik.android.event.registration.invoke
 import renetik.android.json.obj.CSJsonObjectInterface
 import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset
+import renetik.android.preset.extensions.nullDoubleProperty
 import renetik.android.preset.extensions.nullFloatProperty
 import renetik.android.preset.extensions.nullIntProperty
 import renetik.android.preset.extensions.nullListItemProperty
 import renetik.android.preset.extensions.nullStringProperty
 import renetik.android.preset.extensions.property
 import renetik.android.preset.property.CSPresetProperty
+import renetik.android.preset.property.nullable.CSDoubleNullablePresetProperty
 import renetik.android.preset.property.nullable.CSFloatNullablePresetProperty
 import renetik.android.preset.property.nullable.CSIntNullablePresetProperty
 import renetik.android.preset.property.nullable.CSListItemNullablePresetProperty
@@ -148,6 +150,12 @@ class PresetStoreContext(
     override fun nullFloatProperty(
         key: String, default: Float?, onChange: ((value: Float?) -> Unit)?
     ): CSFloatNullablePresetProperty = preset.nullFloatProperty(
+        this, key.newKey, default, onChange
+    ).init(key)
+
+    override fun nullDoubleProperty(
+        key: String, default: Double?, onChange: ((value: Double?) -> Unit)?
+    ): CSDoubleNullablePresetProperty = preset.nullDoubleProperty(
         this, key.newKey, default, onChange
     ).init(key)
 
