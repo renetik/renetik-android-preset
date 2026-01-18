@@ -42,6 +42,7 @@ class CSPreset<PresetListItem : CSPresetItem,
     val isReload = property(false)
     val eventLoad = event<PresetListItem>()
     val eventLoadData = event<PresetListItem>()
+    val eventBeforeSave = suspendEvent<PresetListItem>()
     val eventSave = suspendEvent<PresetListItem>()
     val eventChange = event<PresetListItem>()
     val eventDelete = suspendEvent<PresetListItem>()
@@ -105,7 +106,12 @@ class CSPreset<PresetListItem : CSPresetItem,
         presets.toList().forEach { if (!it.isDestructed) it.store.onStoreLoaded() }
     }
 
-    suspend fun save(item: PresetListItem) = eventSave.fire(item)
+    suspend fun saveAsCurrent() = save(listItem.value)
+
+    suspend fun save(item: PresetListItem) {
+        eventBeforeSave.fire(item)
+        eventSave.fire(item)
+    }
 
     suspend fun delete(item: PresetListItem) {
         list.remove(item)
@@ -118,8 +124,6 @@ class CSPreset<PresetListItem : CSPresetItem,
 
     override fun onChange(function: (Unit) -> Unit) =
         eventChange.listen { function(Unit) }
-
-    suspend fun saveAsCurrent() = eventSave.fire(listItem.value)
 
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     var onSaveToParentPresetItemStore: (Boolean, CSStore) -> Unit =
