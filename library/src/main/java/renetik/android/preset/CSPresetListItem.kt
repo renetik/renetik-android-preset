@@ -1,6 +1,7 @@
 package renetik.android.preset
 
 import renetik.android.core.kotlin.toId
+import renetik.android.core.lang.value.equalNot
 import renetik.android.core.lang.value.isFalse
 import renetik.android.event.common.parent
 import renetik.android.event.paused
@@ -29,16 +30,16 @@ class CSPresetListItem<
 
     override val property = parentStore.property(
         key, preset.list::items, getDefault = {
-            if (parentStore.has(key) && preset.store.isNotEmpty) notFoundItem
+            if (parentStore.has(key) && preset.store.isNotEmpty)
+                notFoundItem
             else getDefaultItem()
         }
     )
 
     init {
         property.parent(this)
-//            .save() // Change: Not saving preset item on load and store load
         this + property.store.eventLoaded {
-            if (preset.isFollowStore.isFalse)
+            if (preset.isFollowStore.isFalse && property equalNot notFoundItem)
                 it.eventChanged.paused { property.saveTo(it) }
             else property.update()
         }
@@ -48,7 +49,6 @@ class CSPresetListItem<
     override fun clearKeyData() = property.clear()
     override fun clear() = property.clear()
     override fun onStoreLoaded() = Unit
-//        property.save() // Change: Not saving preset item on load and store load
 
     val currentId: CSProperty<String> = computed(from = { it.id }, to = { presetId ->
         preset.list.items.find { it.id == presetId } ?: notFoundPresetItem(preset.store)
