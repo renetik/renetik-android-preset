@@ -88,9 +88,10 @@ class CSPreset<PresetListItem : CSPresetItem,
     }
 
     suspend fun reload() {
-
+        reload(listItem.value)
     }
 
+    // Fron now used outside just in Metronome when ticks change to reset to default preset...
     fun reloadInternal() = reload(listItem.value)
 
     internal fun reload(item: PresetListItem) {
