@@ -56,7 +56,7 @@ class CSPresetSimpleTests {
         property.value = 10
         assertEquals(10, property.value)
 
-        preset.reload()
+        preset.reloadInternal()
         assertEquals(5, property.value)
     }
 
@@ -77,7 +77,7 @@ class CSPresetSimpleTests {
         childPresetProperty.value = 10
         assertEquals(10, childPresetProperty.value)
 
-        preset.reload()
+        preset.reloadInternal()
         advanceUntilIdle()
         assertEquals(5, childPresetProperty.value)
     }
@@ -120,7 +120,7 @@ class CSPresetSimpleTests {
   }
 }""", preset.store.data.toJson(formatted = true))
 
-        preset.reload()
+        preset.reloadInternal()
         advanceUntilIdle()
         assert(expected = 1, preset.store.data.size)
         // Change: Not saving preset item on load and store load

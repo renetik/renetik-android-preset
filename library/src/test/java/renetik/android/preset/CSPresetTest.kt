@@ -79,7 +79,7 @@ class CSPresetTest {
         val parentPropertyNewValue2 = ParentPropertyNewValue2
         parent.property.value = parentPropertyNewValue2
 
-        parent.parentPreset.reload()
+        parent.parentPreset.reloadInternal()
         assertEquals(ParentPropertyInitialValue, parent.property.value)
     }
 
@@ -113,7 +113,7 @@ class CSPresetTest {
                 .childPreset1.listItem.value.id
         )
 
-        parent.parentPreset.reload()
+        parent.parentPreset.reloadInternal()
         advanceUntilIdle()
         assertEquals(
             ClearChildPresetItemId, parent.children.first()
@@ -139,7 +139,7 @@ class CSPresetTest {
             expected = ChildPropertyNewValue0,
             actual = parent.children.first().childPreset1Props.first().value
         )
-        parent.parentPreset.reload()
+        parent.parentPreset.reloadInternal()
         advanceUntilIdle()
         assertEquals(
             ChildPropertyInitialValue, parent.children.first()
@@ -162,7 +162,7 @@ class CSPresetTest {
 
         val item2 = parent.parentPreset.list.createItem(ParentPresetItemId2, isDefault = true)
         parent.parentPreset.save(item2)
-        parent.parentPreset.reload()
+        parent.parentPreset.reloadInternal()
         advanceUntilIdle()
         assertEquals(
             ChildPropertyInitialValue, parent.children.first()
@@ -199,7 +199,7 @@ class CSPresetTest {
                 .childPreset1Props.at(1)!!.value
         )
 
-        parent.parentPreset.reload()
+        parent.parentPreset.reloadInternal()
         advanceUntilIdle()
         assertEquals(
             ChildPropertyInitialValue, parent.children.second()

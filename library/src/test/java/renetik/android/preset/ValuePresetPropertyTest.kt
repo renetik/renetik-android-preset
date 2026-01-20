@@ -32,7 +32,7 @@ class ValuePresetPropertyTest {
         assertEquals(0, eventCount)
         value = "new value"
 
-        preset.reload()
+        preset.reloadInternal()
         assertEquals("initial", value)
     }
 

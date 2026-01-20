@@ -77,7 +77,7 @@ class CSPresetCSStoreContextTest {
         property.value = 10
         assertEquals(10, property.value)
         checkStoreFor(""""preset1 preset store":{"contextKey property":10}""")
-        preset.reload()
+        preset.reloadInternal()
         assertEquals(5, property.value)
         checkStoreFor(""""preset1 preset store":{}""")
     }

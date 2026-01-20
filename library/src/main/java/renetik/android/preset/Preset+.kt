@@ -31,7 +31,7 @@ fun <PresetListItem : CSPresetItem,
         PresetList : CSPresetItemList<PresetListItem>,
         Preset : CSPreset<PresetListItem, PresetList>>
         Preset.init(): Preset = apply {
-    if (store.data.isEmpty()) reload()
+    if (store.data.isEmpty()) reloadInternal()
 }
 
 fun <T : Preset> T.followStoreIf(property: CSProperty<Boolean>) =

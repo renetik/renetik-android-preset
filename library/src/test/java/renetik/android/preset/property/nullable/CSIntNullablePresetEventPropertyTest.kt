@@ -19,7 +19,7 @@ class CSIntNullablePresetEventPropertyTest {
         assertEquals(2, parent.property1.value)
         parent.property1.value = null
         assertEquals(null, parent.property1.value)
-        parent.parentPreset.reload()
+        parent.parentPreset.reloadInternal()
         assertEquals(1, parent.property1.value)
     }
 

@@ -87,7 +87,11 @@ class CSPreset<PresetListItem : CSPresetItem,
         preset.eventDestruct { presets -= preset }
     }
 
-    fun reload() = reload(listItem.value)
+    suspend fun reload() {
+
+    }
+
+    fun reloadInternal() = reload(listItem.value)
 
     internal fun reload(item: PresetListItem) {
         val isAlreadyReloading = isReload.isTrue
