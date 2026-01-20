@@ -5,7 +5,6 @@ import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.CSSuspendEvent.Companion.invoke
 import renetik.android.event.CSSuspendEvent.Companion.suspendEvent
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
@@ -35,16 +34,17 @@ class CSPreset<PresetListItem : CSPresetItem,
             notFoundItem: (CSStore) -> PresetItem, defaultItemId: String? = null,
         ): CSPreset<PresetItem, PresetList> = CSPreset(
             parent, parentPreset.store, key, list, notFoundItem, defaultItemId
-        ).also(parentPreset::add)
+        ).also { preset ->
+            parentPreset.add(preset)
+        }
     }
 
     val id = "$key preset"
     val isFollowStore = property(true)
-    val onReload = suspendEvent()
+    val onReload = suspendEvent<PresetListItem>()
     val isReloadInternal = property(false)
     val eventLoad = event<PresetListItem>()
     val eventLoadData = event<PresetListItem>()
-    val eventBeforeSave = suspendEvent<PresetListItem>()
     val eventSave = suspendEvent<PresetListItem>()
     val eventChange = event<PresetListItem>()
     val eventDelete = suspendEvent<PresetListItem>()
@@ -90,8 +90,9 @@ class CSPreset<PresetListItem : CSPresetItem,
     }
 
     suspend fun reload() {
-        onReload()
-        reloadInternal()
+        val item = listItem.value
+        onReload.fire(item)
+        reload(listItem.value)
     }
 
     // Fron now used outside just in Metronome when ticks change to reset to default preset...
@@ -116,10 +117,7 @@ class CSPreset<PresetListItem : CSPresetItem,
 
     suspend fun saveAsCurrent() = save(listItem.value)
 
-    suspend fun save(item: PresetListItem) {
-        eventBeforeSave.fire(item)
-        eventSave.fire(item)
-    }
+    suspend fun save(item: PresetListItem) = eventSave.fire(item)
 
     suspend fun delete(item: PresetListItem) {
         list.remove(item)
