@@ -113,7 +113,7 @@ fun CSHasChange<*>.actionPausedBy(
 fun <T : Preset> T.onReloadPause(
     vararg registrations: CSRegistration,
 ): CSRegistration {
-    if (isReload.isTrue) registrations.pause()
+    if (isReloadInternal.isTrue) registrations.pause()
     return CSRegistration(
         onBeforeChange { registrations.pause() },
         onChange { registrations.resume() }
@@ -123,7 +123,7 @@ fun <T : Preset> T.onReloadPause(
 fun <T : Preset> T.onReloadPause(
     vararg properties: CSProperty<*>,
 ): CSRegistration {
-    if (isReload.isTrue) properties.forEach(CSProperty<*>::pause)
+    if (isReloadInternal.isTrue) properties.forEach(CSProperty<*>::pause)
     return CSRegistration(
         onBeforeChange { properties.forEach(CSProperty<*>::pause) },
         onChange { properties.forEach(CSProperty<*>::resume) }

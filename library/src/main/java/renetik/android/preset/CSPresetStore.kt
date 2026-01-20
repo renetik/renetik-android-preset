@@ -40,7 +40,7 @@ class CSPresetStore(
 
     override fun onChanged() {
         super.onChanged()
-        if (preset.isReload.isFalse) save()
+        if (preset.isReloadInternal.isFalse) save()
     }
 
     override fun toString() = "key:$key this:${super.toString()}"

@@ -5,6 +5,7 @@ import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.CSSuspendEvent.Companion.invoke
 import renetik.android.event.CSSuspendEvent.Companion.suspendEvent
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
@@ -39,7 +40,8 @@ class CSPreset<PresetListItem : CSPresetItem,
 
     val id = "$key preset"
     val isFollowStore = property(true)
-    val isReload = property(false)
+    val onReload = suspendEvent()
+    val isReloadInternal = property(false)
     val eventLoad = event<PresetListItem>()
     val eventLoadData = event<PresetListItem>()
     val eventBeforeSave = suspendEvent<PresetListItem>()
@@ -80,7 +82,7 @@ class CSPreset<PresetListItem : CSPresetItem,
 
     private fun add(preset: CSPreset<*, *>) {
         if (preset in presets) unexpected()
-        preset + isReload.onChange { preset.isReload.value = it }
+        preset + isReloadInternal.onChange { preset.isReloadInternal.value = it }
         add(preset.listItem)
 //        add(preset.store)
         presets += preset
@@ -88,19 +90,20 @@ class CSPreset<PresetListItem : CSPresetItem,
     }
 
     suspend fun reload() {
-        reload(listItem.value)
+        onReload()
+        reloadInternal()
     }
 
     // Fron now used outside just in Metronome when ticks change to reset to default preset...
     fun reloadInternal() = reload(listItem.value)
 
     internal fun reload(item: PresetListItem) {
-        val isAlreadyReloading = isReload.isTrue
-        if (!isAlreadyReloading) isReload.setTrue()
+        val isAlreadyReloading = isReloadInternal.isTrue
+        if (!isAlreadyReloading) isReloadInternal.setTrue()
         eventLoad(item)
         reload(item.store.data)
         eventChange(item)
-        if (!isAlreadyReloading) isReload.setFalse()
+        if (!isAlreadyReloading) isReloadInternal.setFalse()
     }
 
     fun reload(data: Map<String, Any?>) {
