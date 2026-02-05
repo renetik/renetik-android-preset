@@ -78,11 +78,6 @@ class PresetStoreContext(
 
     override fun onChange(function: (Unit) -> Unit) = preset.onChange(function)
 
-// TODO?: Could be finished and used if necessary
-//    override fun equals(other: Any?): Boolean = (other as? PresetStoreContext)?.let {
-//    properties.all { (key, property) -> it.properties[key]?.value == property.value }
-//    } ?: super.equals(other)
-
     private val properties = mutableMapOf<String, CSPresetProperty<*>>()
     private fun <T : CSPresetProperty<*>> T.init(key: String) = apply {
         properties[key] = this
