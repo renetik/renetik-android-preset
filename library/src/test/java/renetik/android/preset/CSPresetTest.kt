@@ -16,7 +16,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.second
-import renetik.android.core.kotlin.collections.third
 import renetik.android.core.lang.variable.assign
 import renetik.android.preset.model.CSPresetTestParentClass
 import renetik.android.preset.model.ChildPresetItemId2
@@ -169,14 +168,14 @@ class CSPresetTest {
                 .childPreset1Props.first().value
         )
 
-        parent.parentPreset.listItem.value = parent.parentPreset.list.items.third()
+        parent.parentPreset.listItem.value = parent.parentPreset.list[2]
         advanceUntilIdle()
         assertEquals(
             ChildPropertyNewValue1, parent.children.first()
                 .childPreset1Props.first().value
         )
 
-        parent.parentPreset.listItem.value = parent.parentPreset.list.items.second()
+        parent.parentPreset.listItem.value = parent.parentPreset.list[1]
         advanceUntilIdle()
         assertEquals(
             ChildPropertyNewValue0, parent.children.first()
@@ -206,7 +205,7 @@ class CSPresetTest {
                 .childPreset1Props.at(1)!!.value
         )
 
-        parent.parentPreset.listItem.value = parent.parentPreset.list.items.second()
+        parent.parentPreset.listItem.value = parent.parentPreset.list[1]
         advanceUntilIdle()
         assertEquals(
             ChildPropertyNewValue2, parent.children.first()

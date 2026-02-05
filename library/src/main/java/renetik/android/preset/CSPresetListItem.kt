@@ -29,7 +29,7 @@ class CSPresetListItem<
     private val notFoundItem by lazy { notFoundPresetItem(preset.store) }
 
     override val property = parentStore.property(
-        key, preset.list::items, getDefault = {
+        key, preset::list, getDefault = {
             if (parentStore.has(key) && preset.store.isNotEmpty)
                 notFoundItem
             else getDefaultItem()
@@ -51,7 +51,7 @@ class CSPresetListItem<
     override fun onStoreLoaded() = Unit
 
     val currentId: CSProperty<String> = computed(from = { it.id }, to = { presetId ->
-        preset.list.items.find { it.id == presetId } ?: notFoundPresetItem(preset.store)
+        preset.list.find { it.id == presetId } ?: notFoundPresetItem(preset.store)
     })
 
     override fun isTrackedModifiedIn(store: CSStore) =
