@@ -14,6 +14,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import renetik.android.core.base.TestCSApplication
 import renetik.android.core.extensions.content.temporaryFile
 import renetik.android.core.java.io.readString
 import renetik.android.core.lang.CSEnvironment.app
@@ -34,6 +36,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
+@Config(application = TestCSApplication::class)
 class CSPresetCSStoreContextTest {
 
     @Before
@@ -45,9 +48,7 @@ class CSPresetCSStoreContextTest {
     private val parent = CSModel()
     private val presetList = TestCSPresetItemList(ClearPresetItemId)
     private val testFile = app.temporaryFile()
-    private val fileStore = CSFileJsonStore(
-        testFile, isJsonPretty = false, isImmediateWrite = false
-    )
+    private val fileStore = CSFileJsonStore(testFile, isJsonPretty = false)
     private val preset = CSPreset(
         parent, fileStore, "preset1", presetList, { NotFoundPresetItem() }
     ).manageItems().init()
@@ -119,4 +120,3 @@ class CSPresetCSStoreContextTest {
         checkStoreForNot("""{"contextKey property":10}""")
     }
 }
-

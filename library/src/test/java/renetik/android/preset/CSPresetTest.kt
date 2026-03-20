@@ -67,7 +67,7 @@ class CSPresetTest {
     }
 
     @Test
-    fun test2() {
+    fun test2() = runTest {
         parent.property.value = ParentPropertyNewValue1
         assertEquals(ParentPropertyNewValue1, parent.property.value)
 
@@ -217,4 +217,3 @@ class CSPresetTest {
         )
     }
 }
-
