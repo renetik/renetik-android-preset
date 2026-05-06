@@ -11,20 +11,35 @@ import renetik.android.preset.CSPresetItemList
 class TestCSPresetItemList(firstItemId: String) : CSPresetItemList<CSPresetItem> {
     override val id = className
     override val eventReload: CSEvent<Unit> = event()
-    override val defaultItems = mutableListOf<CSPresetItem>()
-    override val userItems = mutableListOf<CSPresetItem>()
+    override val categories: List<String> = listOf(defaultCategory, userCategory)
+    private val defaultPresetItems = mutableListOf<CSPresetItem>()
+    private val userPresetItems = mutableListOf<CSPresetItem>()
 
     init {
-        createItem(firstItemId, isDefault = true)
+        createItem(firstItemId, category = defaultCategory)
     }
 
     override fun remove(item: CSPresetItem) {
-        defaultItems.remove(item)
-        userItems.remove(item)
+        defaultPresetItems.remove(item)
+        userPresetItems.remove(item)
     }
 
-    override fun createItem(title: String, isDefault: Boolean): CSPresetItem =
-        (if (isDefault) defaultItems else userItems).put(CSPresetTestItem(id = title))
+    override fun items(category: String): List<CSPresetItem> = when (category) {
+        defaultCategory -> defaultPresetItems
+        userCategory -> userPresetItems
+        else -> emptyList()
+    }
+
+    override val items: List<CSPresetItem> get() = defaultPresetItems + userPresetItems
+
+    override fun createItem(title: String, category: String): CSPresetItem =
+        mutableItems(category).put(CSPresetTestItem(id = title))
+
+    private fun mutableItems(category: String) = when (category) {
+        defaultCategory -> defaultPresetItems
+        userCategory -> userPresetItems
+        else -> error("Unsupported preset category: $category")
+    }
 
     override fun reload() = eventReload()
 }

@@ -59,8 +59,8 @@ class CSPresetListItem<
         else currentId.value != getDefaultItem().id
 
     private fun getDefaultItem(): PresetItem =
-        preset.list.defaultItems.find { it.id == defaultItemId }
-            ?: preset.list.defaultItems[0]
+        preset.list.items.find { it.id == defaultItemId }
+            ?: preset.list.items[0]
 
     override fun value(newValue: PresetItem, fire: Boolean) {
         val isPresetReload = value != newValue

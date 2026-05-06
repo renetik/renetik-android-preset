@@ -5,48 +5,53 @@ import renetik.android.event.CSEvent
 
 interface CSPresetItemList<PresetItem : CSPresetItem>
     : CSHasId, Collection<PresetItem> {
-    companion object
-
-    val defaultItems: List<PresetItem>
-    val userItems: List<PresetItem>
+    val categories: List<String>
+    fun items(category: String): List<PresetItem>
+    val items: List<PresetItem>
     fun remove(item: PresetItem)
-    fun createItem(title: String, isDefault: Boolean): PresetItem
+    fun createItem(title: String, category: String): PresetItem
     val eventReload: CSEvent<Unit>
     fun reload()
 
     //Collection
-    override val size: Int get() = defaultItems.size + userItems.size
-    override fun isEmpty(): Boolean = defaultItems.isEmpty() && userItems.isEmpty()
+    override val size: Int get() = categories.sumOf { items(it).size }
+    override fun isEmpty(): Boolean = categories.all { items(it).isEmpty() }
     override fun contains(element: PresetItem): Boolean =
-        defaultItems.contains(element) || userItems.contains(element)
+        categories.any { items(it).contains(element) }
 
     override fun containsAll(elements: Collection<PresetItem>): Boolean =
         elements.all { contains(it) }
 
-    override fun iterator(): Iterator<PresetItem> = object : Iterator<PresetItem> {
-        private val first = defaultItems.iterator()
-        private val second = userItems.iterator()
-        override fun hasNext(): Boolean = first.hasNext() || second.hasNext()
-        override fun next(): PresetItem =
-            if (first.hasNext()) first.next() else second.next()
+    override fun iterator(): Iterator<PresetItem> =
+        categories.flatMap { items(it) }.iterator()
+
+    fun find(predicate: (PresetItem) -> Boolean): PresetItem? {
+        categories.forEach { category ->
+            items(category).find(predicate)?.let { return it }
+        }
+        return null
     }
 
-    fun find(predicate: (PresetItem) -> Boolean): PresetItem? =
-        defaultItems.find(predicate) ?: userItems.find(predicate)
-
     operator fun get(index: Int): PresetItem {
-        val splitIndex = defaultItems.size
-        return if (index < splitIndex) defaultItems[index]
-        else userItems[index - splitIndex]
+        var categoryIndex = index
+        categories.forEach { category ->
+            val items = items(category)
+            if (categoryIndex < items.size) return items[categoryIndex]
+            categoryIndex -= items.size
+        }
+        throw IndexOutOfBoundsException("$index")
     }
 
     fun at(index: Int): PresetItem? = if (index in indices) get(index) else null
 
     fun index(item: PresetItem): Int? {
-        val defaultIndex = defaultItems.indexOf(item)
-        if (defaultIndex >= 0) return defaultIndex
-        val userIndex = userItems.indexOf(item)
-        if (userIndex >= 0) return defaultItems.size + userIndex
+        var index = 0
+        categories.forEach { category ->
+            val items = items(category)
+            val itemIndex = items.indexOf(item)
+            if (itemIndex >= 0) return index + itemIndex
+            index += items.size
+        }
         return null
     }
 }

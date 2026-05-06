@@ -5,13 +5,14 @@ import renetik.android.preset.CSPreset
 import renetik.android.preset.CSPresetItem
 import renetik.android.preset.extensions.nullIntProperty
 import renetik.android.preset.model.NotFoundPresetItem
+import renetik.android.preset.model.defaultCategory
 import renetik.android.store.CSStore
 
 class CSPresetTestParentClass(store: CSStore) : CSModel() {
     private val presetList = CSPresetTestPresetItemList()
 
     init {
-        presetList.createItem(title = "Clear Parent", isDefault = true)
+        presetList.createItem(title = "Clear Parent", category = defaultCategory)
     }
 
     val parentPreset: CSPreset<CSPresetItem, CSPresetTestPresetItemList> = CSPreset(

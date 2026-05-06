@@ -31,6 +31,7 @@ import renetik.android.preset.model.ParentPresetItemId2
 import renetik.android.preset.model.ParentPropertyInitialValue
 import renetik.android.preset.model.ParentPropertyNewValue1
 import renetik.android.preset.model.ParentPropertyNewValue2
+import renetik.android.preset.model.defaultCategory
 import renetik.android.store.type.CSJsonObjectStore
 import renetik.android.testing.CSAssert.assert
 
@@ -72,7 +73,7 @@ class CSPresetTest {
         assertEquals(ParentPropertyNewValue1, parent.property.value)
 
         val item = parent.parentPreset.list
-            .createItem(ParentPresetItemId1, isDefault = true)
+            .createItem(ParentPresetItemId1, category = defaultCategory)
         parent.parentPreset.save(item)
 
         val parentPropertyNewValue2 = ParentPropertyNewValue2
@@ -99,7 +100,7 @@ class CSPresetTest {
         )
 
         val item = parent.children.first().childPreset1.list
-            .createItem(ChildPresetItemId2, isDefault = true)
+            .createItem(ChildPresetItemId2, category = defaultCategory)
         parent.children.first().childPreset1.save(item)
         parent.children.first().childPreset1.listItem assign item
 
@@ -131,7 +132,8 @@ class CSPresetTest {
             expected = ChildPropertyNewValue0,
             actual = parent.children.first().childPreset1Props.first().value
         )
-        val item = parent.parentPreset.list.createItem(ParentPresetItemId1, isDefault = true)
+        val item = parent.parentPreset.list.createItem(
+            ParentPresetItemId1, category = defaultCategory)
         parent.parentPreset.save(item)
         advanceUntilIdle()
         assert(
@@ -149,7 +151,8 @@ class CSPresetTest {
     @Test
     fun test5() = runTest {
         parent.children.first().childPreset1Props.first().value = ChildPropertyNewValue0
-        val item1 = parent.parentPreset.list.createItem(ParentPresetItemId1, isDefault = true)
+        val item1 = parent.parentPreset.list.createItem(
+            ParentPresetItemId1, category = defaultCategory)
         parent.parentPreset.save(item1)
         advanceUntilIdle()
         assertEquals(
@@ -159,7 +162,8 @@ class CSPresetTest {
 
         parent.children.first().childPreset1Props.first().value = ChildPropertyNewValue1
 
-        val item2 = parent.parentPreset.list.createItem(ParentPresetItemId2, isDefault = true)
+        val item2 = parent.parentPreset.list.createItem(
+            ParentPresetItemId2, category = defaultCategory)
         parent.parentPreset.save(item2)
         parent.parentPreset.reloadInternal()
         advanceUntilIdle()
@@ -190,7 +194,8 @@ class CSPresetTest {
         parent.children.second().childPreset1Props.at(1)!!.value = ChildPropertyNewValue1
         parent.children.second().childPreset1Props.at(3)!!.value = ChildPropertyNewValue3
 
-        val item = parent.parentPreset.list.createItem(ParentPresetItemId1, isDefault = true)
+        val item = parent.parentPreset.list.createItem(
+            ParentPresetItemId1, category = defaultCategory)
         parent.parentPreset.save(item)
         advanceUntilIdle()
         assertEquals(

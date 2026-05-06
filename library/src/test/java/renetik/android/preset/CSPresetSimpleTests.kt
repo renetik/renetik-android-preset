@@ -25,6 +25,7 @@ import renetik.android.preset.extensions.property
 import renetik.android.preset.model.ClearPresetItemId
 import renetik.android.preset.model.NotFoundPresetItem
 import renetik.android.preset.model.TestCSPresetItemList
+import renetik.android.preset.model.defaultCategory
 import renetik.android.preset.model.manageItems
 import renetik.android.preset.property.max
 import renetik.android.store.extensions.reload
@@ -111,7 +112,8 @@ class CSPresetSimpleTests {
 
         childPresetProperty.value = 10
         assertEquals(10, childPresetProperty.value)
-        val item = childPreset.list.createItem("childPresetProperty item", isDefault = true)
+        val item = childPreset.list.createItem(
+            "childPresetProperty item", category = defaultCategory)
         childPreset.save(item)
         childPreset.listItem assign item
         advanceUntilIdle()
@@ -159,7 +161,7 @@ class CSPresetSimpleTests {
     fun presetLoadingDefaultDataOnInit() {
         val parent = CSModel()
         val presetList = TestCSPresetItemList("DefaultItemId")
-        presetList.defaultItems.first!!.store.reload("""{"key":100}""")
+        presetList.items(defaultCategory).first!!.store.reload("""{"key":100}""")
         val preset = CSPreset(
             parent, CSJsonObjectStore(), "test", presetList, { NotFoundPresetItem() }
         ).manageItems().init()

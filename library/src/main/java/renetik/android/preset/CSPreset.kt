@@ -132,6 +132,6 @@ class CSPreset<PresetListItem : CSPresetItem,
         eventChange.listen { function(Unit) }
 
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-    var onSaveToParentPresetItemStore: (Boolean, CSStore) -> Unit =
-        { isDefault, itemStore -> this.store.saveTo(itemStore) }
+    var onSaveToParentPresetItemStore: (String, CSStore) -> Unit =
+        { _, itemStore -> this.store.saveTo(itemStore) }
 }

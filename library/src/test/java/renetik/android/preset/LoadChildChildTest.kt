@@ -85,7 +85,7 @@ import renetik.android.store.type.CSJsonObjectStore
 //
 //    val childPresetList = TestCSPresetItemList(firstItemId = "clear childPreset item")
 //    val secondChildPresetItem = childPresetList.createItem(
-//        "second childPreset item", isDefault = true)
+//        "second childPreset item", category = defaultCategory)
 //        .apply { store.reload(secondChildPresetItemJson) }
 //    val childPreset1 = CSPreset(
 //        CSModel(), preset, "childPreset1",
@@ -99,7 +99,7 @@ import renetik.android.store.type.CSJsonObjectStore
 //    val childChildPresetList = TestCSPresetItemList(
 //        firstItemId = "clear childChildPreset item")
 //    val secondChildChildPresetItem = childChildPresetList.createItem(
-//        "second childChildPreset item", isDefault = true)
+//        "second childChildPreset item", category = defaultCategory)
 //        .apply { store.reload(secondChildChildPresetItemJson) }
 //    val childChildPreset1 = CSPreset(
 //        CSModel(), childPreset1, "childChildPreset1",
