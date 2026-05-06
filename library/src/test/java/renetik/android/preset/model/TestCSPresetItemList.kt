@@ -2,11 +2,15 @@ package renetik.android.preset.model
 
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.collections.put
+import renetik.android.event.CSEvent
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.invoke
 import renetik.android.preset.CSPresetItem
 import renetik.android.preset.CSPresetItemList
 
 class TestCSPresetItemList(firstItemId: String) : CSPresetItemList<CSPresetItem> {
     override val id = className
+    override val eventReload: CSEvent<Unit> = event()
     override val defaultItems = mutableListOf<CSPresetItem>()
     override val userItems = mutableListOf<CSPresetItem>()
 
@@ -22,5 +26,5 @@ class TestCSPresetItemList(firstItemId: String) : CSPresetItemList<CSPresetItem>
     override fun createItem(title: String, isDefault: Boolean): CSPresetItem =
         (if (isDefault) defaultItems else userItems).put(CSPresetTestItem(id = title))
 
-    override fun reload() = Unit
+    override fun reload() = eventReload()
 }
