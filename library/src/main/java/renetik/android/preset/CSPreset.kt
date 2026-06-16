@@ -11,7 +11,7 @@ import renetik.android.event.common.CSModel
 import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
-import renetik.android.event.registration.CSHasChangeValue.Companion.delegateValue
+import renetik.android.event.registration.delegateValue
 import renetik.android.event.registration.invoke
 import renetik.android.event.registration.plus
 import renetik.android.preset.extensions.property
