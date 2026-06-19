@@ -1,22 +1,5 @@
 package renetik.android.preset
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import renetik.android.core.lang.variable.assign
-import renetik.android.event.common.CSModel
-import renetik.android.json.CSJson
-import renetik.android.json.toJson
-import renetik.android.preset.CSPreset.Companion.CSPreset
-import renetik.android.preset.extensions.property
-import renetik.android.preset.model.NotFoundPresetItem
-import renetik.android.preset.model.TestCSPresetItemList
-import renetik.android.preset.model.manageItems
-import renetik.android.store.type.CSJsonObjectStore
-
 //@OptIn(ExperimentalCoroutinesApi::class)
 //@RunWith(RobolectricTestRunner::class)
 //class LoadChildChildTest {

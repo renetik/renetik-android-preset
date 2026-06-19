@@ -14,13 +14,12 @@ import renetik.android.event.property.connect
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChange.Companion.action
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.delegateValue
-import renetik.android.event.registration.hasChangeValue
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.event.registration.action
-import renetik.android.event.registration.invoke
+import renetik.android.event.registration.delegateValue
+import renetik.android.event.registration.hasChangeValue
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.pause
 import renetik.android.event.registration.plus
