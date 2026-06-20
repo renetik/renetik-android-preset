@@ -18,7 +18,7 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.event.registration.action
-import renetik.android.event.registration.delegateValue
+import renetik.android.event.registration.delegateFrom
 import renetik.android.event.registration.hasChangeValue
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.pause
@@ -180,7 +180,7 @@ fun Preset.itemTitle(
     process: (String) -> String = { it }
 ): CSHasChangeValue<String> =
     if (withModified) itemTitleWithModified(parent, process)
-    else title.delegateValue(from = { process(it) })
+    else title.delegateFrom(from = { process(it) })
 
 fun Preset.itemTitleWithModified(
     parent: CSHasRegistrationsHasDestruct,
