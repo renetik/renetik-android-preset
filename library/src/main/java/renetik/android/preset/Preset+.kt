@@ -191,7 +191,7 @@ fun Preset.itemTitleWithModified(
     isModified: CSHasChangeValue<Boolean>,
     process: (String) -> String = { it }
 ): CSHasChangeValue<String> = (itemTitle to isModified).stateDelegate(
-    this, from = { title, modified ->
+    this, fromValues = { title, modified ->
         title.changeIf(String::isNotBlank) {
             "${process(it)}${if (modified) " *" else ""}"
         }
@@ -208,6 +208,6 @@ fun Preset.titleWithModified(
 fun Preset.titleWithModified(
     isModified: CSHasChangeValue<Boolean>
 ): CSHasChangeValue<String> = (title to isModified).stateDelegate(
-    this, from = { title, modified ->
+    this, fromValues = { title, modified ->
         title.changeIf(String::isNotBlank) { "$it${if (modified) " *" else ""}" }
     })

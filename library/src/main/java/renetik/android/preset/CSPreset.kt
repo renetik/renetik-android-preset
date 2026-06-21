@@ -55,7 +55,7 @@ class CSPreset<PresetListItem : CSPresetItem,
     val listItem = CSPresetListItem(this, notFoundItem, defaultItemId)
     val title = property(this, "preset title", getDefault = { listItem.value.title.value })
         .trackModified()
-    val itemTitle = listItem.delegateValue(this, child = { it.title })
+    val itemTitle = listItem.delegateValue(this, fromValueChild = { it.title })
 
     fun clear() {
         store.clear()
