@@ -19,7 +19,7 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.event.registration.action
 import renetik.android.event.registration.delegate
-import renetik.android.event.registration.hasChangeValue
+import renetik.android.event.registration.stateDelegate
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.pause
 import renetik.android.event.registration.plus
@@ -190,7 +190,7 @@ fun Preset.itemTitleWithModified(
 fun Preset.itemTitleWithModified(
     isModified: CSHasChangeValue<Boolean>,
     process: (String) -> String = { it }
-): CSHasChangeValue<String> = (itemTitle to isModified).hasChangeValue(
+): CSHasChangeValue<String> = (itemTitle to isModified).stateDelegate(
     this, from = { title, modified ->
         title.changeIf(String::isNotBlank) {
             "${process(it)}${if (modified) " *" else ""}"
@@ -207,7 +207,7 @@ fun Preset.titleWithModified(
 
 fun Preset.titleWithModified(
     isModified: CSHasChangeValue<Boolean>
-): CSHasChangeValue<String> = (title to isModified).hasChangeValue(
+): CSHasChangeValue<String> = (title to isModified).stateDelegate(
     this, from = { title, modified ->
         title.changeIf(String::isNotBlank) { "$it${if (modified) " *" else ""}" }
     })
