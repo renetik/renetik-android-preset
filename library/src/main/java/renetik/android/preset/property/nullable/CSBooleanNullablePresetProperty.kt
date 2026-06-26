@@ -1,7 +1,7 @@
 package renetik.android.preset.property.nullable
 
 import renetik.android.core.lang.ArgFun
-import renetik.android.event.common.CSHasRegistrationsHasDestruct
+import renetik.android.event.lifecycle.CSHasRegistrationsHasDestruct
 import renetik.android.preset.Preset
 import renetik.android.store.CSStore
 

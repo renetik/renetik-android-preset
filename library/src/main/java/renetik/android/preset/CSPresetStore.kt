@@ -1,7 +1,7 @@
 package renetik.android.preset
 
 import renetik.android.core.lang.value.isFalse
-import renetik.android.event.common.destruct
+import renetik.android.event.lifecycle.destruct
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore

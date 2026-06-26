@@ -1,7 +1,7 @@
 package renetik.android.preset.extensions
 
 import renetik.android.core.lang.ArgFun
-import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.lifecycle.CSHasDestruct
 import renetik.android.preset.Preset
 import renetik.android.preset.property.CSPresetProperty
 import renetik.android.preset.property.value.CSJsonListValuePresetProperty

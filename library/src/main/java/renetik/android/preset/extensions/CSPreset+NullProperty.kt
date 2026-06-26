@@ -1,7 +1,7 @@
 package renetik.android.preset.extensions
 
 import renetik.android.core.lang.ArgFun
-import renetik.android.event.common.CSHasRegistrationsHasDestruct
+import renetik.android.event.lifecycle.CSHasRegistrationsHasDestruct
 import renetik.android.preset.Preset
 import renetik.android.preset.property.nullable.CSBooleanNullablePresetProperty
 import renetik.android.preset.property.nullable.CSDoubleNullablePresetProperty

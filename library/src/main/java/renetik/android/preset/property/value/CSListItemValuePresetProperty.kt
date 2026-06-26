@@ -1,7 +1,7 @@
 package renetik.android.preset.property.value
 
 import renetik.android.core.kotlin.toId
-import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.lifecycle.CSHasDestruct
 import renetik.android.event.property.CSListValuesProperty
 import renetik.android.json.obj.getValue
 import renetik.android.preset.CSPreset

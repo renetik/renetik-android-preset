@@ -1,6 +1,6 @@
 package renetik.android.preset.property.value
 
-import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.lifecycle.CSHasDestruct
 import renetik.android.preset.CSPreset
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.preset.property.CSPresetPropertyBase

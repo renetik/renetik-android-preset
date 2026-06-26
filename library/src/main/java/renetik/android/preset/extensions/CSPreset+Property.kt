@@ -2,7 +2,7 @@ package renetik.android.preset.extensions
 
 import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.CSHasId
-import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.lifecycle.CSHasDestruct
 import renetik.android.preset.Preset
 import renetik.android.preset.property.value.CSBooleanValuePresetProperty
 import renetik.android.preset.property.value.CSDoubleValuePresetProperty

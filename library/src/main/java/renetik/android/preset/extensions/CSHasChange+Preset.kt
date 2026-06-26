@@ -1,10 +1,10 @@
 package renetik.android.preset.extensions
 
 import renetik.android.core.lang.Fun
-import renetik.android.event.registration.CSHasChange
-import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.change.CSHasChange
+import renetik.android.event.change.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.action
+import renetik.android.event.change.action
 import renetik.android.preset.Preset
 
 inline fun CSHasChange<*>.onChange(

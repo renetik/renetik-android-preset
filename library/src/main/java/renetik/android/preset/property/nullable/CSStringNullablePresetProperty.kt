@@ -1,6 +1,6 @@
 package renetik.android.preset.property.nullable
 
-import renetik.android.event.common.CSHasRegistrationsHasDestruct
+import renetik.android.event.lifecycle.CSHasRegistrationsHasDestruct
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 

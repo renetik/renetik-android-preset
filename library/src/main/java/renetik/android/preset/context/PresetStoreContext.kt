@@ -3,9 +3,9 @@ package renetik.android.preset.context
 import renetik.android.core.kotlin.primitives.joinToString
 import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.CSHasId
-import renetik.android.event.common.CSHasDestruct
-import renetik.android.event.common.CSModel
-import renetik.android.event.registration.invoke
+import renetik.android.event.lifecycle.CSHasDestruct
+import renetik.android.event.lifecycle.CSModel
+import renetik.android.event.change.invoke
 import renetik.android.json.obj.CSJsonObjectInterface
 import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset

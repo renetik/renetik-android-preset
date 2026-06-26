@@ -17,8 +17,8 @@ import org.robolectric.annotation.Config
 import renetik.android.core.base.TestCSApplication
 import renetik.android.core.kotlin.collections.first
 import renetik.android.core.lang.variable.assign
-import renetik.android.event.common.CSModel
-import renetik.android.event.common.destruct
+import renetik.android.event.lifecycle.CSModel
+import renetik.android.event.lifecycle.destruct
 import renetik.android.json.toJson
 import renetik.android.preset.CSPreset.Companion.CSPreset
 import renetik.android.preset.extensions.property

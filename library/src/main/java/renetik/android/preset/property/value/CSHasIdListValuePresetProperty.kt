@@ -2,7 +2,7 @@ package renetik.android.preset.property.value
 
 import renetik.android.core.kotlin.toId
 import renetik.android.core.lang.CSHasId
-import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.lifecycle.CSHasDestruct
 import renetik.android.preset.CSPreset
 import renetik.android.store.CSStore
 

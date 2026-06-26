@@ -19,7 +19,7 @@ import renetik.android.core.base.TestCSApplication
 import renetik.android.core.extensions.content.temporaryFile
 import renetik.android.core.java.io.readString
 import renetik.android.core.lang.CSEnvironment.app
-import renetik.android.event.common.CSModel
+import renetik.android.event.lifecycle.CSModel
 import renetik.android.preset.CSPreset
 import renetik.android.preset.init
 import renetik.android.preset.model.ClearPresetItemId

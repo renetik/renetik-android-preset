@@ -1,7 +1,7 @@
 package renetik.android.preset.context
 
 import renetik.android.core.lang.CSHasId
-import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.lifecycle.CSHasDestruct
 import renetik.android.store.CSStore.Companion.fileStore
 import renetik.android.store.CSStore.Companion.runtimeStore
 import renetik.android.store.context.CSStoreContext
