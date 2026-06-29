@@ -14,7 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import renetik.android.core.base.TestCSApplication
+import renetik.android.core.base.CSTestApplication
 import renetik.android.core.kotlin.collections.first
 import renetik.android.core.lang.variable.assign
 import renetik.android.event.lifecycle.CSModel
@@ -35,7 +35,7 @@ import renetik.android.testing.CSAssert.assertContains
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestCSApplication::class)
+@Config(application = CSTestApplication::class)
 class CSPresetSimpleTests {
 
     @Before
