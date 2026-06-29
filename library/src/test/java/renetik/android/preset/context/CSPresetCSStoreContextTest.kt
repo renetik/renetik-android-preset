@@ -15,8 +15,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import renetik.android.core.base.CSTestApplication
 import renetik.android.core.android.content.temporaryFile
+import renetik.android.core.base.CSTestApplication
 import renetik.android.core.java.io.readString
 import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.event.lifecycle.CSModel
