@@ -15,6 +15,7 @@ buildscript {
         junit_version = '4.13.2'
         play_version = '18.0.1'
         kotlin_version = '2.3.21'
+        is_renetik_development = false
     }
 //    configurations.all {
 //        resolutionStrategy.cacheDynamicVersionsFor 1, 'minutes'
@@ -35,6 +36,6 @@ allprojects {
 //    }
 }
 wrapper {
-    gradleVersion = "8.7"
+    gradleVersion = "9.5.0"
     distributionType = Wrapper.DistributionType.BIN
 }
