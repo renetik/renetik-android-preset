@@ -4,13 +4,17 @@ else apply from: '../../library.gradle'
 dependencies {
     if (rootProject.ext.is_renetik_development)
         implementation project(':renetik-android-core')
-    else implementation "com.github.renetik:renetik-android-core:1.0.0"
+    else implementation "com.github.renetik:renetik-android-core:master-SNAPSHOT"
 
     if (rootProject.ext.is_renetik_development)
         implementation project(':renetik-android-event')
-    else implementation "com.github.renetik:renetik-android-event:1.0.0"
+    else implementation "com.github.renetik:renetik-android-event:master-SNAPSHOT"
 
-    implementation project(':renetik-android-json')
+    if (rootProject.ext.is_renetik_development)
+        implementation project(':renetik-android-json')
+    else implementation "com.github.renetik:renetik-android-json:master-SNAPSHOT"
 
-    implementation project(':renetik-android-store')
+    if (rootProject.ext.is_renetik_development)
+        implementation project(':renetik-android-store')
+    else implementation "com.github.renetik:renetik-android-store:master-SNAPSHOT"
 }

@@ -7,7 +7,7 @@ buildscript {
         renetik_android_preset = "com.renetik.library:renetik-android-preset:$renetik_library_version"
         renetik_android_ui = "com.renetik.library:renetik-android-ui:$renetik_library_version"
         renetik_android_framework = "com.renetik.library:renetik-android-framework:$renetik_library_version"
-        sdk_version = 35
+        sdk_version = 36
         min_sdk_version = 26
         appcompat_version = '1.7.1'
         material_version = '1.9.0'
@@ -27,6 +27,7 @@ allprojects {
         mavenLocal()
         google()
         mavenCentral()
+        maven { url = 'https://jitpack.io' }
         maven { url = 'https://github.com/renetik/maven-snapshot/raw/master/repository' }
         maven { url = 'https://github.com/renetik/maven/raw/master/repository' }
     }
@@ -38,4 +39,9 @@ allprojects {
 wrapper {
     gradleVersion = "9.5.0"
     distributionType = Wrapper.DistributionType.BIN
+}
+allprojects {
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
 }
